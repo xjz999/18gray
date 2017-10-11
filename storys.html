@@ -11,120 +11,167 @@
 	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="js/tooltip.js"></script>
+		<script src="js/rollBack.js"></script>
 	</head>
-	<body>
+	<body style="background: #303133;">
 		<script src="js/head.js"></script>
 		<div class="mainStorys">
-			<div class="carouselDiv">
-			<div id="myCarousel" class="carousel slide storyCarousel">
-				<!-- 轮播（Carousel）指标 -->
-				<!--<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-				</ol>   -->
-				<!-- 轮播（Carousel）项目 -->
-				<div class="carousel-inner">
-					
-				</div>
+			<div class="carouselDiv1">
 				<!-- 轮播（Carousel）导航 -->
-				<a class="carousel-control left" href="#myCarousel" 
-				   data-slide="prev"></a>
-				<a class="carousel-control right" href="#myCarousel" 
-				   data-slide="next"></a>
-			</div>
-			<div class="carouselSummary"></div>
-			</div>
+				<a class="big-control1 left" href="###" onclick="moveImg(0);"
+				   data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+				<a class="big-control1 right" href="###" onclick="moveImg(1);"
+				   data-slide="next"><i class="fa fa-chevron-right"></i></a>
+				   
+				<div class="bigImg">&nbsp;</div>
+				<div class="carouselSummary"></div>
+				<div class="imgWheel">
+					<div class="wheelLeft direction"><i class="fa fa-chevron-left"></i></div>
+					<div class="wheelCenter">
+						<div class="imgsInside"></div>
+					</div>
+					<div class="wheelRight direction"><i class="fa fa-chevron-right"></i></div>
+				</div>
 			
+			</div>
 		</div>
 		<script src="js/foot.js"></script>
 	</body>
 	<script type="text/javascript">
-		var carouselText = [
-//			{summary:"跨度长达8个月的2016-2017，画意组创意主题（个人赛）经过四轮评选（截止日期分别为：11.25、2.25、4.25、6.25），由美国摄影师Kathryn Newman拍摄的题为“Hayley”的作品荣获A组第一。",
-//			titleCn:"精神的耶鲁撒冷",photographyCn:"陈欣欣",addressCn:"以色列",
-//			titleEn:"The spirit of Jerusalem",photographyEn:"Xinxin,Chen",addressEn:"Israel"},
-//			{summary:"无更多详情",
-//			titleCn:"哭墙",photographyCn:"陈欣欣",addressCn:"耶鲁撒冷",
-//			titleEn:"The Wailing Wall",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
-//			{summary:"2016-2017自然组俱乐部赛经过三轮，由Keswick Photographic Society（俱乐部名）选送的、摄影师Huggle John Macfarlane（摄）拍摄的作品《雪猴家族》（Snow Monkey Family）荣获A组第一。",
-//			titleCn:"雪猴家族",photographyCn:"陈欣欣",addressCn:"耶鲁撒冷",
-//			titleEn:"Snow Monkey Family",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
-//			{summary:"“2017年澳门第19届澳门国际摄影展览”成绩揭晓，陈欣欣拍自斯威士兰国王选妃节上的作品“芦苇舞5 REED DANCE5”荣获美国摄影学会PSA金牌",
-//			titleCn:"芦苇舞5",photographyCn:"陈欣欣",addressCn:"蒙古",
-//			titleEn:"REED DANCE5",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
-//			{summary:"“2017年乌克兰UKRAINIAN PHOTO国际摄影大赛”揭晓，许晓梅拍自肯尼亚的作品“金色非洲Golden Africa”荣获美国摄影学会PSA金牌",
-//			titleCn:"金色非洲",photographyCn:"陈欣欣",addressCn:"蒙古",
-//			titleEn:"Golden Africa",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
-//			{summary:"8.26日揭晓的、历史悠久的“2017年美国第52届南加州摄影学会S4C国际摄影大赛”中，陈欣欣作品“抱大腿A BROAD SMILE”荣获南加州摄影学会金牌（S4C Gold Medal）",
-//			titleCn:"抱大腿",photographyCn:"陈欣欣",addressCn:"蒙古",
-//			titleEn:"A BROAD SMILE",photographyEn:"Xinxin,Chen",addressEn:"Africa"}
-		];
+		var hh = location.search;
+		var arr = hh.split("#");
+		hh = arr[0];
+		t1=hh.split("&");
+		tt = t1[0].replace("?ind=","");
+		var tInt = 0;
+		try{
+			tInt = parseInt(tt);
+		}catch(e){}
+			
+		var carouselText = [];
 		$(function(){
 			var pData={
         		ctype:2,
             	pageindex:1,
-            	pagesize:6
+            	pagesize:100,checked:1,deleted:0
 	       	};
 			$.ajax({
 	            url:"/PsaBackend/Arts/List",  
 	            type:"POST",  
 	            dataType:"json",  
 	            contentType: "application/json; charset=utf-8",
-	            async:true,
-	            cache:true,
+	            async:false,  
 	            data:JSON.stringify(pData),  
 	            success:function(data){
 	            	if (data.list && data.list.length>0){
 	            		if (data.list && data.list.length>0){
-	            			var strs = "";
 		            		for (var i=0;i<data.list.length;i++){
+		            			var titleArr = data.list[i].title.split("||");
+		            			var authorArr = (data.list[i].author)?data.list[i].author.split("||"):["无","None"];
+		            			var addrArr = (data.list[i].photoaddr)?data.list[i].photoaddr.split("||"):["无","None"];
 		            			carouselText.push(
-		            				{
-										titleCn: data.list[i].title,
-										phototime:data.list[i].phototime,
-										photoaddr:data.list[i].photoaddr,
-										story:data.list[i].story,
+		            				{summary:data.list[i].story,
+										titleCn: titleArr[0],
+										titleEn: titleArr[1] || " ",
+										authorCn:authorArr[0],
+										authorEn:authorArr[1] || " ",
+										addrCn:addrArr[0],
+										addrEn:addrArr[1] || " ",
 										thumb:imgReqPath+data.list[i].url.replace("_b_d",""),
-										img:imgReqPath+data.list[i].url}
+										img:imgReqPath+data.list[i].url.replace("_b_d","_mid"),
+		            					aligntype:data.list[i].aligntype
+		            				}
 		            			);
-		            			strs += "<div class=\"item "+((i==0)?"active":"")+"\"><img src=\""+imgReqPath+data.list[i].url+"\" alt=\""+data.list[i].title+"\"></div>";
 		            		}
-//		            		showThumbs();
-							$(".carousel-inner").html(strs);
-		            		showSummary(0);
+		            		showThumbs();
+		            		showSummary(tInt);
 		            	}
 	            	}
 	            }, 
 	            error:function(){
 	            	
 	            }
-	        });
+	       });
 		});
+		var moveImg = function(arrowInt){
+			if (arrowInt == 0){
+				rollIndex --;
+			}else{
+				rollIndex ++;
+			}
+			showSummary(rollIndex);
+		};
+		var rollIndex = 0;
 		var showSummary = function(cIndex){
-			var smText = "《$1》 地点：$2 On:$3 <br />$4";
+			if (cIndex < 0){
+				cIndex = 0;
+				return;
+			}
+			if (cIndex >= carouselText.length){
+				cIndex = 0;
+			}
+			rollIndex = cIndex;
+			
+			var smText = "<div class='headImgTitle' $2>$1</div><div class='headImgTitle2' $4>$3</div><div style='letter-spacing:1px; color:#c9c9c9;'>$7</div>";
 			if (cIndex < 0 || cIndex > carouselText.length - 1){
 				$(".carouselSummary").html(smText);
 				return;
 			}
+			$(".bigImg").hide();
 			var obj = carouselText[cIndex];
-			smText = smText.replace("$1",obj.titleCn).replace("$2",obj.photoaddr).replace("$3",obj.phototime)
-			.replace("$4",obj.story);
+			smText = smText.replace("$1","《"+obj.titleCn+"》　　摄影："+obj.authorCn+"　　地点："+ obj.addrCn);
+			smText = smText.replace("$3","&nbsp;<span style='font-style:italic'>"+obj.titleEn+"</span>　　By："+obj.authorEn+"　　In："+ obj.addrEn);
+			switch(obj.aligntype){
+//				case 0:smText = smText.replace("$2","style='text-align:left; height:36px;line-height:36px;'");
+//					smText = smText.replace("$4","style='text-align:left; height:36px;line-height:36px;'");
+//					smText = smText.replace("$7",obj.summary);
+//				break;
+//				case 1:smText = smText.replace("$2","style='text-align:center; height:36px;line-height:36px;'");
+//					smText = smText.replace("$4","style='text-align:center; height:36px;line-height:36px;'");
+//					smText = smText.replace("$7","　　"+obj.summary);
+//				break;
+//				case 2:smText = smText.replace("$2","style='text-align:right; height:36px;line-height:36px;'");
+//					smText = smText.replace("$4","style='text-align:right; height:36px;line-height:36px;'");
+//					smText = smText.replace("$7","　　"+obj.summary);
+//				break;
+				default:smText = smText.replace("$2","style='text-align:left; margin-left:-7px; height:36px;line-height:36px;'");
+					smText = smText.replace("$4","style='text-align:left; margin-left:-6px; height:36px;line-height:36px;'");
+					smText = smText.replace("$7",obj.summary);
+				break;
+			}
 			$(".carouselSummary").html(smText);
+			$(".bigImg").html("<div style='width:100%;height:100%;overflow:hidden;'><table style='width:100%;height:100%;'><tr><td width='100%' height='100%' align='center' valign='middle'><img src=\""+obj.img+"\" onload=\"adjustDirect(this);\" /></td></tr></table></div>");
+			$(".bigImg").fadeIn("slow");
+			
 		};
+		var adjustDirect=function(objimg){
+			//重置方向键高度
+			var hh = $(objimg).height();
+			$(".mainStorys .carouselDiv1 a.big-control1").css("top",(hh/2-30)+"px");
+		};
+		var showThumbs = function(){
+			var imgBody = "<a href=\"###\" onclick=\"showSummary($1)\" class=\"aThumb\"><table width='166' height='106'><tr><td width='166' height='106' align='center' valign='middle'><img src=\"$2\" /></td></tr></table></a>";
+			var xx = "";
+			for(var i=0;i<carouselText.length;i++){
+				xx += imgBody.replace("$1",i.toString()).replace("$2",carouselText[i].thumb);
+			}
+			$(".imgsInside").html(xx);
+			$(".imgsInside").width(carouselText.length*200 + 8);
+		};
+		
 		//轮播左右方向键事件
-		$(".carousel-control.left").unbind("mouseout").bind("mouseout",function(){
-			$(this).html("");
-		});
-		$(".carousel-control.left").unbind("mouseover").bind("mouseover",function(){
-			$(this).html("&lsaquo;");
-		});
-		$(".carousel-control.right").unbind("mouseout").bind("mouseout",function(){
-			$(this).html("");
-		});
-		$(".carousel-control.right").unbind("mouseover").bind("mouseover",function(){
-			$(this).html("&rsaquo;");
-		});
+//		$(".carousel-control.left").unbind("mouseout").bind("mouseout",function(){
+//			$(this).html("");
+//		});
+//		$(".carousel-control.left").unbind("mouseover").bind("mouseover",function(){
+//			$(this).html("&lsaquo;");
+//		});
+//		$(".carousel-control.right").unbind("mouseout").bind("mouseout",function(){
+//			$(this).html("");
+//		});
+//		$(".carousel-control.right").unbind("mouseover").bind("mouseover",function(){
+//			$(this).html("&rsaquo;");
+//		});
 		
 		//切换开始事件
 		$('#myCarousel').on('slide.bs.carousel', function () {
@@ -145,7 +192,41 @@
            	$(".carouselSummary").fadeIn(1000);
 //          console.log(cIndex);
 		});
-//		showSummary(0);
+		
+		$(function(){
+			$(".imgWheel .wheelLeft").click(function(){
+//				var ml = $(".imgWheel .imgsInside").css("margin-left").replace("px","");
+//				ml = parseInt(ml);
+//				ml = Math.abs(ml);
+//				var moveInt=0;
+//				debugger;
+//				if (ml >= 1020){
+//					moveInt = 1020;
+//				}else{
+//					moveInt = ml;
+//				}
+//				moveInt -= 1020;
+//				if (moveInt < 0)moveInt = 0;
+				$(".imgWheel .imgsInside").animate({"margin-left":"0px"},1000,"swing",function(){});
+			});
+			$(".imgWheel .wheelRight").click(function(){
+				var ww=$(".imgWheel .imgsInside").width();
+				var ml = $(".imgWheel .imgsInside").css("margin-left").replace("px","");
+				ml = parseInt(ml);
+				ml = Math.abs(ml);
+				var moveInt=0;
+				if (ml+1020+1020 <= ww){
+					moveInt = 1020;
+				}else{
+					moveInt = ww  - ml - 1020;
+				}
+				if (moveInt < 0)moveInt = 0;
+				moveInt = 0-moveInt - ml;
+				if (-1 *(moveInt - 1020) > ww)moveInt = 1020 - ww;
+				debugger;
+				$(".imgWheel .imgsInside").animate({"margin-left":moveInt.toString() + "px"},1000,"swing",function(){});
+			});
+		});
 	</script>
 </html>
 

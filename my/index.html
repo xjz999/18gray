@@ -10,241 +10,194 @@
 	    <link href="../css/pages.css" rel="stylesheet">
 	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link href="http://cdn.bootcss.com/lightbox2/2.9.0/css/lightbox.min.css" rel="stylesheet">
+		<script src="http://cdn.bootcss.com/lightbox2/2.9.0/js/lightbox.min.js"></script>
+		
+		<script src="../js/ajaxfileupload.js"></script>
+		<script src="../js/rollBack.js"></script>
+		<style type="text/css">
+			.legalContent label{line-height: 25px;}
+			.form-label{padding:0; color:#555555;}
+			div.row.text-center{text-align: left; }
+			 .lbinfo{margin-left: 15px;}
+			input.form-control{height:25px;}
+			div.radio{margin-top:3px;}
+			label.form-label.col-sm-5.text-right{ color:gray; font-size: 15px;}
+		</style>
 		<script>
 			if (!getCookie("loginname") || getCookie("loginname")==""){
 				window.location = "../login.html";
 			}
-		</script>
-	</head>
-	<body>
-		<script src="../js/head.js"></script>
-		<div class="myRow1">
-			<div class="myinfo shadow">
-				<div class="titleHead">
-					<div class="titleCn">个人信息</div>
-					<div class="titleEn">My Infomation</div>
-				</div>
-				<div class="myonfoList">
-					<div><a href="#" data-toggle="modal" data-target="#myModal1">个人资料</a></div>
-					<div><a href="#" data-toggle="modal" data-target="#myModal2">头像设置</a></div>
-					<div><a href="#" data-toggle="modal" data-target="#myModal3">修改登录密码</a></div>
-					<div><a href="#" data-toggle="modal" data-target="#myModal4">修改手机号</a></div>
-				</div>
-			</div>
-			<div class="memDynamics shadow">
-				<div class="titleHead">
-					<div class="titleCn">会员动态</div>
-					<div class="moreEn"><a href="../newslist.html?4">More <i class="fa fa-chevron-right"></i></a></div>
-					<div class="titleEn">Member dynamics</div>
-				</div>
-				<ul>
-					<li>
-                    	<a href="#" class="news-title" title="因人事变动，美国摄影学会画意组星标暂停审核">因人事变动，美国摄影学会画意组星标暂停审核</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="“挑战名人堂”万毅获邀出任“2018 爱尔兰DONEGAL国际摄影大赛”评委">“挑战名人堂”万毅获邀出任“2018 爱尔兰DONEGAL国际摄影大赛”评委</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="中国大陆新晋美国摄影学会影艺卓越会士（EPSA）许晓梅发声">中国大陆新晋美国摄影学会影艺卓越会士（EPSA）许晓梅发声</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="羡慕嫉妒恨—美国摄影学会会长奖章获得者沈健有话说">羡慕嫉妒恨—美国摄影学会会长奖章获得者沈健有话说</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="由“挑战名人堂”李宏担任评委的“2017年第三届国际摄影家联盟摄影大赛”成绩揭晓">由“挑战名人堂”李宏担任评委的“2017年第三届国际摄影家联盟摄影大赛”成绩揭晓</a> 
-                    </li>
-                    <li>
-                        <a href="#" class="news-title" title="由“挑战名人堂”陈欣欣担任评委的“2017克罗地亚第4届DFA国际摄影大赛”成绩揭晓">由“挑战名人堂”陈欣欣担任评委的“2017克罗地亚第4届DFA国际摄影大赛”成绩揭晓</a> 
-                    </li>
-				</ul>
-			</div>
-			<div class="reqReads shadow">
-				<div class="titleHead">
-					<div class="titleCn">参赛必读</div>
-					<div class="moreEn"><a href="../newslist.html?3">More <i class="fa fa-chevron-right"></i></a></div>
-					<div class="titleEn">Required reading</div>
-				</div>
-				<ul>
-					<li>
-                    	<a href="#" class="news-title" title="PSA认证赛事组别说明">PSA认证赛事组别说明</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="PSA会员道德准则">PSA会员道德准则</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="Who's Who评分标准及相关规则">Who's Who评分标准及相关规则</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="关于Judging Credits 评委积分">关于Judging Credits 评委积分</a> 
-                    </li>
-					<li>
-                    	<a href="#" class="news-title" title="关于PSA摄影集申报规则">关于PSA摄影集申报规则</a> 
-                    </li>
-                    <li>
-                        <a href="#" class="news-title" title="PSA传统、开放、创意，区别何在？">PSA传统、开放、创意，区别何在？</a> 
-                    </li>
-				</ul>
-			</div>
-		</div>
-		<div style="width:100%; height: 15px; clear:both;"></div>
-		<div class="mainPicList">
-			<div class="topTitle">
-				<div class="mainTitle"><span>———</span> PSA认证赛事16组别获奖作品赏析 <span>———</span></div>
-				<div class="subTitle">PSA-16 Group Award-Winning</div>
-			</div>
-		
-			<div class="imgList shadow">
-				<div class="imgHead">
-					<div class="titleCn">画意彩色不限主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?1">More <i class="fa fa-chevron-right"></i></a></div>
-				</div>
-				<div class="imgListInside">
-					
-				</div>
-			</div>
-			<div class="imgList shadow last">
-				<div class="imgHead">
-					<div class="titleCn">画意单色不限主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?2">More <i class="fa fa-chevron-right"></i></a></div>
-				</div>
-				<div class="imgListInside">
-					
-				</div>
-			</div>
-			<div class="imgList shadow">
-				<div class="imgHead">
-					<div class="titleCn">旅游组不限主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?3">More <i class="fa fa-chevron-right"></i></a></div>
-				</div>
-				<div class="imgListInside">
-					
-				</div>
-			</div>
-			<div class="imgList shadow last">
-				<div class="imgHead">
-					<div class="titleCn">自然不限主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?4">More <i class="fa fa-chevron-right"></i></a></div>
-				</div>
-				<div class="imgListInside">
-					
-				</div>
-			</div>
-			<div style="width: 100%;height: 1px; clear: both;"></div>
-			<!--<div class="moreTitle"><i class="fa fa-certificate"></i> 剩余13组作品，登录会员后可查看更多大片。</div>-->
-			<div class="moreGroups">
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意彩色肖像获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?5">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意彩色风光主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?6">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意彩色女性主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?7">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意彩色儿童主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?8">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意彩色人主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?9">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意彩色街道主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?10">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意彩色创意主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?11">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">画意单色肖像主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?12">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">旅游组人主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?13">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">自然组野生动物主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?14">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">自然组鸟类主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?15">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-				<div class="morelist shadow">
-					<div class="moreInner">
-					<div class="titleCn">新闻组不限主题获奖作品</div>
-					<div class="titleEn">Picture Color Winning Works</div>
-					<div class="moreEn"><a href="../laurellist.html?16">More <i class="fa fa-chevron-right"></i></a></div>
-					</div>
-				</div>
-			</div>
-			<div style="width: 100%;height: 40px; clear: both;"></div>
-		</div>
-		<script src="../js/foot.js"></script>
-		<script>
-			var imgArr1 = [];
-			var imgArr2 = [];
-			var imgArr3 = [];
-			var imgArr4 = [];
-			var imgArr = [imgArr1,imgArr2,imgArr3,imgArr4];
-			$(function(){
-				loadImgs(1);
-			});
-			var loadImgs = function(aIndex){
-				if (aIndex > 4){
-					fillImgs();
-					return;
+			var seeMoreLaurel=function(sIndex){
+				if (!getCookie("loginname") || getCookie("loginname")==""){
+					setCookie("lastReqUrl","laurellist.html?"+sIndex);
+					window.location = "/login.html";
+				}else{
+					window.location = "/laurellist.html?"+sIndex+"###";
 				}
+			}
+			$(function(){
+				//第一时间
+				$(".memDynamics ul").html("");
+				//参赛必读
+		        $(".reqReads ul").html("");
+		        $.ajax({
+		            url:"/PsaBackend/News/List",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            cache:true,
+		            data:JSON.stringify({ctype:3,pageindex:1,pagesize:5,checked:1,deleted:0}),  
+		            success:function(data){
+		            	if (data.list && data.list.length>0){
+		            		if (data.list && data.list.length>0){
+			            		var strs = "";
+			            		for (var i=0;i<data.list.length;i++){
+	//		            			strs +="<li><a href=\"newsdetail.html?"+data.list[i].oid
+	//		            			+"\" class=\"news-title\" title=\""++"\">"+data.list[i].title+"</a></li>";
+									strs+="<li><a href=\"/newsdetail.html?"+data.list[i].oid+"\" class=\"news-title\" title=\""+data.list[i].title+"\">"+data.list[i].title+"</a></li>";
+								}
+			            		$(".memDynamics ul").html(strs);
+			            	}
+		            	}
+		            }, 
+		            error:function(){
+		            	
+		            }
+		        });
+		        
+		        $.ajax({
+		            url:"/PsaBackend/News/List",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            cache:true,
+		            data:JSON.stringify({ctype:4,pageindex:1,pagesize:5,checked:1,deleted:0}),  
+		            success:function(data){
+		            	if (data.list && data.list.length>0){
+		            		if (data.list && data.list.length>0){
+			            		var strs = "";
+			            		for (var i=0;i<data.list.length;i++){
+	//		            			strs +="<li><a href=\"newsdetail.html?"+data.list[i].oid
+	//		            			+"\" class=\"news-title\" title=\""+data.list[i].title+"\">"+data.list[i].title+"</a></li>";
+									strs+="<li><a href=\"/newsdetail.html?"+data.list[i].oid+"\" class=\"news-title\" title=\""+data.list[i].title+"\">"+data.list[i].title+"</a></li>";
+								}
+			            		$(".reqReads ul").html(strs);
+			            		
+			            	}
+		            	}
+		            }, 
+		            error:function(){
+		            }
+		        });
+		        loadImgs(1);
+		        $(window).scroll(function(){
+		        	if (isLockLoaded)return;
+					var sc=$(window).scrollTop();
+					if(sc>300){
+						loadLock = 16;
+						loadImgs(7);
+						isLockLoaded = true;
+					}
+				});
+				
+				$('#myModal1').on('shown.bs.modal', function () {
+					$(".lbinfo").show();
+					$(".lbForm").show();
+					$(".ipinfo").hide();
+				  // 执行一些动作...
+					$.ajax({
+			            url:"/PsaBackend/Users/GetMine",  
+			            type:"GET",
+			            async:false, 
+			            success:function(data){
+			            	if (data && data.email){
+			            		myoid = data.oid;
+			            		$(".varTruename").val(data.truename);
+			            		$(".infoTruename").html(data.truename);
+			            		$(".varLoginname").val(data.loginname);
+			            		$(".infoLoginname").html(data.loginname);
+			            		if(data.sex==1){
+			            			$("#sexRd1").attr("checked",true);
+			            			$(".infoSex").html("男");
+			            		}else{
+			            			$("#sexRd0").attr("checked",true);
+			            			$(".infoSex").html("女");
+			            		}
+			            		var levelName = "";
+			            		switch(data.memlevel){
+			            			case 0:levelName="未审核";break;
+			            			case 1:levelName="初级会员";break;
+			            			case 2:levelName="高级会员";break;
+			            			case 3:levelName="荣衔会员";break;
+			            		}
+			            		$(".infoMemleval").html(levelName);
+			            		$(".infoEmail").html(data.email);
+			            		$(".infoMobile").html(data.mobile);
+			            	}
+			            }, 
+			            error:function(){
+			            }
+			        });
+				});
+				$('#myModal2').on('shown.bs.modal', function () {
+				  // 执行一些动作...
+					$.ajax({
+			            url:"/PsaBackend/Users/GetMine",
+			            type:"GET",
+			            async:false, 
+			            success:function(data){
+			            	if (data && data.oid){
+			            		myoid = data.oid;
+			            		$("#varImg").attr("src",imgReqPath+data.portrait);
+			            		myportrait = data.portrait;
+			            	}
+			            }, 
+			            error:function(){
+			            }
+			        });
+				});
+				$('#myModal3').on('shown.bs.modal', function () {
+					$("#oldPW").val("");
+					$("#newPW").val("");
+					$("#newPW2").val("");
+				});
+				$('#myModal4').on('shown.bs.modal', function () {
+					$("#txtModifyMobileOld").val("");
+					$("#txtModifyMobVCOld").val("");
+					$("#txtModifyMobileNew").val("");
+					$("#txtModifyMobVCNew").val("");
+				});
+				
+				
+			});
+			
+			var imgArr = [];
+			var loadLock = 6;//第一屏锁定6组
+			var isLockLoaded=false;
+			
+			for(var i=0;i<16;i++){
+				imgArr[i] = [];
+			}
+			var fillImgs = function(fIndex){
+				$(".imgListInside").each(function(index){
+					if (index!=fIndex-1)return;
+					for (var i=0;i<6;i++){
+						if (imgArr[index].length <= i)break;
+						$(this).html($(this).html()+"<table><tr><td align='center' valign='middle'><a  data-lightbox='image-list"+ index +"' class='picslistbox' data-title='' href='"+ imgArr[index][i] +"'><img src=\""+ imgArr[index][i].replace("_b_d","") +"\" /></a></td></tr></table>");
+					}
+				});
+			};
+			var loadImgs = function(aIndex){
+				if (aIndex>loadLock)return;
 				var pData={
 	        		ctype:4,
 	        		awardtype:aIndex,
 	            	pageindex:1,
-	            	pagesize:6
-		       };
+	            	pagesize:6,checked:1,deleted:0
+		       	};
 				$.ajax({
 		            url:"/PsaBackend/Arts/List",  
 		            type:"POST",  
@@ -258,24 +211,328 @@
 		            			imgArr[aIndex - 1].push(imgReqPath + data.list[i].url);
 		            		}
 		            	}
+		            	fillImgs(aIndex);
 		            	loadImgs(aIndex + 1);
+		            	
 		            }, 
 		            error:function(){
 		            	loadImgs(aIndex+1);
 		            }
 		        });
 			};
-			var fillImgs = function(){
-				$(".imgListInside").each(function(index){
-					for (var i=0;i<6;i++){
-						if (imgArr[index].length <= i)break;
-						$(this).html($(this).html()+"<table><tr><td align='center' valign='middle'><a href='"+imgArr[index][i]+"'  data-lightbox='image-list' class='picslistbox'><img src=\""+ imgArr[index][i].replace("_b_d","") +"\" /></a></td></tr></table>");
-					}
-				});
+			var changeModStat = function(){
+				$(".lbinfo").hide();
+				$(".lbForm").hide();
+				$(".ipinfo").show();
+			}
+			var myoid="";
+			var myportrait= "";//头像
+			var doBaseinfoModify=function(){
+				if (myoid==""){
+					alert("参数缺失，请重新登录后再试");
+					return;
+				}
+				pData={};
+				pData.oid = myoid;
+				pData.truename = $(".varTruename").val();
+				pData.loginname = $(".varLoginname").val();
+				if ($("#sexRd1").get(0).checked){
+					pData.sex = 1;
+				}else pData.sex = 0;
+				$.ajax({
+		            url:"/PsaBackend/Users/AddNewByJson",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            data:JSON.stringify(pData),  
+		            success:function(data){
+		            	if (data && data.code){
+		            		if (data.code == 1){
+		            			alert("修改成功");
+		            			$("#myModal1").modal("hide");
+		            		}else{
+		            			alert("修改失败");
+		            		}
+		            	}else{
+		            		alert("修改失败");
+		            	}
+		            }, 
+		            error:function(){
+		            	alert("修改失败");
+		            }
+		        });
 			};
-			
+			var choicePic=function(){
+				var imgs=[];//存储图片链接
+				 //为文件上传添加change事件
+				 var fileM=document.querySelector("#files0");
+				  //获取文件对象，files是文件选取控件的属性，存储的是文件选取控件选取的文件对象，类型是一个数组
+				var fileObj=fileM.files[0];
+				  //创建formdata对象，formData用来存储表单的数据，表单数据时以键值对形式存储的。
+				var formData=new FormData();
+				formData.append('file',fileObj);
+  				//创建ajax对象
+				 var ajax=new XMLHttpRequest();
+				 //发送POST请求
+				 ajax.open("POST","/PsaBackend/Arts/fileUpload",true);
+				 ajax.send(formData);
+				 ajax.onreadystatechange=function(){
+				 if (ajax.readyState == 4) {
+					if (ajax.status>=200 &&ajax.status<300||ajax.status==304) {
+				  		var data=JSON.parse(ajax.responseText);
+				  		if (data && data.filename && data.filename != ""){
+				  			
+		            		$("#varImg").attr("src", imgReqPath + data.filename);
+		            		myportrait = data.filename;
+		            	}else{
+		            		alert("上传失败，请稍后再试");
+		            	}
+					}
+				 }
+				 }
+			};
+			var savePortrait=function(){
+				if (myoid==""){
+					alert("参数缺失，请重新登录后再试");
+					return;
+				}
+				if (myportrait==""){
+					alert("参数缺失，请重新登录后再试.");
+					return;
+				}
+				pData={};
+				pData.oid = myoid;
+				pData.portrait = myportrait;
+				
+				$.ajax({
+		            url:"/PsaBackend/Users/AddNewByJson",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            data:JSON.stringify(pData),  
+		            success:function(data){
+		            	if (data && data.code){
+		            		if (data.code == 1){
+		            			alert("修改成功");
+		            			$("#myModal2").modal("hide");
+		            		}else{
+		            			alert("修改失败");
+		            		}
+		            	}else{
+		            		alert("修改失败");
+		            	}
+		            }, 
+		            error:function(){
+		            	alert("修改失败");
+		            }
+		        });
+			};
 		</script>
+	</head>
+	<body>
+		<script src="../js/head.js"></script>
+		<div class="myRow1">
+			<div class="myinfo shadow">
+				<div class="titleHead">
+					<div class="titleCn">个人信息</div>
+					<div class="titleEn">My Infomation</div>
+				</div>
+				<div class="myonfoList">
+					<div><a href="#" data-toggle="modal" data-target="#myModal1">个人资料</a></div>
+					<div><a href="#" data-toggle="modal" data-target="#myModal3">修改登录密码</a></div>
+					<div><a href="#" data-toggle="modal" data-target="#myModal4">修改手机号</a></div>
+					<!--<div style="font-size: 17px; color:#666666;">头像设置</div>-->
+				</div>
+			</div>
+			<div class="memDynamics shadow">
+				<div class="titleHead">
+					<div class="titleCn">会员交流</div>
+					<div class="moreEn"><a href="../newslist.html?3">More <i class="fa fa-chevron-right"></i></a></div>
+					<div class="titleEn">For Members</div>
+				</div>
+				<ul></ul>
+			</div>
+			<div class="reqReads shadow">
+				<div class="titleHead">
+					<div class="titleCn">参赛必读</div>
+					<div class="moreEn"><a href="../newslist.html?4">More <i class="fa fa-chevron-right"></i></a></div>
+					<div class="titleEn">Required reading</div>
+				</div>
+				<ul></ul>
+			</div>
+		</div>
+		<div style="width:100%; height: 15px; clear:both;"></div>
+		<div class="mainPicList">
+			<div class="topTitle">
+				<div class="mainTitle"><span>———</span> PSA认证赛事16个主题获奖作品赏析 <span>———</span></div>
+				<div class="subTitle">PSA Recognized Exhibitions – Award Winning Images of 16 Sections</div>
+			</div>
 		
+			<div class="imgList shadow">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色不限主题</div>
+					<div class="titleEn">Projected Image Division (PID) – OPEN Color</div>
+					<div class="moreEn"><a href="###" onclick="seeMoreLaurel(1)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意单色不限主题</div>
+					<div class="titleEn">Projected Image Division (PID) – OPEN Monochrome</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(2)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow">
+				<div class="imgHead">
+					<div class="titleCn">旅游组不限主题</div>
+					<div class="titleEn">Photo Travel Division (PTD) OPEN</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(3)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">自然组不限主题</div>
+					<div class="titleEn">Nature Division (ND) OPEN</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(4)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色肖像主题</div>
+					<div class="titleEn">PIDC PORTRAIT</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(5)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色风光主题</div>
+					<div class="titleEn">PIDC LANDSCAPE</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(6)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色女性主题</div>
+					<div class="titleEn">PIDC WOMEN</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(7)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色儿童主题</div>
+					<div class="titleEn">PIDC CHILDREN</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(8)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色人主题</div>
+					<div class="titleEn">PIDC PEOPLE</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(9)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色街道主题</div>
+					<div class="titleEn">PIDC STREET</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(10)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意彩色创意主题</div>
+					<div class="titleEn">PIDC CREATIVE</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(11)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">画意单色肖像主题</div>
+					<div class="titleEn">PIDC PORTRAIT</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(12)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">旅游组人主题</div>
+					<div class="titleEn">PTD PEOPLE</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(13)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">自然组野生生物主题</div>
+					<div class="titleEn">ND WILDLIFE</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(14)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">自然组鸟类主题</div>
+					<div class="titleEn">ND BIRD</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(15)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div class="imgList shadow last">
+				<div class="imgHead">
+					<div class="titleCn">新闻组不限主题</div>
+					<div class="titleEn">Photojournalism Division (PJD)  OPEN</div>
+					<div class="moreEn"><a href="#" onclick="seeMoreLaurel(16)">More <i class="fa fa-chevron-right"></i></a></div>
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+			</div>
+			<div style="width: 100%;height: 1px; clear: both;"></div>
+			<!--<div class="moreTitle"><i class="fa fa-certificate"></i> 剩余13组作品，登录会员后可查看更多大片。</div>-->
+			<div style="width: 100%;height: 40px; clear: both;"></div>
+		</div>
+		<script src="../js/foot.js"></script>
 		<!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog regLegalDialog">
@@ -291,16 +548,26 @@
 			<div class="modal-body legalContent">
 				<div class="form-group"> 
 					<div class="row  text-center">
+			    	<label class="form-label col-sm-5 text-right">姓名：</label>
+			    	<div class="col-md-5">
+			    		<input type="text" class="form-control ipinfo varTruename" placeholder="请填写你的参赛英文名">
+			    		<span class="lbinfo infoTruename"></span>
+			    	</div>
+			    	</div>
+			    </div>
+				<div class="form-group"> 
+					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">参赛英文名：</label>
 			    	<div class="col-md-5">
-			    		<input type="text" class="form-control" placeholder="请填写你的参赛英文名">
+			    		<input type="text" class="form-control ipinfo varLoginname" placeholder="请填写你的参赛英文名">
+			    		<span class="lbinfo infoLoginname"></span>
 			    	</div>
 			    	</div>
 			    </div>
 			    <div class="form-group"> 
 					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">性别：</label>
-			    	<div class="radio text-left">
+			    	<div class="radio text-left ipinfo">
 					    <label>
 					        <input type="radio" name="optionsRadios" id="sexRd1" value="option1" checked>男
 					    </label>
@@ -309,25 +576,42 @@
 					        <input type="radio" name="optionsRadios" id="sexRd0" value="option0">女
 					    </label>
 					</div>
+					<div class="col-md-5 lbinfo">
+			    		<span class="infoSex"></span>
+			    	</div>
 			    	</div>
 			    </div>
-			    <div class="form-group"> 
+			    <div class="form-group lbForm"> 
+					<div class="row  text-center">
+			    	<label class="form-label col-sm-5 text-right">当前会员级别：</label>
+			    	<div class="col-md-5">
+			    		<span class="lbinfo infoMemleval"></span>
+			    	</div>
+			    	</div>
+			    </div>
+			    <div class="form-group lbForm"> 
 					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">邮箱：</label>
 			    	<div class="col-md-5">
-			    		<input type="text" class="form-control" placeholder="请输入邮箱">
+			    		<span class="lbinfo infoEmail"></span>
 			    	</div>
 			    	</div>
 			   </div>
-			    <div class="form-group"> 
+			    <div class="form-group lbForm"> 
 					<div class="row  text-center">
-			    	<div class="col-md-7 col-md-offset-3">
-			    		<button type="button" class="btn btn-primary btn-block">修改信息</button>
+			    	<label class="form-label col-sm-5 text-right">手机号：</label>
+			    	<div class="col-md-5">
+			    		<span class="lbinfo infoMobile"></span>
 			    	</div>
 			    	</div>
-			    </div>
+			   </div>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn btn-default ipinfo" onclick="doBaseinfoModify()">保存修改
+				</button>
+				<button type="button" class="btn btn-default" onclick="changeModStat()">修改信息
+				</button>
+				
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
 			</div>
@@ -348,13 +632,16 @@
 			</div>
 			<div class="modal-body legalContent">
 				<div  style=" margin:20px auto; text-align: center;">
-					<img src="../img/loginright.jpg" width="200" height="200" />
+					<img id="varImg" src="../img/loginright.jpg" width="200" height="200" />
+					<div>
+						<input class="input-file uniform_on" style="margin-left:300px; margin-top: 10px;" type='file' id='files0' name='files0'  onchange="choicePic();" />
+					</div>
 				</div>
 				
 			    <div class="form-group"> 
 					<div class="row  text-center">
 			    	<div class="col-md-7 col-md-offset-3">
-			    		<button type="button" class="btn btn-primary btn-block">修改头像</button>
+			    		<button type="button" class="btn btn-primary btn-block" onclick="savePortrait()">保存修改</button>
 			    	</div>
 			    	</div>
 			    </div>
@@ -383,7 +670,7 @@
 					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">原密码：</label>
 			    	<div class="col-md-5">
-			    		<input type="text" class="form-control" placeholder="请填写你的原密码">
+			    		<input type="password" id="oldPW"  class="form-control" placeholder="请填写你的原密码">
 			    	</div>
 			    	</div>
 			    </div>
@@ -391,7 +678,7 @@
 					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">新密码：</label>
 			    	<div class="col-md-5">
-			    		<input type="text" class="form-control" placeholder="请填写你的新密码">
+			    		<input type="password" id="newPW" class="form-control" placeholder="请填写你的新密码">
 			    	</div>
 			    	</div>
 			    </div>
@@ -399,14 +686,14 @@
 					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">重复新密码：</label>
 			    	<div class="col-md-5">
-			    		<input type="text" class="form-control" placeholder="请再次填写你的新密码">
+			    		<input type="password" id="newPW2"  class="form-control" placeholder="请再次填写你的新密码">
 			    	</div>
 			    	</div>
 			    </div>
 			    <div class="form-group"> 
 					<div class="row  text-center">
 			    	<div class="col-md-7 col-md-offset-3">
-			    		<button type="button" class="btn btn-primary btn-block">修改密码</button>
+			    		<button type="button" onclick="modifyMyPassword();" class="btn btn-primary btn-block">修改密码</button>
 			    	</div>
 			    	</div>
 			    </div>
@@ -418,6 +705,216 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+<script>
+	var modifyMyPassword=function(){
+		if ($("#oldPW").val()=="" || $("#newPW").val()==""){
+			alert("请填写新旧密码");
+			return;
+		}
+		if ($("#oldPW").val()== $("#newPW").val()){
+			alert("新密码与旧密码不能相同");
+			return;
+		}
+		if ($("#newPW").val().indexOf(" ") > -1){
+			alert("新密码不可包含空格");
+			return;
+		}
+		if ($("#newPW").val() != $("#newPW2").val()){
+			alert("重复新密码必须与新密码一致。");
+			return;
+		}
+		var xx= /^[a-zA-Z][a-zA-Z0-9_\.]{5,17}$/;
+		if (!xx.test($("#newPW").val())){
+			alert("密码必须以字母开头，长度在6~18之间，只能包含字符、数字和下划线");
+			return;
+		}
+		$.ajax({
+            url:"/PsaBackend/Users/ModifyPassword",  
+            type:"POST",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+            cache:true,
+            data:JSON.stringify({oldpw:$("#oldPW").val(),newpw:$("#newPW").val()}),  
+            success:function(data){
+            	if (data && data.code){
+            		if (data.code==1){
+            			alert("修改成功，请重新登录系统");
+            			delCookie("loginname");
+            			location = "/login.html";
+            		}else if (data.code==2){
+            			alert("修改失败,您可以尝试重新登录，再修改密码。");
+            		}else{
+            			alert("修改失败，旧密码不正确。");
+            		}
+            	}else{
+            		alert("修改失败，请检查输入项。");
+            	}
+            }, 
+            error:function(){
+            	alert("修改失败");
+            }
+        });
+	};
+	var tt1 = null;
+	var tt2 = null;
+	var tt1c=0;
+	var tt2c=0;
+	var setTimeCountOld = function(){
+		$("#btSmsOld").attr("disabled",true);
+		tt1c = 60;
+		tt1Fun();
+	};
+	var tt1Fun = function(){
+		if (tt1c >= 0){
+			$("#btSmsOld").val("倒计时 "+tt1c);
+			tt1 = setTimeout(function(){tt1Fun();},1000);
+			tt1c --;
+		}else{
+			clearTimeout(tt1);
+			tt1 = null;
+			$("#btSmsOld").val("获取验证码");
+			$("#btSmsOld").attr("disabled",false);
+		}
+	}
+	var setTimeCountNew = function(){
+		$("#btSmsNew").attr("disabled",true);
+		tt2c = 60;
+		tt2Fun();
+	};
+	var tt2Fun = function(){
+		if (tt2c >= 0){
+			$("#btSmsNew").val("倒计时 "+tt2c);
+			tt2 = setTimeout(function(){tt2Fun();},1000);
+			tt2c --;
+		}else{
+			clearTimeout(tt2);
+			tt2 = null;
+			$("#btSmsNew").val("获取验证码");
+			$("#btSmsNew").attr("disabled",false);
+		}
+	}
+	var getOldSMS=function(){
+		var mbo = $("#txtModifyMobileOld").val();
+		var mbn = $("#txtModifyMobileNew").val();
+		if (!/^\d{11}$/.test(mbo)){
+			alert("请正确填写原手机号。");
+			return;
+		}
+		if (mbo == mbn){
+			alert("新旧手机号不能相同。");
+			return;
+		}
+		
+//		setTimeCountOld();
+		$.ajax({
+            url:"/PsaBackend/Users/GetModifyPWOldSMS/"+mbo,  
+            type:"GET",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+            cache:true, 
+            success:function(data){
+            	if (data && data.code){
+            		if (data.code==1){
+            			alert("验证码发送成功，请查看手机短信。");
+            			setTimeCountOld();
+            		}else{
+            			alert("验证码发送失败，请检查手机号是否在系统中存在。");
+            		}
+            	}else{
+            		alert("验证码发送失败，请检查手机号是否在系统中存在。");
+            	}
+            }, 
+            error:function(){
+            	alert("验证码发送失败");
+            }
+        });
+	};
+	var getNewSMS=function(){
+		var mbo = $("#txtModifyMobileOld").val();
+		var mbn = $("#txtModifyMobileNew").val();
+		if (!/^\d{11}$/.test(mbn)){
+			alert("请正确填写新手机号。");
+			return;
+		}
+		if (mbo == mbn){
+			alert("新旧手机号不能相同。");
+			return;
+		}
+		
+//		setTimeCountNew();
+		$.ajax({
+            url:"/PsaBackend/Users/GetModifyPWNewSMS/"+mbn,  
+            type:"GET",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+            cache:true,
+            success:function(data){
+            	if (data && data.code){
+            		if (data.code==1){
+            			alert("验证码发送成功，请查看手机短信。");
+            			setTimeCountNew();
+            		}else{
+            			alert("验证码发送失败");
+            		}
+            	}else{
+            		alert("验证码发送失败");
+            	}
+            }, 
+            error:function(){
+            	alert("验证码发送失败");
+            }
+        });
+	};
+	var doModifyMobile = function(){
+		var mbo = $("#txtModifyMobileOld").val();
+		var mbn = $("#txtModifyMobileNew").val();
+		var vco = $("#txtModifyMobVCOld").val();
+		var vcn = $("#txtModifyMobVCNew").val();
+		if (!/^\d{11}$/.test(mbo)){
+			alert("请正确填写原手机号。");
+			return;
+		}
+		if (!/^\d{11}$/.test(mbn)){
+			alert("请正确填写新手机号。");
+			return;
+		}
+		if (!/^\d{4}$/.test(vco)){
+			alert("请正确填写原手机号收到的验证码。");
+			return;
+		}
+		if (!/^\d{4}$/.test(vcn)){
+			alert("请正确填写新手机号收到的验证码。");
+			return;
+		}
+		var pData = {mbo:mbo,mbn:mbn,vco:vco,vcn:vcn};
+		$.ajax({
+            url:"/PsaBackend/Users/ModifyMyMobile",  
+            type:"POST",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+            data:JSON.stringify(pData),  
+            success:function(data){
+            	if (data && data.code){
+            		if (data.code==1){
+            			alert("手机号修改成功。");
+            			$("#myModal4").modal("hide");
+            		}else{
+            			alert("手机号修改失败，请检查您的输入项后重试。");
+            		}
+            	}else{
+            		alert("手机号修改失败，请检查您的输入项后重试。");
+            	}
+            },
+            error:function(){
+            	alert("手机号修改失败,通讯错误");
+            }
+        });  
+	};
+</script>
 <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog regLegalDialog">
 		<div class="modal-content">
@@ -435,7 +932,7 @@
 					<div class="row">
 			    	<label class="form-label col-sm-5 text-right">原手机号码：</label>
 			    	<div class="col-md-5">
-			    		<input type="text" class="form-control" placeholder="请输入你的手机号码">
+			    		<input type="text" id="txtModifyMobileOld" class="form-control" placeholder="请输入你的手机号码">
 			    	</div>
 			    	</div>
 			   	</div>
@@ -443,10 +940,10 @@
 					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">短信验证码：</label>
 			    	<div class="col-md-3">
-			    		<input type="text" class="form-control">
+			    		<input type="text" id="txtModifyMobVCOld" class="form-control">
 			    	</div>
 			    	<div class="col-md-2">
-			    		<input type="button" class="btn  btn-success" value="获取验证码">
+			    		<input type="button" id="btSmsOld" onclick="getOldSMS();" class="btn  btn-success" value="获取验证码">
 			    	</div>
 			    	</div>
 			    </div>
@@ -454,7 +951,7 @@
 					<div class="row">
 			    	<label class="form-label col-sm-5 text-right">新手机号码：</label>
 			    	<div class="col-md-5">
-			    		<input type="text" class="form-control" placeholder="请输入你的手机号码">
+			    		<input type="text" id="txtModifyMobileNew" class="form-control" placeholder="请输入你的手机号码">
 			    	</div>
 			    	</div>
 			   	</div>
@@ -462,10 +959,10 @@
 					<div class="row  text-center">
 			    	<label class="form-label col-sm-5 text-right">短信验证码：</label>
 			    	<div class="col-md-3">
-			    		<input type="text" class="form-control">
+			    		<input type="text" id="txtModifyMobVCNew" class="form-control">
 			    	</div>
 			    	<div class="col-md-2">
-			    		<input type="button" class="btn  btn-success" value="获取验证码">
+			    		<input type="button" id="btSmsNew" onclick="getNewSMS()"  class="btn  btn-success" value="获取验证码">
 			    	</div>
 			    	</div>
 			    </div>
@@ -473,7 +970,7 @@
 			    <div class="form-group"> 
 					<div class="row  text-center">
 			    	<div class="col-md-7 col-md-offset-3">
-			    		<button type="button" class="btn btn-primary btn-block">确认修改</button>
+			    		<button type="button" onclick="doModifyMobile();"  class="btn btn-primary btn-block">确认修改</button>
 			    	</div>
 			    	</div>
 			    </div>

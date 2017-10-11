@@ -14,6 +14,7 @@
 		<script src="http://cdn.bootcss.com/lightbox2/2.9.0/js/lightbox.min.js"></script>
 
 		<script src="js/tooltip.js"></script>
+		<script src="js/rollBack.js"></script>
 		<script>
 			if (!getCookie("loginname") || getCookie("loginname")==""){
 				window.location = "login.html";
@@ -38,6 +39,7 @@
 "新闻组不限主题"
 ];
 var awardEn = [
+"",
 "Projected Image Division (PID) – OPEN Color",
 "Projected Image Division (PID) – OPEN Monochrome",
 "Photo Travel Division (PTD) OPEN",
@@ -56,10 +58,21 @@ var awardEn = [
 "Photojournalism Division (PJD)  OPEN"
 ];
 	var hh = location.search;
+	var t0 = hh.split("#");
+	hh = t0[0];
+	var t1 = hh.split("&");
+	hh = t1[0];
+	var p = "1";
+	if(t1.length>1){
+		p = t1[1];
+	}
+	if (p == "")p="1";
 	hh=hh.replace("?","")
 	var tt = 0;
+	var pp = 1;
 	try{
 		tt = parseInt(hh);
+		pp = parseInt(p);
 	}catch(e){
 		alert("类型错误");
 	}
@@ -74,7 +87,7 @@ var awardEn = [
 						<script>
 							document.write(awardtype[tt]);
 						</script>
-						获奖作品</div>
+						</div>
 					<div class="titleEn">
 						<script>
 						document.write(awardEn[tt]);
@@ -89,7 +102,13 @@ var awardEn = [
 				<div id="pager">
 					
 				</div>
+				<div class="disclaimer">
+				<span><disclaimer>免责声明:</disclaimer> 上述图片来自PSA认证赛事官网，仅供参赛会员学习之用，请结合组别定义揣摩如何选择不同组别和主题的作品，若涉及个人作品不愿意在本网站分享、供他人学习，请联系我们，我们将在第一时间删除该作品，谢谢。</span><br/>
+				<span><disclaimer>Disclaimer:</disclaimer> All images shown above are from the PSA-recognized exhibitions’ website, and are for our members’ educational purposes only. Please read the PSA Division Definitions and learn how to make better choices in exhibitions. If you do not wish for your images to be shown on our website, please contact us and we will have the image(s) removed immediately.
+				</span>
+				</div>
 			</div>
+			
 		</div>
 		<script src="js/foot.js"></script>
 		<script>
@@ -97,7 +116,9 @@ var awardEn = [
         		ctype:4,
         		awardtype:tt,
             	pageindex:1,
-            	pagesize:20
+            	pagesize:20,
+            	checked:1,
+            	deleted:0
 	        }
 		var loadData=function(newPageIndex){
         	if(newPageIndex)pData.pageindex = newPageIndex;
@@ -119,14 +140,14 @@ var awardEn = [
 	            		}
 	            	}
 	            	$(".imgListInside").html(strs);
-	            	$("#pager").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+	            	$("#pager").html(loadPagers(data.recCount,data.pageSize,data.pageIndex,"laurellist.html?"+tt.toString()+"&"));
 	            },  
 	        });  
             
         };
 			$(function(){
 				if (tt && tt > 0){
-					loadData();
+					loadData(pp);
 				}
 			});
 			

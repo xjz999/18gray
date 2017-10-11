@@ -32,7 +32,7 @@
         		var pArr=tArr[0].split("&");
         		if (pArr.length == 2){
         			pType = pArr[0].replace("?","");
-        			if (pType=="4"){
+        			if (pType=="4" || pType=="3"){
         				wType =  pArr[1];
         			}else{
         				pId = pArr[1];
@@ -157,8 +157,8 @@ div[data-role="editor-toolbar"] {
 	                                			switch(pType){
 		                                			case "1":document.write("图片新闻");break;
 		                                			case "2":document.write("图片故事");break;
-		                                			case "3":document.write("个人图片(密)");break;
-		                                			case "4":document.write("获奖图片(密)");break;
+		                                			case "3":document.write("blog图片(密)");break;
+		                                			case "4":document.write("获奖作品(密)");break;
 		                                		}
 		                                	</script>
                                         </legend>
@@ -166,14 +166,21 @@ div[data-role="editor-toolbar"] {
                                           <label class="control-label" for="typeahead">标题</label>
                                           <div class="controls">
                                             <input type="text" class="span6" id="txtTitle" data-items="4" >
-                                            <p class="help-block">不要超过50个字，必填</p>
+                                            <p class="help-block">不要超过50个字，必填，中英文，请用||符号隔离，中文在前</p>
                                           </div>
                                         </div>
                                         <div class="control-group rowPhotoaddr">
                                           <label class="control-label" for="typeahead">拍摄地点</label>
                                           <div class="controls">
                                             <input type="text" class="span6" id="txtPhotoaddr" data-items="4" >
-                                            <p class="help-block">不要超过70个字</p>
+                                            <p class="help-block">不要超过70个字，中英文，请用||符号隔离，中文在前</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowAuthor">
+                                          <label class="control-label" for="typeahead">摄影师</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtAuthor" data-items="4" >
+                                            <p class="help-block">不要超过70个字，中英文，请用||符号隔离，中文在前</p>
                                           </div>
                                         </div>
                                         <div class="control-group rowPhototime">
@@ -268,6 +275,7 @@ div[data-role="editor-toolbar"] {
             url:'/PsaBackend/Arts/fileUpload', //你处理上传文件的服务端
             secureuri:false,
             fileElementId:'fileInput',
+            data : {modeltype:pType},
             dataType: 'json',
             success: function (data)
           	{
@@ -297,12 +305,14 @@ div[data-role="editor-toolbar"] {
             	if (data && data.title){
             		$("#txtTitle").val(data.title);
 					$("#txtPhotoaddr").val(data.photoaddr);
+					$("#txtAuthor").val(data.author);
 					$("#txtPhototime").val(data.phototime);
 					if (data.ctype == 4)$("#selAwardtype").val(data.awardtype);
 					$("#hfUrl").val(data.url);
 					$(".rowImgShow").html("<a target=\"_blank\" alt='点击弹出大图' href=\"" + imgReqPath +data.url+"\"><img src=\""+imgReqPath+((data.url && data.url != "")?data.url.replace("_b_d",""):"")+"\" /></a>");
 					$("#txtStory").val(data.story);
 					if (data.orderindex == 1)$("#chkOrderindex").attr("checked","true");
+//					$("#hfUseroid").val(data.useroid);
             	}else{
             		alert("加载数据失败");
             	}
@@ -336,6 +346,7 @@ div[data-role="editor-toolbar"] {
 		}
 		infoObj.title=$("#txtTitle").val();
 		infoObj.photoaddr=$("#txtPhotoaddr").val();
+		infoObj.author = $("#txtAuthor").val();
 		infoObj.phototime=$("#txtPhototime").val();
 		infoObj.url = $("#hfUrl").val();
 		infoObj.story = $('#txtStory').val();
@@ -343,6 +354,14 @@ div[data-role="editor-toolbar"] {
 		infoObj.ctype = ctypeInt;
 		infoObj.awardtype=$("#selAwardtype").val();
 		infoObj.expDate = ($("#txtExpdate").val()=="")?0:new Date($("#txtExpdate").val()).getTime();
+		if (ctypeInt == 3){
+			if (wType == ""){
+				alert("参数错误");
+				return;
+			}
+			infoObj.useroid = wType;//$("#hfUseroid").val();
+		}
+		
 		if (infoObj.title == ""){
 			alert("标题不能为空");
 			return ;
@@ -379,15 +398,20 @@ div[data-role="editor-toolbar"] {
             $(".datepicker").datepicker();
             //通过类型决定加载字段
 			if (pType == "1"){
-				$(".rowPhotoaddr").hide();
-				$(".rowPhototime").hide();
 				$(".rowAwardtype").hide();
 			}else if(pType == "2"){
+				$(".rowAwardtype").hide();
+			}else if(pType == "3"){
+				$(".rowPhotoaddr").hide();
+				$(".rowPhototime").hide();
+				$(".rowStory").hide();
+				$(".rowAuthor").hide();
 				$(".rowAwardtype").hide();
 			}else if (pType == "4"){
 				$(".rowPhotoaddr").hide();
 				$(".rowPhototime").hide();
 				$(".rowStory").hide();
+				$(".rowAuthor").hide();
 			}
 			
             if (pId != ""){

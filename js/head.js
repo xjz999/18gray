@@ -16,8 +16,8 @@ document.write('<div id="topOut">'+
 			'</div>'+
 		'</div>');
 var doExit=function(){
-	setCookie("loginname","");
 	setCookie("name","");
+	setCookie("loginname","");
 	location = location;
 };
 $(function(){

@@ -20,6 +20,9 @@
         	if (!getCookie("adminname") || getCookie("adminname") == ""){
         		window.location = "login.html";
         	}
+        	if (!getCookie("adminlevel") || getCookie("adminlevel") != "101"){
+        		window.location = "users.html";
+        	}
         	var hh = location.search;
         	if (!hh || hh == ""){
         		alert("参数错误");
@@ -121,7 +124,8 @@
                                             	<option value="0">未审核-不可登录</option>
                                               	<option value="1">审核通过-初级会员</option>
                                               	<option value="2">审核通过-高级会员</option>
-                                              	<option value="2">审核通过-荣衔会员</option>
+                                              	<option value="3">审核通过-荣衔会员</option>
+                                              	<option value="4">审核通过-资深会员（有blog）</option>
                                             </select>
                                           </div>
                                         </div>
@@ -146,6 +150,37 @@
                                             <label class="uniform lbCreatetime">
                                             </label>
                                          	</div>
+                                        </div>
+                                        <div class="control-group rowDegree">
+                                          <label class="control-label" for="optionsCheckbox">资深名衔称号(限20字)</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtDegree" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowDegree2">
+                                          <label class="control-label" for="optionsCheckbox">资深名衔说明(限20字)</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtDegree2" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowOrderindex">
+                                          <label class="control-label" for="optionsCheckbox">资深名衔内排序(越大越靠前)</label>
+                                          <div class="controls">
+                                            <select id="selOrderindex">
+                                            	<option value="-1">请选择</option>
+                                            	<option value="0">0</option>
+                                            	<option value="1">1</option>
+                                            	<option value="2">2</option>
+                                            	<option value="3">3</option>
+                                            	<option value="4">4</option>
+                                            	<option value="5">5</option>
+                                            	<option value="6">6</option>
+                                            	<option value="7">7</option>
+                                            	<option value="8">8</option>
+                                            	<option value="9">9</option>
+                                            	<option value="10">10</option>
+                                            </select>
+                                          </div>
                                         </div>
                                         
                                         <div class="form-actions">
@@ -176,9 +211,10 @@
 
         <link href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet">
 <link href="http://cdn.bootcss.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
-<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
-
-        <script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="http://cdn.bootcss.com/lightbox2/2.9.0/css/lightbox.min.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/lightbox2/2.9.0/js/lightbox.min.js"></script>
         <script>
 	jQuery(document).ready(function() {   
 //	   FormValidation.init();
@@ -203,17 +239,22 @@
 					$(".lbSex").text((data.sex==1)?"男":"女");
 					$("#selMemlevel").val(data.memlevel);
 					$("#hfRegtype").val(data.regtype);
+					setDegreeVisible(data.regtype == 4);
 					$(".lbRegtype").text((data.regtype==1)?"有星标证书":"无星标证书");
 					$("#hfRegphoto").val(data.regphoto);
+					$("#txtDegree").val(data.degree);
+					$("#txtDegree2").val(data.degree2);
+					$("#selOrderindex").val(data.orderindex);
+					
 					var photoArr=data.regphoto.split(",");
 					var str = "";
 					
 					for(var i=0;i<photoArr.length;i++){
 						if (photoArr[i]=="")continue;
-						str +="<a href=\""+imgReqPath +photoArr[i]+"\" target=\"_blank\" class=\"regphotolist\"><img src=\""+ imgReqPath +photoArr[i].replace("_b_d","")+"\" /></a>"
+						str +="<a href=\""+imgReqPath +photoArr[i]+"\" target=\"_blank\" data-lightbox=\"image-list\" data-title=\"\" class=\"regphotolist picslistbox\"><img src=\""+ imgReqPath +photoArr[i].replace("_b_d","")+"\" /></a>"
 					}
 					$(".lsRegphoto").html(str);
-					$("#lbCreatetime").text((new Date(data.createtime)).Format("MM/dd/yyyy"));
+					$(".lbCreatetime").text((new Date(data.createtime)).Format("yyyy-MM-dd"));
             	}else{
             		alert("加载数据失败");
             	}
@@ -235,6 +276,9 @@
 		if ($("#txtPw").val()!="woshimimanidongma" && $("#txtPw").val().length >= 6){
 			infoObj.password = $("#txtPw").val();
 		}
+		infoObj.degree = $("#txtDegree").val();
+		infoObj.degree2 = $("#txtDegree2").val();
+		infoObj.orderindex = $("#selOrderindex option:selected").val();
 		
 		$.ajax({
             url:"/PsaBackend/Users/AddNewByJson",  
@@ -255,11 +299,32 @@
             }
         });  
 	}
+	var setDegreeVisible = function (isShow){
+		if(isShow){//
+    		$(".rowDegree").show();
+            $(".rowDegree2").show();
+            $(".rowOrderindex").show();
+    	}else{
+    		$(".rowDegree").hide();
+            $(".rowDegree2").hide();
+            $(".rowOrderindex").hide();
+    	}
+	};
         $(function() {
             if (pId != ""){
 				loadOneObject();
             }
+            $(".rowDegree").hide();
+            $(".rowDegree2").hide();
+            $(".rowOrderindex").hide();
             
+            $("#selMemlevel").change(function(){
+            	if ($('#selMemlevel option:selected').val() == "4"){
+            		setDegreeVisible(true);
+            	}else{
+            		setDegreeVisible(false);
+            	}
+            });
             
             function initToolbarBootstrapBindings() {
       var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
@@ -301,7 +366,6 @@
             
             
         });
-        </script>
         </script>
     </body>
 

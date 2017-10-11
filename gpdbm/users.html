@@ -129,11 +129,25 @@
 	            			data.list[i].email
 	            			+"</td><td>"+
 	            			data.list[i].mobile
-	            			+"</td><td>"+
-	            			data.list[i].memlevel
-	            			+"</td><td class=\"center\">"+
+	            			+"</td><td>";
+	            			switch(data.list[i].memlevel){
+	            				case 0:strs+="未审核-不可登录";break;
+	            				case 1:strs+="审核通过-初级会员";break;
+	            				case 2:strs+="审核通过-高级会员";break;
+	            				case 3:strs+="审核通过-荣衔会员";break;
+	            				case 3:strs+="审核通过-资深会员(有blog)";break;
+	            			}
+	            			strs += "</td><td class=\"center\">"+
 	            			 new Date(data.list[i].createtime).Format("yyyy-MM-dd")
-	            			+"</td><td class=\"center\"><a href='adduser.html?"+data.list[i].oid+"'>修改</a> <a href='#' onclick='doDelete(\""+ data.list[i].oid +"\")'>删除</a></td></tr>";
+	            			+"</td><td class=\"center\">";
+	            			if (data.list[i].memlevel == 4){
+	            				strs += "<a href=\"pics.html?3&"+data.list[i].oid+"\">blog图片</a>";
+	            			}
+	            			if (getCookie("adminlevel") && getCookie("adminlevel") == "101")
+		            		{
+		            			strs += " <a href='adduser.html?"+data.list[i].oid+"'>修改</a> <a href='#' onclick='doDelete(\""+ data.list[i].oid +"\")'>删除</a>";
+		            		}
+	            			strs += "</td></tr>";
 	            		}
 	            	}
 	            	$("#tbNews tbody").html(strs);
@@ -146,11 +160,12 @@
         var doDelete=function(delOid){
         	if (!confirm("确认要删除本条数据吗？"))return;
         	if (!delOid || delOid == "")return;
+        	
         	$.ajax({
-	            url:"/PsaBackend/News/DeleteOne/"+delOid,  
+	            url:"/PsaBackend/Users/DeleteOne/"+delOid,  
 	            type:"GET",  
-	            dataType:"json",  
-	            contentType: "application/json; charset=utf-8",
+//	            dataType:"json",  
+//	            contentType: "application/json; charset=utf-8",
 	            async:false,  
 //	            data:JSON.stringify(pData),  
 	            success:function(data){

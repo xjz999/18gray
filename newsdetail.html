@@ -11,17 +11,19 @@
 	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="js/tooltip.js"></script>
+		<script src="js/rollBack.js"></script>
 	</head>
 	<body>
 		<script src="js/head.js"></script>
 		<div class="mainNewsDetail">
+			<div class="newsEysbrow"></div>
 			<div class="newsTitle"></div>
-			<div class="newsSummary"></div>
 			<div class="newsSuite"></div>
+			<div class="newsSummary"></div>
 			<div class="newsContent">
 				
 			</div>
-			<div class="newsResource">如果涉及版权问题请及时与本站编辑联系，我们将及时处理，联系邮箱：43787777@qq.com</div>
+			<div class="newsResource">如果涉及版权问题请及时与本站编辑联系，我们将及时处理，联系邮箱：2557443387@qq.com</div>
 		</div>
 		<script src="js/foot.js"></script>
 		<script>
@@ -37,11 +39,21 @@
 //	            data:JSON.stringify(pData),  
 	            success:function(data){
 	            	if (data && data.title){
+	            		if(data.ctype==3 || data.ctype==4){
+	            			if (!getCookie("loginname") || getCookie("loginname")==""){
+								window.location = "/login.html";
+								return;
+							}
+	            		}
+	            		$(".newsEysbrow").text(data.eyebrow);
 	            		$(".newsTitle").text(data.title);
-	            		$(".newsSummary").text("发表时间："+new Date(data.createTime).Format("yyyy-MM-dd")+" 作者："+
-	            		data.author +" 责任编辑："+data.editor);
+	            		document.title=data.title;
+	            		$(".newsSummary").text("发表时间："+new Date(data.createTime).Format("yyyy-MM-dd")+"　"+((data.author=="")?"来源":"作者")+"："+
+	            		((data.author=="")?data.source:data.author) +
+	            		((data.interpreter != null && data.interpreter!="")?("　翻译:"+data.interpreter):"") +
+	            		"　责任编辑："+((data.editor=="")?"本站编辑":data.editor));
 	            		if (data.summary != "")
-	            			$(".newsSuite").text("导读："+data.summary);
+	            			$(".newsSuite").text(data.summary);
 	            		else
 	            			$(".newsSuite").hide();
 	            		$(".newsContent").html(data.content);

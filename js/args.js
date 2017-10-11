@@ -2,7 +2,7 @@ var cons={
 	virDir:"/"
 };
 //var imgReqPath = "/ROOT/upload/";
-var imgReqPath = "/upload/";
+var imgReqPath = "/upload/"; 
 //写
 //如果需要设定自定义过期时间
 //那么把上面的setCookie　函数换成下面两个函数就ok;
@@ -16,7 +16,7 @@ function setCookie(name,value,time)
 		exp.setTime(exp.getTime() + strsec*1);
 	}
 	
-	document.cookie = name + "="+ escape (value) + ";"+((!exp)?"":"expires=" + exp.toGMTString());
+	document.cookie = name + "="+ escape (value) + ";path=/;"+((!exp)?"":"expires=" + exp.toGMTString());
 }
 function getsec(str)
 {
@@ -46,18 +46,18 @@ function getCookie(name)
 {
 	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
 	if(arr=document.cookie.match(reg))
-	return unescape(arr[2]);
+		return unescape(arr[2]);
 	else
-	return null;
-}
+		return null;
+}        
 //删
 function delCookie(name)
 {
 	var exp = new Date();
-	exp.setTime(exp.getTime() - 1);
+	exp.setTime(exp.getTime() - 1 * 1000 * 60 * 60 * 24);
 	var cval=getCookie(name);
 	if(cval!=null)
-	document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+	document.cookie= name + "="+cval+";path=/;expires="+exp.toGMTString();
 }
 Date.prototype.Format = function (fmt) { //author: meizz 
     var o = {
@@ -77,25 +77,25 @@ Date.prototype.Format = function (fmt) { //author: meizz
 //调用：
 //var time1 = new Date().Format("yyyy-MM-dd");
 //var time2 = new Date().Format("yyyy-MM-dd HH:mm:ss");  
-var loadPagers = function(recCount,pageSize,pageIndex){
+var loadPagers = function(recCount,pageSize,pageIndex,linkPrefix){
 	if (!pageSize || pageSize<0)pageSize = 10;
 	var maxPage = Math.ceil(recCount/pageSize);// (recCount % pageSize > 0)?(recCount/pageSize + 1):(recCount/pageSize);
 	var bv = "<div class=\"pagination pagination-mini\">"+
-		"<ul><li "+ ((pageIndex <= 1)?"class=\"disabled\"":"") +"><a href=\"#\"  onclick=\"loadData("+(pageIndex-1)+")\">上一页</a></li>"+
+		"<ul><li "+ ((pageIndex <= 1)?"class=\"disabled\"":"") +"><a href=\""+linkPrefix+ (pageIndex-1).toString() +"\">上一页</a></li>"+
 			"<li "+ ((pageIndex == 1)?"class=\"active\"":"") +">"+
-			"	<a href=\"#\" onclick=\"loadData(1)\">1</a>"+
+			"	<a href=\""+linkPrefix+"1\">1</a>"+
 			"</li>";
 			
 			for(var i= pageIndex - 2;i<=pageIndex + 2;i++){
 				if (i<=1 || i >= maxPage)continue;
-				bv += "<li  "+ ((pageIndex == i)?"class=\"active\"":"") +"><a href=\"#\"  onclick=\"loadData("+i+")\">"+i+"</a></li>";
+				bv += "<li  "+ ((pageIndex == i)?"class=\"active\"":"") +"><a href=\""+linkPrefix+ i.toString() +"\">"+i+"</a></li>";
 			}
 			if (maxPage != 1){
 			bv += "<li "+ ((pageIndex == maxPage)?"class=\"active\"":"") +">"+
-			"	<a href=\"#\" onclick=\"loadData("+maxPage+")\">"+maxPage+"</a>"+
+			"	<a href=\""+linkPrefix + maxPage.toString() +"\">"+maxPage+"</a>"+
 			"</li>";
 			}
-			bv += "<li "+ ((pageIndex >= maxPage)?"class=\"disabled\"":"") +"><a href=\"#\" onclick=\"loadData("+(pageIndex+1)+")\">下一页</a></li>"+
+			bv += "<li "+ ((pageIndex >= maxPage)?"class=\"disabled\"":"") +"><a href=\""+linkPrefix + (pageIndex+1).toString() +"\">下一页</a></li>"+
 		"</ul>"+
 	"</div>";
 	return bv;

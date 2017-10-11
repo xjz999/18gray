@@ -11,6 +11,7 @@
 	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="js/tooltip.js"></script>
+		<script src="js/rollBack.js"></script>
 	</head>
 	<body>
 		<script src="js/head.js"></script>
@@ -28,20 +29,26 @@
 		</div>
 		<script src="js/foot.js"></script>
 		<script>
+			var hh = location.search;
+			var arr = hh.split("#");
+			p=arr[0];
+			p = p.replace("?","");
+			if (p=="")p="1";
+			var pIndex = 1;
+			try{pIndex = parseInt(p); }catch(e){}
 			$(function(){
-				loadData(1);
+				loadData(pIndex);
 			});
 			var pData = {
-				ctype:2,
 				pageindex:1,
-            	pagesize:8
+            	pagesize:16,deleted:0
 			};
 			var loadData=function(newPageIndex){
         	if(newPageIndex)pData.pageindex = newPageIndex;
 			$("#pager").html("");
         	//发起请求
         	$.ajax({
-	            url:"/PsaBackend/News/List",  
+	            url:"/PsaBackend/Competitions/List",  
 	            type:"POST",  
 	            dataType:"json",  
 	            contentType: "application/json; charset=utf-8",
@@ -52,13 +59,13 @@
 	            	if (data.list && data.list.length>0){
 	            		for (var i=0;i<data.list.length;i++){
 	            			strs +="<li><a href=\"tounamentdetail.html?"+data.list[i].oid+"\">"+data.list[i].title+"（赛事详情）<br />"+
-								"<font>截稿时间："+(new Date(data.list[i].expDate).Format("yyyy-MM-dd"))+"&nbsp;&nbsp;&nbsp;&nbsp;认证号："+data.list[i].editor+"</font></a></li>";
+								"<font>截稿时间："+(new Date(data.list[i].expdate).Format("yyyy-MM-dd"))+"&nbsp;&nbsp;&nbsp;&nbsp;认证号："+data.list[i].validecode+"</font></a></li>";
 
 //	            			strs += "<li><a href=\"tounamentdetail.html?"+data.list[i].oid+"\">"+data.list[i].title+"（赛事详情）<br />"+
 //							+ "<font>截稿时间："+  +"&nbsp;&nbsp;&nbsp;&nbsp;认证号："+ data.list[i].editor +"</font></a></li>";
 	            		}
 	            		$(".main ul").html(strs);
-	            		$("#pages").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+	            		$("#pages").html(loadPagers(data.recCount,data.pageSize,data.pageIndex,"tounamentlist.html?"));
 	            	}
 	            	
 	            	

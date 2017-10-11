@@ -126,13 +126,20 @@ div[data-role="editor-toolbar"] {
                                         <legend>
                                         	<script>
 	                                			switch(pType){
-		                                			case "1":document.write("新闻管理");break;
-		                                			case "2":document.write("认证赛事");break;
-		                                			case "3":document.write("会员动态(密)");break;
+		                                			case "1":document.write("头条新闻");break;
+		                                			case "2":document.write("");break;
+		                                			case "3":document.write("会员交流(密)");break;
 		                                			case "4":document.write("参赛必读(密)");break;
 		                                		}
 		                                	</script>
                                         </legend>
+                                        <div class="control-group rowTitle">
+                                          <label class="control-label" for="typeahead">引题</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtEyebrow" data-items="4" >
+                                            <p class="help-block">不要超过50个字</p>
+                                          </div>
+                                        </div>
                                         <div class="control-group rowTitle">
                                           <label class="control-label" for="typeahead">标题</label>
                                           <div class="controls">
@@ -151,7 +158,21 @@ div[data-role="editor-toolbar"] {
                                           <label class="control-label" for="typeahead">作者</label>
                                           <div class="controls">
                                             <input type="text" class="span6" id="txtAuthor" data-items="4" >
-                                            <p class="help-block">原作所有者，如果未知可不填，前台将显示：来源网络</p>
+                                            <p class="help-block">与来源字段二填一即可</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowAuthor">
+                                          <label class="control-label" for="typeahead">来源</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtSource" data-items="4" >
+                                            <p class="help-block">与作者字段二填一即可</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowInterpreter">
+                                          <label class="control-label" for="typeahead">翻译</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtInterpreter" data-items="4" >
+                                            <p class="help-block">填写翻译人员的称呼</p>
                                           </div>
                                         </div>
                                         <div class="control-group rowEditor">
@@ -252,6 +273,7 @@ div[data-role="editor-toolbar"] {
       
       <div class="btn-group">
         <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-picture"></i></a>
+        <a class="btn" data-edit="justImg" title="调整图片大小" id="adjustWHBtn"><i class="icon-align-justify"></i></a>
         <input type="file" id="pictureInput" name="file" data-role="magic-overlay"
          data-target="#pictureBtn" data-edit="insertImage" action="/PsaBackend/Arts/fileUpload" />
       </div>
@@ -277,13 +299,13 @@ div[data-role="editor-toolbar"] {
                                             </label>
                                           </div>
                                         </div>
-                                        <div class="control-group rowExpdate">
+                                        <!--<div class="control-group rowExpdate">
                                           <label class="control-label" for="date01">截止日期</label>
                                           <div class="controls">
                                             <input type="text" class="input-xlarge datepicker" id="txtExpdate" value="">
                                             <p class="help-block">投稿的最后期限</p>
                                           </div>
-                                        </div>
+                                        </div>-->
                                         
                                         <div class="form-actions">
                                           <button type="button" class="btn btn-primary" onclick="doSave();">保 存</button>
@@ -332,6 +354,7 @@ div[data-role="editor-toolbar"] {
 	jQuery(document).ready(function() {   
 //	   FormValidation.init();
 	});
+	
 	var infoObj = {};
 	var loadOneNews = function(){
 		infoObj.oid=pId;
@@ -350,7 +373,11 @@ div[data-role="editor-toolbar"] {
 					$("#txtEditor").val(data.editor);
 					$('#editor').html(data.content);
 					if (data.isTop == 1)$("#chkIstop").attr("checked","true") ;
-					if(data.expDate != "") $("#txtExpdate").val( (new Date(data.expDate)).Format("MM/dd/yyyy") );
+					$("#txtSource").val(data.source);
+					$("#txtEyebrow").val(data.eyebrow);
+					$("#txtInterpreter").val(data.interpreter);
+					
+//					if(data.expDate != "") $("#txtExpdate").val( (new Date(data.expDate)).Format("MM/dd/yyyy") );
             	}else{
             		alert("加载数据失败");
             	}
@@ -379,7 +406,10 @@ div[data-role="editor-toolbar"] {
 		infoObj.content = $('#editor').html();
 		infoObj.isTop = ($('#chkIstop').get(0).checked)?1:0;
 		infoObj.ctype = ctypeInt;
-		infoObj.expDate = ($("#txtExpdate").val()=="")?0:new Date($("#txtExpdate").val()).getTime();
+		infoObj.eyebrow = $("#txtEyebrow").val();
+		infoObj.source = $("#txtSource").val();
+		infoObj.interpreter = $("#txtInterpreter").val();
+//		infoObj.expDate = ($("#txtExpdate").val()=="")?0:new Date($("#txtExpdate").val()).getTime();
 		if (infoObj.title == ""){
 			alert("标题不能为空");
 			return ;
@@ -409,8 +439,8 @@ div[data-role="editor-toolbar"] {
             $(".chzn-select").chosen();
 //          $('.textarea').wysihtml5({});
             //通过类型决定加载字段
-			if (pType == "2"){
-				$(".rowSummary").hide();
+			if (pType != "4"){
+				$(".rowInterpreter").hide();
 			}else{
 				$(".rowExpdate").hide();
 			}
@@ -454,13 +484,13 @@ div[data-role="editor-toolbar"] {
 	};
 	initToolbarBootstrapBindings();
 	$('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
-  	window.prettyPrint && prettyPrint();
+	window.prettyPrint && prettyPrint();
  	$('#editor').html($('#Content').val());
             
-            
+        
         });
-        </script>
-        </script>
+        
+       </script>
     </body>
 
 </html>

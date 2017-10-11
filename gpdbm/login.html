@@ -18,10 +18,10 @@
 
       <form class="form-signin">
         <h2 class="form-signin-heading">请登录</h2>
-        <input type="text" id="loginName" class="input-block-level" placeholder="请输入账户">
-        <input type="password" id="loginPw" class="input-block-level" placeholder="请输入密码">
+        <input type="text" id="loginName" class="input-block-level" value="" placeholder="请输入账户">
+        <input type="password" id="loginPw" class="input-block-level" value="" placeholder="请输入密码">
         <label class="checkbox">
-          <input type="checkbox" value="remember-me"> 记住登录状态
+          <input type="checkbox" id="rememberme" value="remember-me"> 记住登录状态
         </label>
         <button class="btn btn-large btn-primary" type="button" onclick="doLogin();">登 录</button>
       </form>
@@ -46,7 +46,18 @@
 	            data:JSON.stringify(pData),  
 	            success:function(data){
 	            	if (data){
-	            		setCookie("adminname",$("#loginName").val(),"");
+	            		if (document.getElementById("rememberme").checked){
+	            			setCookie("adminname",$("#loginName").val(),"d30");
+	            			if ($("#loginName").val() == "mr.chen"){
+	            				setCookie("adminlevel","101","d30");
+	            			}
+	            		}else{
+	            			setCookie("adminname",$("#loginName").val(),"");
+	            			if ($("#loginName").val() == "mr.chen"){
+	            				setCookie("adminlevel","101","");
+	            			}
+	            		}
+	            		
 	            		location = "index.html";
 	            	}else{
 	            		alert("登录错误");

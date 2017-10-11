@@ -36,11 +36,12 @@
 		var uploadCurrentIndex = 700;
 		var fileChange = function(btIndex){
 			uploadCurrentIndex = btIndex;
-			var arr = $("#regphoto").val().split(",");
-			if (btIndex == 701 && arr.length > 15){
+			var arr700 = $("#regaward").val().split(",");
+			var arr701 = $("#regphoto").val().split(",");
+			if (btIndex == 701 && arr701.length > 15){
 				alert("最多上传15张作品,本次上传无效。");
 				return;
-			}else if (btIndex == 700 && arr.length > 3){
+			}else if (btIndex == 700 && arr700.length > 3){
 				alert("最多上传3张证书图片,本次上传无效。");
 					return;
 			}
@@ -52,29 +53,49 @@
 	            success: function (data)
               	{
 					if (data && data.filename && data.filename != ""){
-                		$("#regphoto").val($("#regphoto").val()+","+data.filename).change();
+						if (uploadCurrentIndex == 700){
+							$("#regaward").val($("#regaward").val()+","+data.filename).change();
+						}else{//701
+							$("#regphoto").val($("#regphoto").val()+","+data.filename).change();
+						}
                 		var newPicStr=$("#pics"+uploadCurrentIndex).html()
                 		+ "<div class='picsDivIn' style='width: 80px;height: 80px;overflow: hidden; float: left;position: relative;'>";
-                		newPicStr += "<div style='position:absolute;right:3px;top:3px; z-index: 100; background-color:#ccc; color:red; font-size: 13px; width:30px; height: 20px; cursor: pointer; line-height: 20px; text-align: center;' onclick='delRegImg(\"" + data.filename + "\",this)'>删除</div>";
+                		newPicStr += "<div style='position:absolute;right:3px;top:3px; z-index: 100; background-color:#ccc; color:red; font-size: 13px; width:30px; height: 20px; cursor: pointer; line-height: 20px; text-align: center;' onclick='delRegImg(\"" + data.filename + "\",this,"+ uploadCurrentIndex +")'>删除</div>";
                 		newPicStr += "<table width='100%'><tr><td width='100%' align='center' valign='middle'><img height='80px' src='upload/"+data.filename.replace("_b_d","")+"'/></td></tr></table></div>"
                 		$("#pics"+uploadCurrentIndex).html(newPicStr);
                 }else{
-                		alert("上传失败，请稍后再试");
+                		if (data.code){
+                			switch(data.code){
+                				case "file type err":alert("上传失败，原因:图片格式不正确。");break;
+                				case "file size err":alert("上传失败，原因:图片超出5M限制。");break;
+                				case "file empty":alert("上传失败，原因:您上传了一个空文件。");break;
+                				case "file null":alert("上传失败，原因:您上传了一个空文件。");break;
+                				default:alert("上传失败。");break;
+                			}
+                			
+                		}else{
+                			alert("上传失败，请稍后再试");
+                		}
                 	}
                 	$('#input-'+btIndex).replaceWith('<input id="input-'+btIndex+'" name="file" type="file" class="" onchange="fileChange('+btIndex+')" style="display: none;">');
               	},
               	error:function(e){
-              		alert("上传失败，请稍后再试");
+              		alert("上传失败，原因：通讯错误");
               		$('#input-'+btIndex).replaceWith('<input id="input-'+btIndex+'" name="file" type="file" class="" onchange="fileChange('+btIndex+')" style="display: none;">');
               	}
            });
 		};
-		var delRegImg = function(imgPath,_self){
-			$("#regphoto").val($("#regphoto").val().replace(","+imgPath,"")).change();
+		var delRegImg = function(imgPath,_self,opType){
+			if (opType == 700){
+				$("#regaward").val($("#regaward").val().replace(","+imgPath,"")).change();
+			}else{
+				$("#regphoto").val($("#regphoto").val().replace(","+imgPath,"")).change();
+			}
 			_self.parentNode.parentNode.removeChild(_self.parentNode);
 		}
 		var clearPicSelected=function(){
-			$("#regphoto").val("");
+			$("#regaward").val("").change();
+			$("#regphoto").val("").change();
 			$("#pics700").html("<div class=\"addImgNoCert\" onclick=\"choseFile700()\" style=\"width:80px; height: 80px; float: left;\">+</div>");
 			$("#pics701").html("<div class=\"addImgNoCert\" onclick=\"choseFile701()\" style=\"width:80px; height: 80px; float: left;\">+</div>");
 			
@@ -95,83 +116,6 @@
 				$('.btForBack').on('click', function () {
 				      window.location = "/index.html";
 				});
-		
-		
-				
-			//图片上传
-//		$("#input-700").fileinput({
-//			language: "zh",
-//		    uploadUrl: "/PsaBackend/Arts/fileUpload", // server upload action
-//		    uploadAsync: true,
-//		    maxFileCount: 1,
-//		    previewClass:"fileInputPreview",
-////			showPreview: false,
-//		    showUpload: false, //是否显示上传按钮
-//      	showCaption: false,//是否显示标题
-//      	browseClass: "btn btn-primary", //按钮样式
-//      	allowedFileExtensions : ['jpg', 'png','gif'],//接收的文件后缀
-//  		validateInitialCount: true,
-//  		overwriteInitial: false,
-//  		previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-//		});
-//		$("#input-700").on("fileuploaded", function (event, data, previewId, index) {
-//			
-//      	var fname = data.jqXHR.responseJSON.filename; //data.files[index].name,
-//		        out = '<li>' + fname + '</li>';
-//		    $('#kv-success-1 ul').append(out);
-//		    $('#kv-success-1').fadeIn('slow'); 
-//  	}).on('filepreupload',function(event,data){
-//  		$('#kv-success-1').html('<h4>星标证书上传成功</h4><ul></ul>').hide();
-//  	})
-//  	.on('fileselect', function(event, numFiles, label) {
-//  			$('#input-700').fileinput('upload');
-//		});
-////  	.on('filedeleted', function(event, key) {
-////			alert("filedelete");
-//////  		$('#kv-success-1 ul').clear();
-//////  		$('#kv-success-1').fadeOut('slow');
-////  	});
-//
-//		$("#input-701").fileinput({
-//			language: "zh",
-//		    uploadUrl: "/PsaBackend/Arts/fileUpload", // server upload action
-//		    uploadAsync: true,
-//		    maxFileCount: 10,
-//		    previewClass:"fileInputPreview",
-//		    showUpload: true, //是否显示上传按钮
-//      	showCaption: false,//是否显示标题
-//      	browseClass: "btn btn-primary", //按钮样式
-//      	allowedFileExtensions : ['jpg', 'png','gif'],//接收的文件后缀
-//		    validateInitialCount: true,
-//  		overwriteInitial: false,
-//  		previewFileIcon: "<i class='glyphicon glyphicon-king'></i>"
-//		});
-//		$('#kv-success-2').html('<h4>作品上传成功</h4><ul></ul>').hide();
-//		$("#input-701").on("fileuploaded", function (event, data, previewId, index) {
-//      	var fname = data.jqXHR.responseJSON.filename; //data.files[index].name,
-//		        out = '<li>' + fname + '</li>';
-//		    $('#kv-success-2 ul').append(out);
-//		    $('#kv-success-2').fadeIn('slow');
-//  	}).on('filepreupload',function(event,data){
-//  		//nothing.
-//  	}).on('filepredelete', function(event, key) {
-//  		alert("filedelete");
-////  		$('#kv-success-2 ul').clear();
-////  		$('#kv-success-2').fadeOut('slow');
-//  	});
-//  	.on('fileselect', function(event, numFiles, label) {
-//  			if ($('#kv-success-2 ul')[0].children.length >= 5)//判断长度
-//  			{
-//  				//alert("上传作品不必超过5张，谢谢。");
-//  				$("#mymodal").modal("toggle");
-//  			}
-//  			else
-//	    			$('#input-701').fileinput('upload');
-//		});
-
-
-			//图片上传结束
-   
 	$("#servicePop").addClass("servicePopRegist");
 	$("#imgQR").addClass("imgQRRegist");
 	$("#servicePop").hide();
@@ -328,16 +272,15 @@
 						message: '必须同意用户协议，方可提交注册。'
 					}
 				}
-			}
-			,
-			regphoto:{
+			},
+			regaward:{
 				trigger:"change",
 				validators: {
-					notEmpty: {
-						message: '请上传证书或作品'
-					},
+//					notEmpty: {
+//						message: '请上传证书'
+//					},
 					callback: {
-                    	message: '作品数量不合要求',
+                    	message: '请上传1~3张星标证书',
                     	callback: function(value, validator) {
                     		var isT1 = $("#certRd1").get(0).checked;
                     		var arr=value.split(",");
@@ -345,6 +288,27 @@
                     			if (arr.length < 2 || arr.length > 4){
 	                    			return false;
 	                    		}
+                    		}else{
+                    			return true;
+                    		}
+                    		return true;
+                    	}
+                    }
+				}
+			},
+			regphoto:{
+				trigger:"change",
+				validators: {
+//					notEmpty: {
+//						message: '请上传作品'
+//					},
+					callback: {
+                    	message: '请上传10~15幅个人代表作品',
+                    	callback: function(value, validator) {
+                    		var isT1 = $("#certRd1").get(0).checked;
+                    		var arr=value.split(",");
+                    		if (isT1){
+                    			return true;
                     		}else{
                     			if (arr.length < 11 || arr.length > 16){
 	                    			return false;
@@ -366,7 +330,8 @@
 	$("#certRd1").click();
 	$("#picsByCert").collapse("show");
 	$("#picsNoCert").collapse("hide");
-			
+	$("#regphoto").val(" ").change();//设置一下作品的保存项，以刷新验证
+	$("#regaward").val("").change();//设置一下证书的保存项，以刷新验证
 	//获取手机验证码
 	var countdown = 0;
 	var ttDown = null;
@@ -388,11 +353,17 @@
 	};
 	$("#btGetSMS").click(function(){
 		var mobNumber = $("#mobile").val();
-		var reg = /^1[0-9]{10}/;
-		if (!reg.test(mobNumber)){
-			alert("请正确填写手机号");
-			return;
+		var bootstrapValidator = $("#defaultForm").data('bootstrapValidator');
+		var isMobChecked = bootstrapValidator.isValidField("mobile");
+		if (!isMobChecked){
+			alert("请填写正确且未被使用过的手机号码，本次获取验证码失败。");
+			return;	
 		}
+//		var reg = /^1[0-9]{10}/;
+//		if (!reg.test(mobNumber)){
+//			alert("请正确填写手机号");
+//			return;
+//		}
 		//置灰，不可用		  		
 		$.ajax({
 		  type: 'POST',
@@ -551,7 +522,7 @@
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right">短信验证码：</label>
 		    	<div class="col-md-3">
-		    		<input type="text" name="mobileValidCode" maxlength="4" class="form-control">
+		    		<input type="number" name="mobileValidCode"  size="4" maxlength="4" class="form-control">
 		    		<p class="help-block">填写您手机上的4位验证码</p>
 		    	</div>
 		    	<div class="col-md-2">
@@ -571,13 +542,14 @@
 				        <input type="radio" name="optionsRadiosAward" id="sertRd0" value="0"><i>✓</i> 无
 				    </label>
 				</div>
+				<input type="hidden" id="regaward" name="regaward" value="" />
 				<input type="hidden" id="regphoto" name="regphoto" value="" />
 				<p class="help-block">
 					<div class="row  text-left">
 						<div id="picsByCert"  class="accordion-body collapse col-md-7 col-md-offset-3">
 							<span>
 								请添加您的星标名衔证书<br/>
-								<small>至少添加1张，最多3张；格式：或PNG或GIF；尺寸至少800*800,且清晰可辨。图片大小不超过3M.</small>
+								<small>请添加至少一张，最多三张任意组别最高星标证书，格式JPG或PNG，最大不超过5MB。</small>
 							</span>
 							<input id="input-700" name="file" type="file" class=""  onchange="fileChange(700)" style="display: none;">
 							<div id="pics700">
@@ -587,7 +559,7 @@
 						<div id="picsNoCert"  class="accordion-body collapse col-md-7 col-md-offset-3">
 							<span>
 								请添加您的摄影作品<br/>
-								<small>至少添加10张，最多15张；格式：JPG或PNG或GIF，尺寸为1920(宽)*1080(高)，作品大小不超过3M，我们将依此初步了解您目前的摄影水平，以便与您更好地沟通。</small>
+								<small>请添加10-15幅任意组别、不限题材个人代表作品，格式为JPG或PNG，单幅作品不超过5MB，我们将依此初步了解您目前的摄影水平，以便与您更好地沟通。</small>
 							</span>
 							<input id="input-701" name="file" type="file"  class="" multiple   onchange="fileChange(701)" style="display: none;">
 							<div id="pics701">
@@ -637,20 +609,20 @@
 			<div class="modal-body legalContent">
 				
 <p>
-<label>（一）入会须知</label><br/>
+<label>（一）入会须知</label><br />
 1、 “挑战名人堂”是一个小众的摄影机构，机构会员以积极参与PSA认证的国际摄影大赛，积攒积分、换取对应的星标名衔为前提，以跻身PSA名人堂为终极目标。参赛并向GMPSA发起冲击，就必须具备相当的摄影水准，故机构设定加盟者需提交星标证书或本人10幅代表作品，审核通过后，方可成为机构挑战者中的一员。<br/>
 2、“挑战名人堂”在收到注册申请资料的5个工作日完成审核工作，审核通过后，机构相关负责人将通过电子邮件或电话形式同申请人联系，详细了解申请人需求，协助选择机构A、B委托代理计划中的一个，在选定计划并签订相关协议后3个工作日内，以邮件形式发给申请者PDF格式的会员卡。
-<br/>
-3、申请加入 “挑战名人堂”者，一旦提交的作品审核通过，即获得机构认可的挑战者专业资格，将不会收取加盟者会员年费。
-<br/>
-4、“挑战名人堂”为参赛会员提供以下服务：<br/>
-A计划：服务涵盖了客户的作品评估、作品分类、作品名翻译、投稿计划、投稿、参赛费购汇并代支付、成绩查阅管理、成绩通知、统计、各类证书代接收以及后续摄影方向建议等，收取50元/组的代理投稿费；星标名衔申请另行付费。
 <br />
-B计划：服务涵盖了客户的作品名翻译、投稿、参赛费购汇并代支付、成绩查阅、成绩通知、各类证书代接收等，收取25元/组的代理投稿费；星标名衔申请另行付费。
-<br/>
+3、申请加入 “挑战名人堂”者，一旦提交的作品审核通过，即获得机构认可的挑战者专业资格，将不会收取加盟者会员年费。
+<br />
+4、“挑战名人堂”为参赛会员提供以下服务：<br />
+A计划：服务涵盖了客户的作品评估、作品分类、作品名翻译、投稿计划、投稿、参赛费购汇并代支付、成绩查阅管理、成绩通知、统计、各类证书代接收以及后续摄影方向建议等。
+<br />
+B计划：服务涵盖了客户的作品名翻译、投稿、参赛费购汇并代支付、成绩查阅、成绩通知、各类证书代接收等。
+<br />
 5、	“挑战名人堂”会员专区设有针对PSA认证赛事组别和专题的特别学习区，此外，机构将不定期举办只有会员参与的创作及作品分享、点评网络公开课，希翼能给予参赛会员在挑战PSA名人堂，获取星标名衔过程中以最大的助力。
 <br/>
-6、如您提交的入会报名作品未获通过，机构相关负责人一定会亲自与您联系，在充分沟通后，如您愿意，亦可缴纳388元成为机构的年费学习会员，享有除代理参赛外机构会员的其他服务。年费会员的独有福利是：每年不论进行多少次不同拍摄地的采风创作，均可每一地挑选出100幅以内您较满意的作品，由机构高阶荣衔会员通过网络公开课的形式为您进行一对一的作品专项点评。在未来的某个时点一旦您作品的数量和质量均达到参赛要求后，您立刻就可以转为“挑战名人堂”成员，并不再收取下一年度的年费。
+6、如您提交的入会报名作品未获通过，机构相关负责人一定会亲自与您联系，在充分沟通后，如您愿意，亦可付费成为机构的年费学习会员，享有除代理参赛外机构会员的其他服务。年费会员的独有福利是：每年不论进行多少次不同拍摄地的采风创作，均可每一地挑选出100幅以内您较满意的作品，由机构高阶荣衔会员通过网络公开课的形式为您进行一对一的作品专项点评。在未来的某个时点一旦您作品的数量和质量均达到参赛要求后，您立刻就可以转为“挑战名人堂”成员，并不再收取下一年度的年费。
 <br/>
 7、若您的作品通过审核成为机构参赛会员后的一个月内，仍未开始选定或执行参赛投稿计划，系统会自动屏蔽你的会员区登录ID；年费会员在会费到期日尚未续费，系统也会屏蔽您的登录ID。
 <br/>
