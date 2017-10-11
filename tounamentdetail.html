@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="main">
+			<div class="tounamentDetail">
+				<div class="mainTitle">2017年马来西亚第11届槟城影艺协会沙龙摄影展</div>
+				<div class="subTitle">11th PENANG INTERNATIONAL PHOTO SALON 2017</div>
+				<div class="sub2"></div>
+				<div class="logoList">
+					<img src="upload/awardlogos/d1.jpg" />
+					<img src="upload/awardlogos/d2.jpg" />
+					<img src="upload/awardlogos/d3.jpg" />
+				</div>
+				<div class="sub3"></div>
+				<div class="tounamentInfo">
+					
+				</div>
+			</div>
+		</div>
+		
+		<script src="js/foot.js"></script>
+		<script>
+			$(function(){
+				var hh=location.search;
+				hh = hh.replace("?","");
+			$.ajax({
+	            url:"/PsaBackend/News/GetOne/"+hh,  
+	            type:"GET",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+//	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data && data.title){
+	            		$(".mainTitle").text(data.title);
+	            		$(".subTitle").text(data.summary);
+	            		$(".sub2").text("（PSA认证号 "+ data.editor +"）");
+	            		$(".sub3").text("截稿日期："+ new Date(data.expDate).Format("yyyy年MM月dd日") +"  来源：" + data.author);
+	            		$(".tounamentInfo").html(data.content);
+	            	}else{
+	            		alert("加载内容出错");
+	            	}
+	            }, 
+	            error:function(){
+	            	alert("加载出错");
+	            }
+	        });
+			});
+		</script>
+	</body>
+</html>

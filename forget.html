@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script>
+			$(function(){
+				$("#servicePop").addClass("servicePopRegist");
+				$("#imgQR").addClass("imgQRRegist");
+				$("#servicePop").hide();
+				$("#imgQR").hide();
+				
+				$("#certRd1").on("click",function(){
+					if (this.checked){
+						$("#picsNoCert").collapse("hide"); 
+						$("#picsByCert").collapse("show"); 
+					}
+				});
+				$("#sertRd0").on("click",function(){
+					if (this.checked){
+						$("#picsByCert").collapse("hide");
+						$("#picsNoCert").collapse("show"); 
+					}
+				})
+			});
+		</script>
+	</head>
+	<body>
+		<div class="regmain">
+			<div class="head">
+				<div class="left">
+					<span>密码找回</span>
+				</div>
+				<div class="right">
+					<a href="login.html">返回登录</a>
+				</div>
+			</div>
+			<div style="width: 100%;height: 30px; clear: both;"></div>
+			
+			<div class="form-group"> 
+				<div class="row  text-left">
+		    	<label class="form-label col-sm-5 text-right">账号：</label>
+		    	<div class="col-md-5">
+		    		<input type="text" class="form-control" placeholder="请填写你的账号">
+		    	</div>
+		    	</div>
+		  	</div>
+		    <div class="form-group">
+				<div class="row">
+		    	<label class="form-label col-sm-5 text-right">手机号码：</label>
+		    	<div class="col-md-5">
+		    		<input type="text" class="form-control" placeholder="请输入你的手机号码">
+		    	</div>
+		    	</div>
+		   	</div>
+		    <div class="form-group"> 
+				<div class="row  text-left">
+		    	<label class="form-label col-sm-5 text-right">验证码：</label>
+		    	<div class="col-md-3">
+		    		<input type="text" class="form-control" placeholder="请输入验证码">
+		    	</div>
+		    	<div class="col-md-2">
+		    		<img class="validImg" src="img/valid.jpg" />
+		    	</div>
+		    	</div>
+		   </div>
+		   	<div style="width:100%; height: 100px;"></div>
+		    <div class="form-group"> 
+				<div class="row  text-left">
+		    	<div class="col-md-6 col-md-offset-4">
+		    		<button type="button" class="btn btn-primary btn-block">开始找回</button>
+		    		<p class="help-block">我们将发送新密码到你手机，请尽快重新登录并修改新密码，以策安全。</p>
+		    	</div>
+		    	</div>
+		    </div>
+		
+		</div>
+		</div>
+		<script type="text/javascript" src="js/foot.js"></script>
+	</body>
+</html>

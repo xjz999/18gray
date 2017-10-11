@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="mainNewsDetail">
+			<div class="newsTitle"></div>
+			<div class="newsSummary"></div>
+			<div class="newsSuite"></div>
+			<div class="newsContent">
+				
+			</div>
+			<div class="newsResource">如果涉及版权问题请及时与本站编辑联系，我们将及时处理，联系邮箱：43787777@qq.com</div>
+		</div>
+		<script src="js/foot.js"></script>
+		<script>
+			$(function(){
+				var hh=location.search;
+				hh = hh.replace("?","");
+			$.ajax({
+	            url:"/PsaBackend/News/GetOne/"+hh,  
+	            type:"GET",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+//	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data && data.title){
+	            		$(".newsTitle").text(data.title);
+	            		$(".newsSummary").text("发表时间："+new Date(data.createTime).Format("yyyy-MM-dd")+" 作者："+
+	            		data.author +" 责任编辑："+data.editor);
+	            		if (data.summary != "")
+	            			$(".newsSuite").text("导读："+data.summary);
+	            		else
+	            			$(".newsSuite").hide();
+	            		$(".newsContent").html(data.content);
+	            	}else{
+	            		alert("加载内容出错");
+	            	}
+	            }, 
+	            error:function(){
+	            	alert("加载出错");
+	            }
+	        });
+			});
+		</script>
+	</body>
+</html>
+

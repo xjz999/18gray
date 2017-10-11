@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="mainHeadLine">
+			<div class="carouselDiv">
+			<div class="bigImg">&nbsp;</div>
+			<div class="carouselSummary"></div>
+			<div class="imgWheel">
+				<div class="wheelLeft direction"><</div>
+				<div class="wheelCenter">
+					<div class="imgsInside"></div>
+				</div>
+				<div class="wheelRight direction">></div>
+			</div>
+			</div>
+			
+			<div class="headlineContent">
+				<div class="head1">————&nbsp;&nbsp;今日头条&nbsp;&nbsp;————</div>
+				<div class="head1En">News Headlines</div>
+				<ul></ul>
+				<div style="width:100%;height:1px;clear:both;"></div>
+				<div id="pages" style="width:60%;margin:20px auto;"></div>
+				<div style="width:100%;height:1px;clear:both;"></div>	
+			</div>
+			
+		</div>
+		<script src="js/foot.js"></script>
+	</body>
+	<script type="text/javascript">
+		var carouselText = [];
+		$(function(){
+			var pData={
+        		ctype:1,
+            	pageindex:1,
+            	pagesize:6
+	       	};
+			$.ajax({
+	            url:"/PsaBackend/Arts/List",  
+	            type:"POST",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data.list && data.list.length>0){
+	            		if (data.list && data.list.length>0){
+		            		for (var i=0;i<data.list.length;i++){
+		            			carouselText.push(
+		            				{summary:data.list[i].story,
+										titleCn: data.list[i].title,
+										thumb:imgReqPath+data.list[i].url.replace("_b_d",""),
+										img:imgReqPath+data.list[i].url}
+		            			);
+		            		}
+		            		showThumbs();
+		            		showSummary(0);
+		            	}
+	            	}
+	            }, 
+	            error:function(){
+	            	
+	            }
+	        });
+		    loadData(1);
+		});
+		var loadData = function(currentPageIndex){
+			var pData ={
+				ctype:1,
+	            	pageindex:currentPageIndex,
+	            	pagesize:10
+			};
+			$.ajax({
+		            url:"/PsaBackend/News/List",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            data:JSON.stringify(pData),  
+		            success:function(data){
+		            	if (data.list && data.list.length>0){
+		            		for (var i=0;i<data.list.length;i++){
+		            			var strs="";
+			            		for (var i=0;i<data.list.length;i++){
+			            			strs += "<li><div class=\"tLeft\"><a href=\"newsdetail.html?"+ data.list[i].oid +"\">"+ 
+			            				data.list[i].title
+			            			+"</a></div><div class=\"tRight\">"+
+										new Date(data.list[i].createTime).Format("yyyy-MM-dd")
+			            			+"</div></li>";
+			            		}
+			            		$(".headlineContent ul").html(strs);
+			            		$("#pages").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+		            		}
+		            	}
+		            }, 
+		            error:function(){
+		            	
+		            }
+		        });
+		};
+//			[{summary:"跨度长达8个月的2016-2017，画意组创意主题（个人赛）经过四轮评选（截止日期分别为：11.25、2.25、4.25、6.25），由美国摄影师Kathryn Newman拍摄的题为“Hayley”的作品荣获A组第一。",
+//			titleCn:"Hayley",thumb:"upload/20170731/c1.png",img:"upload/20170731/c1.png"},
+//			{summary:"无更多详情",
+//			titleCn:"哭墙",thumb:"upload/20170731/2.jpg",img:"upload/20170731/2.jpg"},
+//			{summary:"2016-2017自然组俱乐部赛经过三轮，由Keswick Photographic Society（俱乐部名）选送的、摄影师Huggle John Macfarlane（摄）拍摄的作品《雪猴家族》（Snow Monkey Family）荣获A组第一。",
+//			titleCn:"雪猴家族",thumb:"upload/20170731/c2.png",img:"upload/20170731/c2.png"}
+//			];
+		var showSummary = function(cIndex){
+			var smText = "<h3>$1</h3>$7";
+			if (cIndex < 0 || cIndex > carouselText.length - 1){
+				$(".carouselSummary").html(smText);
+				return;
+			}
+			var obj = carouselText[cIndex];
+			smText = smText.replace("$1",obj.titleCn).replace("$7",obj.summary);
+			$(".carouselSummary").html(smText);
+			$(".bigImg").html("<img src=\""+obj.img+"\" />");
+			
+		};
+		var showThumbs = function(){
+			var imgBody = "<a href=\"###\" onclick=\"showSummary($1)\" class=\"aThumb\"><table><tr><td align='center' valign='middle'><img src=\"$2\" /></td></tr></table></a>";
+			var xx = "";
+			for(var i=0;i<carouselText.length;i++){
+				xx += imgBody.replace("$1",i.toString()).replace("$2",carouselText[i].thumb);
+			}
+			$(".imgsInside").html(xx);
+			$(".imgsInside").width(carouselText.length*200 + 8);
+		};
+		
+		//轮播左右方向键事件
+		$(".carousel-control.left").unbind("mouseout").bind("mouseout",function(){
+			$(this).html("");
+		});
+		$(".carousel-control.left").unbind("mouseover").bind("mouseover",function(){
+			$(this).html("&lsaquo;");
+		});
+		$(".carousel-control.right").unbind("mouseout").bind("mouseout",function(){
+			$(this).html("");
+		});
+		$(".carousel-control.right").unbind("mouseover").bind("mouseover",function(){
+			$(this).html("&rsaquo;");
+		});
+		
+		//切换开始事件
+		$('#myCarousel').on('slide.bs.carousel', function () {
+//			console.log($(this).data('bs.carousel'));
+			$(".carouselSummary").fadeOut(1000);
+		});
+		//切换完成后事件
+		$('#myCarousel').on('slid.bs.carousel', function () {
+			var carouselData = $(this).data('bs.carousel'); 
+            var cIndex = 0;
+            for (var i=0;i<carouselData.$items.length;i++){
+            	if($(carouselData.$items[i]).attr("class").indexOf(" active") > -1){
+            		cIndex = i;
+            		break;
+            	}
+            }
+           	showSummary(cIndex);
+           	$(".carouselSummary").fadeIn(1000);
+//          console.log(cIndex);
+		});
+		
+		$(function(){
+			$(".imgWheel .wheelLeft").click(function(){
+//				var ml = $(".imgWheel .imgsInside").css("margin-left").replace("px","");
+//				ml = parseInt(ml);
+//				ml = Math.abs(ml);
+//				var moveInt=0;
+//				debugger;
+//				if (ml >= 1020){
+//					moveInt = 1020;
+//				}else{
+//					moveInt = ml;
+//				}
+//				moveInt -= 1020;
+//				if (moveInt < 0)moveInt = 0;
+				$(".imgWheel .imgsInside").animate({"margin-left":"0px"},1000,"swing",function(){});
+			});
+			$(".imgWheel .wheelRight").click(function(){
+				var ww=$(".imgWheel .imgsInside").width();
+				var ml = $(".imgWheel .imgsInside").css("margin-left").replace("px","");
+				ml = parseInt(ml);
+				ml = Math.abs(ml);
+				var moveInt=0;
+				if (ml+1020+1020 <= ww){
+					moveInt = 1020;
+				}else{
+					moveInt = ww  - ml - 1020;
+				}
+				if (moveInt < 0)moveInt = 0;
+				moveInt = 0-moveInt - ml;
+				if (-1 *(moveInt - 1020) > ww)moveInt = 1020 - ww;
+				debugger;
+				$(".imgWheel .imgsInside").animate({"margin-left":moveInt.toString() + "px"},1000,"swing",function(){});
+			});
+		});
+	</script>
+</html>
+

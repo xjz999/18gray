@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+		<script src="js/rollBack.js"></script>
+		<script>
+			var hh = location.search;
+			var arr = hh.split("#");
+			hh = arr[0];
+			hh = hh.replace("?","");
+			if (hh=="3" || hh=="4"){
+				if (!getCookie("loginname") || getCookie("loginname")==""){
+					window.location = "login.html";
+				}
+			}
+			var ctypeInt = 0;
+			try{
+				ctypeInt = parseInt(hh)
+			}catch(e){
+				
+			}
+			var pData={
+				ctype:ctypeInt,
+				pageindex:1,
+				pagesize:20,checked:1,deleted:0
+			};
+			var loadData = function(currentPage){
+				if (currentPage!=null) pData.pageindex = currentPage;
+				$.ajax({
+	            url:"/PsaBackend/News/List",  
+	            type:"POST",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data && data.list && data.list.length > 0){
+	            		var strs = "";
+	            		for(var i=0;i<data.list.length;i++){
+	            			var obj = data.list[i];
+	            			strs += "<li><div class=\"tLeft\"><a href=\"newsdetail.html?"+obj.oid+"#\">"+obj.title+"</a></div><div class=\"tRight\">"+
+	            			new Date(obj.createTime).Format("yyyy-MM-dd")
+	            			+"</div></li>";
+	            		}
+	            		$(".mainNewsList ul").html(strs);
+	            		$(".myPages").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+	            	}else{
+	            		alert("没有数据0");
+	            	}
+	            	
+	            }, 
+	            error:function(){
+	            	alert("加载出错");
+	            }
+	        });
+			}
+			$(function(){
+				loadData(1);
+			})
+		</script>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="mainNewsList">
+			<div class="headlineContent">
+				<div class="titleHead">
+					<div class="titleCn">
+						<script>
+							switch(hh){
+								case "1":document.write("头条新闻");break;
+								case "3":document.write("会员交流");break;
+								case "4":document.write("参赛必读");break;
+							}
+						</script>
+					</div>
+					<div class="titleEn">
+						<script>
+						switch(hh){
+							case "1":document.write("News Heading");break;
+							case "3":document.write("For Members");break;
+							case "4":document.write("Required Reading");break;
+						}
+						</script>
+					</div>
+				</div>
+				<ul>
+					<!--<li><div class="tLeft"><a href="newsdetail.html">“挑战名人堂”万毅获邀出任“2018 爱尔兰DONEGAL国际摄影大赛”评委</a></div><div class="tRight">2017-08-22</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">中国内地新晋美国摄影学会影艺卓越会士（EPSA）许晓梅发声</a></div><div class="tRight">2017-08-11</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">羡慕嫉妒恨—美国摄影学会会长奖章获得者沈健有话说</a></div><div class="tRight">2017-07-12</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">由“挑战名人堂”李宏担任评委的“2017年第三届国际摄影家联盟摄影大赛”成绩揭晓</a></div><div class="tRight">2017-06-12</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">由“挑战名人堂”陈欣欣担任评委的“2017克罗地亚第4届DFA国际摄影大赛”成绩揭晓</a></div><div class="tRight">2017-06-12</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">美国摄影学会2017 Who's who榜单公布，李宏摘得画意组世界排名第一</a></div><div class="tRight">2017-06-12</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">中国内地诞生首位美国摄影学会硕学会士（MPSA），万毅摘得殊荣</a></div><div class="tRight">2017-06-12</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">与“挑战名人堂”发起人陈欣欣聊美国摄影学会</a></div><div class="tRight">2017-06-12</div></li>
+					<li><div class="tLeft"><a href="newsdetail.html">美国摄影学会名人堂家族再添第57位成员</a></div><div class="tRight">2017-06-12</div></li>-->
+					
+				</ul>
+				<div style="width:100%;height:1px;clear:both;"></div>
+				<div class="myPages"></div>
+				<div style="width:100%;height:1px;clear:both;"></div>	
+			</div>
+			
+		</div>
+		<script src="js/foot.js"></script>
+	</body>
+</html>
+

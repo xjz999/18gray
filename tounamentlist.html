@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="main" style="padding-top: 20px;">
+			<div class="tounamentList">
+			<div class="titleHead">
+				<div class="titleCn">PSA认证摄影赛事</div>
+				<div class="titleEn">PSA Photography Competition</div>
+			</div>
+			<ul></ul>
+			</div>
+			<div style="width:100%;height:1px;clear:both;"></div>
+			<div id="pages"></div>
+			<div style="width:100%;height:1px;clear:both;"></div>
+		</div>
+		<script src="js/foot.js"></script>
+		<script>
+			$(function(){
+				loadData(1);
+			});
+			var pData = {
+				ctype:2,
+				pageindex:1,
+            	pagesize:8
+			};
+			var loadData=function(newPageIndex){
+        	if(newPageIndex)pData.pageindex = newPageIndex;
+			$("#pager").html("");
+        	//发起请求
+        	$.ajax({
+	            url:"/PsaBackend/News/List",  
+	            type:"POST",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	var strs = "";
+	            	if (data.list && data.list.length>0){
+	            		for (var i=0;i<data.list.length;i++){
+	            			strs +="<li><a href=\"tounamentdetail.html?"+data.list[i].oid+"\">"+data.list[i].title+"（赛事详情）<br />"+
+								"<font>截稿时间："+(new Date(data.list[i].expDate).Format("yyyy-MM-dd"))+"&nbsp;&nbsp;&nbsp;&nbsp;认证号："+data.list[i].editor+"</font></a></li>";
+
+//	            			strs += "<li><a href=\"tounamentdetail.html?"+data.list[i].oid+"\">"+data.list[i].title+"（赛事详情）<br />"+
+//							+ "<font>截稿时间："+  +"&nbsp;&nbsp;&nbsp;&nbsp;认证号："+ data.list[i].editor +"</font></a></li>";
+	            		}
+	            		$(".main ul").html(strs);
+	            		$("#pages").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+	            	}
+	            	
+	            	
+	            },  
+	        });  
+            
+        };
+		</script>
+	</body>
+</html>

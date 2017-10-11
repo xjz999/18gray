@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+  <script type="text/javascript">
+	var isIE9 = true;
+	if(navigator.appName == "Microsoft Internet Explorer"&&parseInt(navigator.appVersion.split(";")[1].replace(/[ ]/g, "").replace("MSIE",""))<10){
+        alert("注册功能要求您的浏览器必须在IE10及以上版本，或者选用谷歌浏览器、火弧浏览器、遨游浏览器等。");
+        isIE9 = true;
+    }else{
+    	isIE9 = false;
+    }
+    $(document).ready(function () {
+      $("#myFile").change(function () {
+		if (isIE9){alert("请使用IE10及以上浏览器，或谷歌浏览器、火弧浏览器、遨游浏览器，本次上传无效。"); return;}
+        var filepath = $("input[name='myFile']").val();
+        var extStart = filepath.lastIndexOf(".");
+        var ext = filepath.substring(extStart, filepath.length).toUpperCase();
+        if (ext != ".BMP" && ext != ".PNG" && ext != ".GIF" && ext != ".JPG" && ext != ".JPEG") {
+          alert("图片限于bmp,png,gif,jpeg,jpg格式");
+          $("#fileType").text("")
+          $("#fileSize").text("");
+          return false;
+        } else { $("#fileType").text(ext) }
+        var file_size = 0;
+//        if (isIE) {
+//          var img = new Image();
+//          img.src = filepath;
+//          while (true) {
+//            if (img.fileSize > 0) {
+//              if (img.fileSize > 3 * 1024 * 1024) {
+//                alert("图片不大于100MB。");
+//              } else {
+//                var num03 = img.fileSize / 1024;
+//                num04 = num03.toFixed(2)
+//                $("#fileSize").text(num04 + "KB");
+//              }
+//              break;
+//            }
+//          }
+//        } else {
+			debugger;
+          file_size = this.files[0].size;
+          if (file_size > 3 * 1024 * 1024) {
+            alert("上传的图片大小不能超过10M！");
+          } else {
+            var num01 = file_size / 1024;
+            num02 = num01.toFixed(2);
+            $("#fileSize").text(num02 + " KB");
+          }
+//        }
+        return true;
+      });
+    });
+  </script>
+  <title>无标题文档</title>
+</head>
+<body>
+  <table width="500" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="72" id="fileType">
+      </td>
+      <td width="242">
+        <input type="file" name="myFile" id="myFile" />
+      </td>
+      <td width="184" id="fileSize" class="fileSize">
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

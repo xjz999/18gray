@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!-- Bootstrap core CSS -->
+		<script src="js/args.js"></script>
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link href="http://cdn.bootcss.com/lightbox2/2.9.0/css/lightbox.min.css" rel="stylesheet">
+		<script src="http://cdn.bootcss.com/lightbox2/2.9.0/js/lightbox.min.js"></script>
+
+		<script src="js/tooltip.js"></script>
+		<script>
+			if (!getCookie("loginname") || getCookie("loginname")==""){
+				window.location = "login.html";
+			}
+			var awardtype=[
+"",//0不作分类，防止请求失误
+"画意彩色不限主题",
+"画意单色不限主题",
+"旅游组不限主题",
+"自然组不限主题",
+"画意彩色肖像主题",
+"画意彩色风光主题",
+"画意彩色女性主题",
+"画意彩色儿童主题",
+"画意彩色人主题",
+"画意彩色街道主题",
+"画意彩色创意主题",
+"画意单色肖像主题",
+"旅游组人主题",
+"自然组野生生物主题",
+"自然组鸟类主题",
+"新闻组不限主题"
+];
+var awardEn = [
+"Projected Image Division (PID) – OPEN Color",
+"Projected Image Division (PID) – OPEN Monochrome",
+"Photo Travel Division (PTD) OPEN",
+"Nature Division (ND) OPEN",
+"PIDC PORTRAIT",
+"PIDC LANDSCAPE",
+"PIDC WOMEN",
+"PIDC CHILDREN",
+"PIDC PEOPLE",
+"PIDC  STREET",
+"PIDC  CREATIVE",
+"PIDM  PORTRAIT",
+"PTD PEOPLE",
+"ND WILDLIFE",
+"ND BIRD",
+"Photojournalism Division (PJD)  OPEN"
+];
+	var hh = location.search;
+	hh=hh.replace("?","")
+	var tt = 0;
+	try{
+		tt = parseInt(hh);
+	}catch(e){
+		alert("类型错误");
+	}
+		</script>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="mainPicListList">
+			<div class="imgList shadow">
+				<div class="imgHead">
+					<div class="titleCn">
+						<script>
+							document.write(awardtype[tt]);
+						</script>
+						获奖作品</div>
+					<div class="titleEn">
+						<script>
+						document.write(awardEn[tt]);
+						</script>
+					</div>
+					<!--<div class="moreEn"><a href="#">More <i class="fa fa-chevron-right"></i></a></div>-->
+				</div>
+				<div class="imgListInside">
+					
+				</div>
+				<div style="width:100%;height:1px; clear:both;"></div>
+				<div id="pager">
+					
+				</div>
+			</div>
+		</div>
+		<script src="js/foot.js"></script>
+		<script>
+		var pData={
+        		ctype:4,
+        		awardtype:tt,
+            	pageindex:1,
+            	pagesize:20
+	        }
+		var loadData=function(newPageIndex){
+        	if(newPageIndex)pData.pageindex = newPageIndex;
+			$("#pager").html("");
+        	//发起请求
+        	$.ajax({
+	            url:"/PsaBackend/Arts/List",  
+	            type:"POST",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	var strs = "";
+	            	if (data.list && data.list.length>0){
+	            		for (var i=0;i<data.list.length;i++){
+	            			strs += "<table><tr><td align='center' valign='middle'><a  data-lightbox='image-list' class='picslistbox' data-title='"+data.list[i].title+"' href='"
+	            			+imgReqPath + data.list[i].url+"'><img title='"+ data.list[i].title +"' src=\""+ imgReqPath + data.list[i].url.replace("_b_d","") +"\" /></a></td></tr></table>";
+	            		}
+	            	}
+	            	$(".imgListInside").html(strs);
+	            	$("#pager").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+	            },  
+	        });  
+            
+        };
+			$(function(){
+				if (tt && tt > 0){
+					loadData();
+				}
+			});
+			
+		</script>
+	</body>
+</html>

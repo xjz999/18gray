@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="mainStorys">
+			<div class="carouselDiv">
+			<div id="myCarousel" class="carousel slide storyCarousel">
+				<!-- 轮播（Carousel）指标 -->
+				<!--<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				</ol>   -->
+				<!-- 轮播（Carousel）项目 -->
+				<div class="carousel-inner">
+					
+				</div>
+				<!-- 轮播（Carousel）导航 -->
+				<a class="carousel-control left" href="#myCarousel" 
+				   data-slide="prev"></a>
+				<a class="carousel-control right" href="#myCarousel" 
+				   data-slide="next"></a>
+			</div>
+			<div class="carouselSummary"></div>
+			</div>
+			
+		</div>
+		<script src="js/foot.js"></script>
+	</body>
+	<script type="text/javascript">
+		var carouselText = [
+//			{summary:"跨度长达8个月的2016-2017，画意组创意主题（个人赛）经过四轮评选（截止日期分别为：11.25、2.25、4.25、6.25），由美国摄影师Kathryn Newman拍摄的题为“Hayley”的作品荣获A组第一。",
+//			titleCn:"精神的耶鲁撒冷",photographyCn:"陈欣欣",addressCn:"以色列",
+//			titleEn:"The spirit of Jerusalem",photographyEn:"Xinxin,Chen",addressEn:"Israel"},
+//			{summary:"无更多详情",
+//			titleCn:"哭墙",photographyCn:"陈欣欣",addressCn:"耶鲁撒冷",
+//			titleEn:"The Wailing Wall",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
+//			{summary:"2016-2017自然组俱乐部赛经过三轮，由Keswick Photographic Society（俱乐部名）选送的、摄影师Huggle John Macfarlane（摄）拍摄的作品《雪猴家族》（Snow Monkey Family）荣获A组第一。",
+//			titleCn:"雪猴家族",photographyCn:"陈欣欣",addressCn:"耶鲁撒冷",
+//			titleEn:"Snow Monkey Family",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
+//			{summary:"“2017年澳门第19届澳门国际摄影展览”成绩揭晓，陈欣欣拍自斯威士兰国王选妃节上的作品“芦苇舞5 REED DANCE5”荣获美国摄影学会PSA金牌",
+//			titleCn:"芦苇舞5",photographyCn:"陈欣欣",addressCn:"蒙古",
+//			titleEn:"REED DANCE5",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
+//			{summary:"“2017年乌克兰UKRAINIAN PHOTO国际摄影大赛”揭晓，许晓梅拍自肯尼亚的作品“金色非洲Golden Africa”荣获美国摄影学会PSA金牌",
+//			titleCn:"金色非洲",photographyCn:"陈欣欣",addressCn:"蒙古",
+//			titleEn:"Golden Africa",photographyEn:"Xinxin,Chen",addressEn:"Africa"},
+//			{summary:"8.26日揭晓的、历史悠久的“2017年美国第52届南加州摄影学会S4C国际摄影大赛”中，陈欣欣作品“抱大腿A BROAD SMILE”荣获南加州摄影学会金牌（S4C Gold Medal）",
+//			titleCn:"抱大腿",photographyCn:"陈欣欣",addressCn:"蒙古",
+//			titleEn:"A BROAD SMILE",photographyEn:"Xinxin,Chen",addressEn:"Africa"}
+		];
+		$(function(){
+			var pData={
+        		ctype:2,
+            	pageindex:1,
+            	pagesize:6
+	       	};
+			$.ajax({
+	            url:"/PsaBackend/Arts/List",  
+	            type:"POST",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:true,
+	            cache:true,
+	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data.list && data.list.length>0){
+	            		if (data.list && data.list.length>0){
+	            			var strs = "";
+		            		for (var i=0;i<data.list.length;i++){
+		            			carouselText.push(
+		            				{
+										titleCn: data.list[i].title,
+										phototime:data.list[i].phototime,
+										photoaddr:data.list[i].photoaddr,
+										story:data.list[i].story,
+										thumb:imgReqPath+data.list[i].url.replace("_b_d",""),
+										img:imgReqPath+data.list[i].url}
+		            			);
+		            			strs += "<div class=\"item "+((i==0)?"active":"")+"\"><img src=\""+imgReqPath+data.list[i].url+"\" alt=\""+data.list[i].title+"\"></div>";
+		            		}
+//		            		showThumbs();
+							$(".carousel-inner").html(strs);
+		            		showSummary(0);
+		            	}
+	            	}
+	            }, 
+	            error:function(){
+	            	
+	            }
+	        });
+		});
+		var showSummary = function(cIndex){
+			var smText = "《$1》 地点：$2 On:$3 <br />$4";
+			if (cIndex < 0 || cIndex > carouselText.length - 1){
+				$(".carouselSummary").html(smText);
+				return;
+			}
+			var obj = carouselText[cIndex];
+			smText = smText.replace("$1",obj.titleCn).replace("$2",obj.photoaddr).replace("$3",obj.phototime)
+			.replace("$4",obj.story);
+			$(".carouselSummary").html(smText);
+		};
+		//轮播左右方向键事件
+		$(".carousel-control.left").unbind("mouseout").bind("mouseout",function(){
+			$(this).html("");
+		});
+		$(".carousel-control.left").unbind("mouseover").bind("mouseover",function(){
+			$(this).html("&lsaquo;");
+		});
+		$(".carousel-control.right").unbind("mouseout").bind("mouseout",function(){
+			$(this).html("");
+		});
+		$(".carousel-control.right").unbind("mouseover").bind("mouseover",function(){
+			$(this).html("&rsaquo;");
+		});
+		
+		//切换开始事件
+		$('#myCarousel').on('slide.bs.carousel', function () {
+//			console.log($(this).data('bs.carousel'));
+			$(".carouselSummary").fadeOut(1000);
+		});
+		//切换完成后事件
+		$('#myCarousel').on('slid.bs.carousel', function () {
+			var carouselData = $(this).data('bs.carousel'); 
+            var cIndex = 0;
+            for (var i=0;i<carouselData.$items.length;i++){
+            	if($(carouselData.$items[i]).attr("class").indexOf(" active") > -1){
+            		cIndex = i;
+            		break;
+            	}
+            }
+           	showSummary(cIndex);
+           	$(".carouselSummary").fadeIn(1000);
+//          console.log(cIndex);
+		});
+//		showSummary(0);
+	</script>
+</html>
+

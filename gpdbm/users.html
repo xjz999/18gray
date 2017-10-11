@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>用户管理</title>
+        <!-- Bootstrap -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="assets/styles.css" rel="stylesheet" media="screen">
+        <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+        <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="../js/json3.js"></script>
+        <script src="../js/args.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script>
+        	if (!getCookie("adminname") || getCookie("adminname") == ""){
+        		window.location = "login.html";
+        	}
+        </script>
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">后台管理</a>
+                    <script src="top.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3" id="sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                         <script type="text/javascript" src="menus.js" ></script>
+                    </ul>
+                </div>
+                <!--/span-->
+                <div class="span9" id="content">
+
+                     <div class="row-fluid">
+                        <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left larger">
+                                	用户管理
+                                </div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                   
+                                    <table cellpadding="0" cellspacing="0" border="0" class="table table-bordered" id="tbNews">
+                                        <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>用户名</th>
+                                                <th>邮箱</th>
+                                                <th>手机</th>
+                                                <th>用户级别</th>
+                                                <th>注册时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        	
+                                        </tbody>
+                                    </table>
+                                    <div id="pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /block -->
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <footer>
+                <p>&copy; Vincent Gabriel 2013</p>
+            </footer>
+        </div>
+        <!--/.fluid-container-->
+
+        <script src="vendors/jquery-1.9.1.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="vendors/datatables/js/jquery.dataTables.min.js"></script>
+
+
+        <script src="assets/scripts.js"></script>
+        <script src="assets/DT_bootstrap.js"></script>
+        <script>
+       	var pData = null;
+       	var currentIndex = 1;
+        $(function() {
+            pData={
+            	pageindex:1,
+            	pagesize:15
+	        }
+            if (pData){
+            	loadData();
+            }
+        });
+        var loadData=function(newPageIndex){
+        	if(newPageIndex)pData.pageindex = newPageIndex;
+			$("#pager").html("");
+        	//发起请求
+        	$.ajax({
+	            url:"/PsaBackend/Users/List",  
+	            type:"POST",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data.list && data.list.length>0){
+	            		var strs = "";
+	            		for(var i=0;i<data.list.length;i++){
+	            			strs += "<tr class=\"odd gradeX\"><td>"+(i+1).toString()+"</td><td>"+
+	            			data.list[i].truename
+	            			+"</td><td>"+
+	            			data.list[i].email
+	            			+"</td><td>"+
+	            			data.list[i].mobile
+	            			+"</td><td>"+
+	            			data.list[i].memlevel
+	            			+"</td><td class=\"center\">"+
+	            			 new Date(data.list[i].createtime).Format("yyyy-MM-dd")
+	            			+"</td><td class=\"center\"><a href='adduser.html?"+data.list[i].oid+"'>修改</a> <a href='#' onclick='doDelete(\""+ data.list[i].oid +"\")'>删除</a></td></tr>";
+	            		}
+	            	}
+	            	$("#tbNews tbody").html(strs);
+	            	currentIndex = data.pageindex;
+	            	$("#pager").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+	            },  
+	        });  
+            
+        };
+        var doDelete=function(delOid){
+        	if (!confirm("确认要删除本条数据吗？"))return;
+        	if (!delOid || delOid == "")return;
+        	$.ajax({
+	            url:"/PsaBackend/News/DeleteOne/"+delOid,  
+	            type:"GET",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+//	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data){
+	            		loadData(currentIndex);//刷新当前页。
+	            	}else{
+	            		alert("删除失败");
+	            	}
+	            },
+	            error:function(){
+	            	alert("删除失败");
+	            }
+	        });  
+            
+        };
+        </script>
+    </body>
+
+</html>

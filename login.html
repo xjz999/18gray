@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>会员一键登录-挑战PSA名人堂-全面介绍美国摄影学会晋级规则并引导学员加入挑战</title>
+		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+		<script src="js/args.js"></script>
+		<script>
+			$(function(){
+				$("#servicePop").addClass("servicePopLogin");
+				$("#imgQR").addClass("imgQRLogin");
+				$("#servicePop").hide();
+				$("#imgQR").hide();
+				
+				$('#defaultForm').bootstrapValidator({
+					message: '验证未通过',
+					feedbackIcons: {
+						valid: 'glyphicon glyphicon-ok',
+						invalid: 'glyphicon glyphicon-remove',
+						validating: 'glyphicon glyphicon-refresh'
+					},
+					fields: {
+						logininfo: {
+							validators: {
+								notEmpty: {
+									message: '请填写手机或邮箱'
+								},
+								stringLength: {
+									min: 2,
+									max: 30,
+									message: '请正确填写'
+								}
+							}
+						},
+						password: {
+							validators: {
+								notEmpty: {
+									message: '请填写密码'
+								},
+								stringLength: {
+									min: 6,
+									max: 30,
+									message: '请正确填写'
+								}
+							}
+						}
+					}
+				});
+				
+				if (getCookie("loginname_m") && getCookie("loginname_m") != ""){
+					logininfo:$("#login_info").val(getCookie("loginname_m") );
+					$("#chk_remember").attr("checked", true);
+				}
+				if (getCookie("loginpw_m") && getCookie("loginpw_m") != ""){
+					logininfo:$("#pass_word").val(getCookie("loginpw_m") );
+				}
+			});
+			var doLogin = function(){
+				var bootstrapValidator = $('#defaultForm').data('bootstrapValidator');
+		        //手动触发验证
+		        bootstrapValidator.validate();
+		        if(bootstrapValidator.isValid()){
+		            $.ajax({
+						  type: 'POST',
+						  url: "/PsaBackend/Users/ValidInfo",
+						  data: {logininfo:$("#login_info").val(),password:$("#pass_word").val()},
+						  success: function(data,successful){
+						  	if (successful){
+						  		if (data.code == 1){
+						  			$("#myModalOk").modal("show");
+						  			//设置cookies
+						  			setCookie("name",data.truename,"d1");
+						  			setCookie("loginname",data.loginname,"d1");
+						  			if($('#chk_remember').is(':checked')) {
+									    setCookie("loginname_m",$("#login_info").val(),"d30");
+						  				setCookie("loginpw_m",$("#pass_word").val(),"d30");
+									}else{
+										delCookie("loginname_m");
+										delCookie("loginpw_m");
+									}
+						  			//alert(getCookie("loginname"));
+						  			setTimeout(function(){
+						  				location = "/my/index.html";
+						  			},3000);
+						  		}else if (data.code==2){
+						  			$("#errorInfo").text("手机或邮箱不存在");
+						  			$('#myModalErr').modal("show");
+						  		}else{
+						  			$("#errorInfo").text("登录失败，密码错误，或未经审核。请核实您的注册信息是否已经审核通过。");
+						  			$('#myModalErr').modal("show");
+						  		}
+						  	}else{
+						  		$("#errorInfo").text("登录失败，请核实您的登录信息");
+						  		$('#myModalErr').modal("show");
+						  	}
+						  },
+						  error:function(){
+						  	$("#errorInfo").text("登录失败，请核实您的登录信息");
+						  	$('#myModalErr').modal("show");
+						  },
+						  dataType: 'json'
+						});
+		            //表单提交的方法、比如ajax提交
+		            
+		        }
+			}
+			var doChkClick=function(){alert(111);};
+		</script>
+	</head>
+	<body class="loginBody">
+		<div class="loginMain">
+			<div class="left">
+				<div class="first">一键登录</div>
+				<div class="last">走进美国摄影学会PSA</div>
+				<img src="img/logoWhite@2x.png" />
+			</div>
+			<div class="right">
+				<div class="title">挑战名人堂账号登录</div>
+				<form id="defaultForm" name="defaultForm">
+				<div class="form-group"> 
+					<div class="row  text-left">
+			    	<div class="col-md-8 col-md-offset-2">
+			    		<input type="text" id="login_info" name="login_info" class="form-control" placeholder="邮箱/手机号">
+			    	</div>
+			    	</div>
+			   	</div>
+			   	<div class="form-group"> 
+					<div class="row  text-left">
+			    	<div class="col-md-8 col-md-offset-2">
+			    		
+			    		<input type="password" id="pass_word" name="pass_word" class="form-control" placeholder="密码">
+			    		<div class="col-md-5"><p class="help-block"><a href="forget.html">忘记密码?</a></p></div>
+			    		<div class="col-md-7">
+			    			<div class="col-md-5" style="text-align: right;" >
+			    				<input type="checkbox" style="width:15px; height:15px;margin-left:35px;margin-top:8px" id="chk_remember" name="chk_remember" class="form-control">
+			    			</div>
+				    		<div  class="col-md-7" style="margin-top:5px" class="help-block"> 记住账号</div>
+			    		</div>
+			    	</div>
+			    	</div>
+			   	</div>
+			   	<div class="form-group"> 
+					<div class="row  text-left">
+			    	<div class="col-md-8 col-md-offset-2">
+			    		<button type="button" class="btn btn-primary btn-block" onclick="doLogin();">登录</button>
+			    	</div>
+			    	</div>
+			    </div>
+				<div class="loginFm">
+					<div>
+						<a href="#"><img src="img/qq.png" title="QQ登录" /></a>
+						<a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx4b1cd561744729ea&redirect_uri=http%3A%2F%2Fwww.18gray.com%2FPsaBackend%2FUsers%2FwxReqBack&response_type=code&scope=snsapi_login&state=yyycbbo98123456#wechat_redirect"><img src="img/wechat.png" title="微信登录" /></a>
+					</div>
+					<span>
+						<a href="register.html">注册账号</a>
+					</span>
+				</div>
+				</form>
+			</div>
+			<div style="width: 100%; height: 1px; clear: both;"></div>
+			
+			
+			
+		</div>
+		<script type="text/javascript" src="js/foot.js"></script>
+		
+		<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalOk" tabindex="-1" data-toggle="modal" role="dialog1" aria-labelledby="myModalLabel1" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					登录成功
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p>
+				将要跳转至个人中心页面，请稍等。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalErr" tabindex="-1" data-toggle="modal" role="dialog2" aria-labelledby="myModalLabel2" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					登录失败
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p id="errorInfo">
+				登录失败，请核实您的登录信息。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	</body>
+</html>
+

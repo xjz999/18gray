@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>用户管理</title>
+        <!-- Bootstrap -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="assets/styles.css" rel="stylesheet" media="screen">
+        <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+        <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <script src="../js/args.js"></script>
+        <script>
+        	if (!getCookie("adminname") || getCookie("adminname") == ""){
+        		window.location = "login.html";
+        	}
+        	var hh = location.search;
+        	if (!hh || hh == ""){
+        		alert("参数错误");
+        	}
+        	var tArr=hh.split("#");//防止页面意外加了#
+        	var pId = "";
+        	if (tArr.length >0){
+        		pId = tArr[0].replace("?","");
+        	}
+        </script>
+        <style>
+        	.regphotolist{
+        		margin-left: 5px;
+        	}
+        </style>
+
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">后台管理</a>
+                    <script src="top.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3" id="sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                         <script type="text/javascript" src="menus.js" ></script>
+                    </ul>
+                </div>
+                <!--/span-->
+                <div class="span9" id="content">
+
+                     <div class="row-fluid">
+                        <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">
+                                	用户管理
+                                </div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                    <form class="form-horizontal">
+                                      <fieldset>
+                                        <legend>
+                                        	用户管理
+                                        </legend>
+                                        <div class="control-group rowTitle">
+                                          <label class="control-label" for="typeahead">真实姓名</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtTruename" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowTitle">
+                                          <label class="control-label" for="typeahead">参赛英文名</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtLoginname" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowSummary">
+                                          <label class="control-label" for="typeahead">邮箱</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6"  readonly="true" id="txtEmail" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowAuthor">
+                                          <label class="control-label" for="typeahead">手机号</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" readonly="true" id="txtMobile" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowAuthor">
+                                          <label class="control-label" for="typeahead">密码</label>
+                                          <div class="controls">
+                                            <input type="password" class="span6" value="woshimimanidongma" id="txtPw" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowIstop">
+                                          <label class="control-label" for="optionsCheckbox">性别</label>
+                                          <div class="controls">
+                                            <label class="uniform lbSex">
+                                            </label>
+                                            <input type="hidden" class="span6" readonly="true" id="hfSex" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowAwardtype">
+                                          <label class="control-label" for="select01">用户审核</label>
+                                          <div class="controls">
+                                            <select id="selMemlevel" class="chzn-select">
+                                            	<option value="0">未审核-不可登录</option>
+                                              	<option value="1">审核通过-初级会员</option>
+                                              	<option value="2">审核通过-高级会员</option>
+                                              	<option value="2">审核通过-荣衔会员</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowIstop">
+                                          <label class="control-label" for="optionsCheckbox">注册类型</label>
+                                          <div class="controls">
+                                            <label class="uniform lbRegtype">
+                                            </label>
+                                            <input type="hidden" class="span6" readonly="true" id="hfRegtype" data-items="4" >
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowIstop">
+                                          <label class="control-label" for="optionsCheckbox">图片</label>
+                                          <div class="controls lsRegphoto">
+                                            
+                                          </div>
+                                          <input type="hidden" class="span6" readonly="true" id="hfRegphoto" data-items="4" >
+                                        </div>
+                                        <div class="control-group rowIstop">
+                                          <label class="control-label" for="optionsCheckbox">注册时间</label>
+                                          <div class="controls">
+                                            <label class="uniform lbCreatetime">
+                                            </label>
+                                         	</div>
+                                        </div>
+                                        
+                                        <div class="form-actions">
+                                          <button type="button" class="btn btn-primary" onclick="doSave();">保 存</button>
+                                          <button type="button" class="btn" onclick="doBack()">返回</button>
+                                        </div>
+                                      </fieldset>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /block -->
+                    </div>
+                    
+                </div>
+            </div>
+            <hr>
+            <footer>
+                <p>&copy; Vincent Gabriel 2013</p>
+            </footer>
+        </div>
+        <!--/.fluid-container-->
+
+        <!--/.fluid-container-->
+
+ <link href="vendors/datepicker.css" rel="stylesheet" media="screen">
+
+        <link href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+
+        <script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+	jQuery(document).ready(function() {   
+//	   FormValidation.init();
+	});
+	var infoObj = {};
+	var loadOneObject = function(){
+		infoObj.oid=pId;
+		$.ajax({
+            url:"/PsaBackend/Users/GetOne/"+pId,  
+            type:"GET",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+//          data:JSON.stringify(pData),
+            success:function(data){
+            	if (data && data.truename){
+            		$("#txtTruename").val(data.truename);
+					$("#txtLoginname").val(data.loginname);
+					$("#txtEmail").val(data.email);
+					$("#txtMobile").val(data.mobile);
+					$("#hfSex").val(data.sex);
+					$(".lbSex").text((data.sex==1)?"男":"女");
+					$("#selMemlevel").val(data.memlevel);
+					$("#hfRegtype").val(data.regtype);
+					$(".lbRegtype").text((data.regtype==1)?"有星标证书":"无星标证书");
+					$("#hfRegphoto").val(data.regphoto);
+					var photoArr=data.regphoto.split(",");
+					var str = "";
+					
+					for(var i=0;i<photoArr.length;i++){
+						if (photoArr[i]=="")continue;
+						str +="<a href=\""+imgReqPath +photoArr[i]+"\" target=\"_blank\" class=\"regphotolist\"><img src=\""+ imgReqPath +photoArr[i].replace("_b_d","")+"\" /></a>"
+					}
+					$(".lsRegphoto").html(str);
+					$("#lbCreatetime").text((new Date(data.createtime)).Format("MM/dd/yyyy"));
+            	}else{
+            		alert("加载数据失败");
+            	}
+            },  
+            error:function(){
+            	alert("加载数据失败");
+            }
+        });  
+	};
+	var doBack=function(){
+		location = "users.html";
+	};
+	var doSave=function(){
+		infoObj.truename=$("#txtTruename").val();
+		infoObj.loginname=$("#txtLoginname").val();
+		infoObj.email=$("#txtEmail").val();
+		infoObj.mobile=$("#txtMobile").val();
+		infoObj.memlevel = $('#selMemlevel').val();
+		if ($("#txtPw").val()!="woshimimanidongma" && $("#txtPw").val().length >= 6){
+			infoObj.password = $("#txtPw").val();
+		}
+		
+		$.ajax({
+            url:"/PsaBackend/Users/AddNewByJson",  
+            type:"POST",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+            data:JSON.stringify(infoObj),  
+            success:function(data){
+            	if (data && data.code && data.code == 1){
+            		alert("保存成功");
+            	}else{
+            		alert("提交失败");
+            	}
+            },  
+            error:function(){
+            	alert("提交失败");
+            }
+        });  
+	}
+        $(function() {
+            if (pId != ""){
+				loadOneObject();
+            }
+            
+            
+            function initToolbarBootstrapBindings() {
+      var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+            'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+            'Times New Roman', 'Verdana'],
+            fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+      $.each(fonts, function (idx, fontName) {
+          fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+      });
+      $('a[title]').tooltip({container:'body'});
+    	$('.dropdown-menu input').click(function() {return false;})
+		    .change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+        .keydown('esc', function () {this.value='';$(this).change();});
+
+      $('[data-role=magic-overlay]').each(function () { 
+        var overlay = $(this), target = $(overlay.data('target')); 
+        overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+      });
+      if ("onwebkitspeechchange"  in document.createElement("input")) {
+        var editorOffset = $('#editor').offset();
+        $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+      } else {
+        $('#voiceBtn').hide();
+      }
+	};
+	function showErrorAlert (reason, detail) {
+		var msg='';
+		if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+		else {
+			console.log("error uploading file", reason, detail);
+		}
+		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+	};
+	initToolbarBootstrapBindings();
+	$('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
+  	window.prettyPrint && prettyPrint();
+ 	$('#editor').html($('#Content').val());
+            
+            
+        });
+        </script>
+        </script>
+    </body>
+
+</html>

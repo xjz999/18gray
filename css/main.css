@@ -1,0 +1,130 @@
+/*最佳浏览状态1366*768 */
+html,body{padding:0;margin:0;}
+body{ background: #e3e6ec; font-family:'Microsoft YaHei','微软雅黑',"microsoft yahei";}
+/*阴影*/
+/*-moz-box-shadow:0px 0px 9px #333333; -webkit-box-shadow:0px 0px 9px #333333; box-shadow:0px 0px 9px #333333;*/
+#topOut{width: 100%; background: black;}
+#top{width: 1166px;height:116px; margin:0px auto;}
+#logo{background: url(../img/logoWhite@180.png) no-repeat; background-position: 33px 16px; width:100%;height: 68px;}
+#menu{ width: 770px;float:left; margin-top: 3px; margin-left: 20px;}
+#menu a{margin-right: 13px; margin-left: 13px; padding-bottom: 16px;
+	font-size: 16px; font-family: "微软雅黑";color: white; text-decoration: none;
+}
+#menu a:hover{border-bottom: 4px solid #2689ff;}
+#regLogin{width:160px; float:right; padding-top: 5px;}
+#regLogin a{font-size: 15px; font-family: "微软雅黑"; color:white; margin-left: 20px; text-decoration: none;}
+#regLogin a:hover{ color:#2689ff}
+#regLogin a:last-child{border: 1px solid white;padding:6px 12px;border-radius:5px;}
+#regLogin a:last-child:hover{background:white;}
+#loginStat{display: none;}
+.carousel-caption{width: 100%; margin: 0; padding: 0; left:0;bottom:0; cursor: pointer;
+background-color:#000000; background-color:rgba(0,0,0,0.3); max-height: 250px; 
+}
+div>.carousel-caption{bottom:-200px;}
+.carousel-caption div{ width:90%; margin:0 auto; text-align: left;}
+.carousel-caption .carouselTitle{padding:10px; text-align: center; font-size: 16px;}
+.carousel-control.left,.carousel-control.right{padding-top:200px; font-size:40px;}
+
+
+
+.row1{width: 1166px; margin: 0 auto;}
+.row1 .left{float: left; }
+#myCarousel{width:818px;height: 545px;overflow: hidden; background:gray;}
+.row1>.right{ width:328px;height: 459px;float: right; background: white;-moz-box-shadow:0px 0px 9px #999; -webkit-box-shadow:0px 0px 9px #999; box-shadow:0px 0px 9px #999;}
+.row1>.right .titleHead{margin-top:20px; width: 100%; height: 60px; border-left: 7px solid #2689ff;}
+.row1>.right .titleHead .titleCn{ float: left; width:120px; height:25px;padding-top:5px;  margin-left:20px; font-size: 20px; font-weight: bold; font-family: "微软雅黑";color:#333;}
+.row1>.right .titleHead .moreEn a{ width:60px; font-size: 13px; font-family: "微软雅黑"; color: #666; text-decoration: none; height: 20px; float:right; margin-top: 11px;}
+.row1>.right .titleHead .moreEn a:hover{color:#2689ff}
+.row1>.right .titleHead .titleEn{clear:both; width:100%; height:25px; margin-left:20px; margin-top:4px; font-size: 14px; font-family: "微软雅黑";color:#666;}
+.row1>.right ul{margin:0;padding:0;margin-left:20px; margin-top:15px;list-style-position: inside; }
+.row1>.right ul li{width: 280px; height: 22px; overflow: hidden; margin-top: 5px;}
+.row1>.right ul li a{ font-size: 14px; color:#333; font-family: "微软雅黑";text-decoration: none;}
+.row1>.right ul li a:hover{color:#2689ff;}
+
+.row2{width: 1166px; margin:auto; margin-top:18px;}
+.row2 .l1,.row2 .l2,.row2 .l3,.row2 .l4{
+	cursor:pointer;
+	width:23.84%; height:100px;background: white;margin-right:1.54%; float: left;
+	background-repeat: no-repeat;
+ background-position: 10px 10px;background-position :15px center;
+}
+.row2 dt{margin-top:30px; margin-left: 110px; font-family: "微软雅黑";font-size:16px; font-weight: bold; color:#333;}
+.row2 dd{margin-left: 110px; font-family: "微软雅黑";font-size:14px;color:#666;}
+.row2 .l1{background-image: url(../img/l1.png); }
+.row2 .l2{background-image: url(../img/l2.png); }
+.row2 .l3{background-image: url(../img/l3.png); }
+.row2 .l4{background-image: url(../img/l4.png); margin-right: 0;}
+.row2Action{color:#2689FF; -moz-box-shadow:0px 0px 9px #999; -webkit-box-shadow:0px 0px 9px #999; box-shadow:0px 0px 9px #999;}
+.shadow{-moz-box-shadow:0px 0px 9px #999; -webkit-box-shadow:0px 0px 9px #999; box-shadow:0px 0px 9px #999;}
+
+.row3{width: 1166px; margin:auto; margin-top:18px;}
+.row3 .left{width:49.2%; float: left;}
+.row3 .right{width:49.2%; float: right;}
+.row3 .left .c1,.row3 .left .c2,.row3 .left .c3{padding-top: 15px; background: white; width: 100%; height: 280px; margin-bottom: 20px;}
+.row3 .left .c1 span,.row3 .left .c2 span{ color:#2689ff;)}
+
+.row3 .titleHead{margin-top:0px; width: 100%; height: 60px; border-left: 7px solid #2689ff;}
+.row3 .titleHead .titleCn{ float: left; width:320px; height:25px;padding-top:5px;  margin-left:20px; font-size: 20px; font-weight: bold; font-family: "微软雅黑";color:#333;}
+.row3 .titleHead .moreEn a{ width:60px; font-size: 13px; font-family: "微软雅黑"; color: #666; text-decoration: none; height: 20px; float:right; margin-top: 11px;}
+.row3 .titleHead .moreEn a:hover{ color:#2689ff}
+.row3 .titleHead .titleEn{clear:both; width:100%; height:28px; line-height: 28px; margin-left:20px; margin-top:0px; font-size: 14px; font-family: "微软雅黑";color:#666;}
+.row3 ul{margin:0;padding:0;margin-left:26px; margin-top:10px; width: 500px;float: left; }
+.row3 .dataAlert{width: 110px;font-size: 10px; line-height: 16px; float: right;margin-right: 10px; color:#D0D0D0;}
+.row3 .left ul{list-style: none;}
+.row3 ul li{width:100%; line-height: 28px; overflow:hidden; margin-top: 0px;}
+.row3 ul li a{ font-size: 14px; color:#2689ff; font-family: "微软雅黑";text-decoration: none;}
+.row3 ul li a:hover{color:#2689ff;}
+
+.row3 .left .c3 { height: 343px;}
+.row3 .left .c3 .ulOuter{margin-left: 30px; margin-top: 23px; padding: 5px 0; height: 225px; width: 510px; overflow: hidden;}
+.row3 .left .c3 ul{  width: 1000px;margin:0;padding:0;}
+.row3 .left .c3 ul li{ width: 150px; height: 200px; float: left; margin-left: 16px; background: #efefef;padding-top: 20px; cursor: pointer;}
+.row3 .left .c3 ul li:last-child{margin-right: 16px;}
+.row3 .left .c3 ul li img{width:120px;height: 120px;border-radius:50%;}
+.row3 .left .c3 ul li{ text-align: center;}
+.row3 .left .c3 ul li dt{margin-top: 15px;}
+.row3 .left .c3 ul li dt{margin-top:10px;}
+.row3 .left .c3 ul li dt a{font: "微软雅黑";  color: #333; text-decoration: none;}
+.row3 .left .c3 ul li dd a{font: "微软雅黑";  color: #666; text-decoration: none;}
+
+.row3 .right .c1{width:574px;height:452px; background-color: gray; position:relative;cursor: pointer;}
+.row3 .right .c1 .title {background: url(../img/storybg@141.png) no-repeat;
+	font-size: 20px; color: white;height: 44px; line-height: 44px;padding-left: 20px;
+}
+.row3 .right .c1 .foot{width: 100%;height: 70px; position:absolute;left:0; bottom: 0; background: rgba(0,0,0,0.3); color:white;
+	padding:10px 30px;
+}
+.row3 .right .c1 .foot dt{font-size:20px;}
+.row3 .right .c1 .foot dt span{font-size:15px;}
+.row3 .right .c1 .foot a{color:white;text-decoration: none;}
+
+.row3 .right .c2{padding-top: 15px; height: 471px; background: white; margin-top: 20px;}
+.row3 .right .c2 ul{width: 100%; margin: 0; margin-top: 10px;}
+.row3 .right .c2 ul li{line-height: 24px; margin: 0; height: 50px; width: 100%;padding-left:27px;}
+.row3 .right .c2 ul li font{ font-size: 13px;}
+.row3 .right .c2 a{  color: #333; font-weight: normal; text-decoration: none; font-family: "微软雅黑"; font-size: 14px;}
+.row3 .right .c2 a font{color:#999999;}
+.row3 .right .c2 a:hover{color: #2689FF;}
+.row3 .right .c2 a:hover font{color:#2689FF;}
+
+.foot{width: 100%; height: 150px; background: black;}
+.foot .c1{ width: 100%; text-align: center; font-size: 16px; font-family: "微软雅黑"; padding-top: 50px;}
+.foot .c1 a{color:#bbb; margin-left: 10px;}
+.foot .c2{width: 100%; text-align: center; font-size: 16px; font-family: "微软雅黑"; padding-top: 10px;color:#bbb;}
+.servicePop{width:54px; height: 108px; position: fixed; bottom: 170px; left: calc(50% + 588px);}
+.imgQR{position: fixed; bottom:170px; left: calc(50% + 286px);display: none;}
+.serviceLink{width:298px; height: 310px; background: white; position:fixed; bottom:170px; left: calc(50% + 286px);
+	display: none; padding-left: 30px;}
+.serviceLink dl{ font-size: 20px; margin-top: 30px; font-weight: bold;}
+.serviceLink dd{width:238px; height: 40px; text-align: center; line-height: 40px; background: #2689FF; font-size: 16px;
+ margin-bottom: 10px; color: white;}
+ .serviceLink dd a{ color:white; text-decoration: none; width:100%; display: block;}
+.serviceLink div{line-height: 30px; font-size: 15px; color:#666666;}
+/*@media screen and (max-width: 1025px) {
+     .servicePop{width:54px; height: 108px; position: fixed; bottom: 170px; right:0px;}
+	.imgQR{position: fixed; bottom:170px; right: 56px;display: none;}
+}
+@media screen and (max-width: 1367px) {
+    .servicePop{width:54px; height: 108px; position: fixed; bottom: 170px; right:30px;}
+	.imgQR{position: fixed; bottom:170px; right: 86px;display: none;}
+}*/

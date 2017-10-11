@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>添加资讯</title>
+        <!-- Bootstrap -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="assets/styles.css" rel="stylesheet" media="screen">
+        <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+        <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <script src="../js/args.js"></script>
+        <script>
+        	if (!getCookie("adminname") || getCookie("adminname") == ""){
+        		window.location = "login.html";
+        	}
+        	var hh = location.search;
+        	if (!hh || hh == ""){
+        		alert("参数错误");
+        	}
+        	var tArr=hh.split("#");//防止页面意外加了#
+        	var pType="";
+        	var wType="";
+        	var pId = "";
+        	if (tArr.length >0){
+        		var pArr=tArr[0].split("&");
+        		if (pArr.length == 2){
+        			pType = pArr[0].replace("?","");
+        			if (pType=="4"){
+        				wType =  pArr[1];
+        			}else{
+        				pId = pArr[1];
+        			}
+        		}else if (pArr.length==1){
+        			pType = pArr[0].replace("?","");
+        		}else if (pArr.length==3){
+        			pType = pArr[0].replace("?","");
+        			wType =  pArr[1];
+        			pId = pArr[2];
+        		}
+        	}
+//      	alert("pType "+ pType+" wType"+wType+" pId"+pId);
+        	var awardtype=[
+"",//0不作分类，防止请求失误
+"画意彩色不限主题",
+"画意单色不限主题",
+"旅游组不限主题",
+"自然组不限主题",
+"画意彩色肖像主题",
+"画意彩色风光主题",
+"画意彩色女性主题",
+"画意彩色儿童主题",
+"画意彩色人主题",
+"画意彩色街道主题",
+"画意彩色创意主题",
+"画意单色肖像主题",
+"旅游组人主题",
+"自然组野生生物主题",
+"自然组鸟类主题",
+"新闻组不限主题"
+]
+        </script>
+        
+        <style type="text/css">
+	#editor {overflow:scroll; max-height:300px}
+	
+	/* this CSS is not part of the widget, it is here just as an example of the demo page styling.... Don't copy this one, roll your own. One
+ * of the key things about the widget is that it allows you to do your own styling!
+ */
+
+#editor {
+	max-height: 250px;
+	height: 250px;
+	background-color: white;
+	border-collapse: separate; 
+	border: 1px solid rgb(204, 204, 204); 
+	padding: 4px; 
+	box-sizing: content-box; 
+	-webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; 
+	box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+	border-top-right-radius: 3px; border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px; border-top-left-radius: 3px;
+	overflow: scroll;
+	outline: none;
+}
+#voiceBtn {
+  width: 20px;
+  color: transparent;
+  background-color: transparent;
+  transform: scale(2.0, 2.0);
+  -webkit-transform: scale(2.0, 2.0);
+  -moz-transform: scale(2.0, 2.0);
+  border: transparent;
+  cursor: pointer;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+div[data-role="editor-toolbar"] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.dropdown-menu a {
+  cursor: pointer;
+}
+
+</style>
+
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">后台管理</a>
+                    <script src="top.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3" id="sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                         <script type="text/javascript" src="menus.js" ></script>
+                    </ul>
+                </div>
+                <!--/span-->
+                <div class="span9" id="content">
+
+                     <div class="row-fluid">
+                        <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">
+                                	图片资源管理
+                                </div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                    <form class="form-horizontal">
+                                      <fieldset>
+                                        <legend>
+                                        	<script>
+	                                			switch(pType){
+		                                			case "1":document.write("图片新闻");break;
+		                                			case "2":document.write("图片故事");break;
+		                                			case "3":document.write("个人图片(密)");break;
+		                                			case "4":document.write("获奖图片(密)");break;
+		                                		}
+		                                	</script>
+                                        </legend>
+                                        <div class="control-group rowTitle">
+                                          <label class="control-label" for="typeahead">标题</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtTitle" data-items="4" >
+                                            <p class="help-block">不要超过50个字，必填</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowPhotoaddr">
+                                          <label class="control-label" for="typeahead">拍摄地点</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtPhotoaddr" data-items="4" >
+                                            <p class="help-block">不要超过70个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowPhototime">
+                                          <label class="control-label" for="typeahead">拍摄时间</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtPhototime" data-items="4" >
+                                            <p class="help-block">请填写日期建议统一以****年**月**日形式</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowAwardtype">
+                                          <label class="control-label" for="select01">获奖作品组别</label>
+                                          <div class="controls">
+                                            <select id="selAwardtype" class="chzn-select">
+                                            	<option value="0">未确定</option>
+                                              <script>
+                                              	for(var i=1;i<awardtype.length;i++){
+                                              		document.write("<option value='"+i+"'>"+awardtype[i]+"</option>");
+                                              	}
+                                              </script>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="control-group">
+                                          <label class="control-label" for="fileInput">图片上传</label>
+                                          <div class="controls">
+                                            <input class="input-file uniform_on" id="fileInput" name="file" type="file" onchange="doUpload();">
+                                          	<p class="help-block">建议图片宽高比例为1.7778,如:宽960高540,宽1600高900,宽1920高1080等</p>
+                                          </div>
+                                        </div>
+                                        <input type="hidden" id="hfUrl" value="" />
+                                        <div class="control-group">
+                    						<label class="control-label" for="fileInput"></label>
+                                          	<div class="controls rowImgShow">
+                                            	
+                                          	</div>
+                                        </div>
+                                        <div class="control-group rowStory">
+                                          <label class="control-label" for="textarea2">说明</label>
+                                          <div class="controls">
+                                            <textarea id="txtStory" class="input-xlarge textarea" placeholder="请输入说明文字，控制在500字以内 ..." style="width: 600px; height: 150px"></textarea>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowOrderindex">
+                                          <label class="control-label" for="optionsCheckbox">是否优先显示</label>
+                                          <div class="controls">
+                                            <label class="uniform">
+                                              <input class="" type="checkbox" id="chkOrderindex">
+                                                                                            勾选后，本条信息将优先显示
+                                            </label>
+                                          </div>
+                                        </div>
+                                        <div class="form-actions">
+                                          <button type="button" class="btn btn-primary" onclick="doSave();">保 存</button>
+                                          <button type="button" class="btn" onclick="doBack()">返回</button>
+                                        </div>
+                                      </fieldset>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /block -->
+                    </div>
+                    
+                </div>
+            </div>
+            <hr>
+            <footer>
+                <p>&copy; Vincent Gabriel 2013</p>
+            </footer>
+        </div>
+        <!--/.fluid-container-->
+
+        <!--/.fluid-container-->
+        <link href="external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="external/no-icon.min.css" rel="stylesheet">
+ <link href="vendors/datepicker.css" rel="stylesheet" media="screen">
+        <link href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+
+        <script src="vendors/bootstrap-datepicker.js"></script>
+        <script src="../js/ajaxfileupload.js"></script>
+        <script>
+
+	jQuery(document).ready(function() {   
+//	   FormValidation.init();
+	});
+	var doUpload = function(){
+		$.ajaxFileUpload({
+            url:'/PsaBackend/Arts/fileUpload', //你处理上传文件的服务端
+            secureuri:false,
+            fileElementId:'fileInput',
+            dataType: 'json',
+            success: function (data)
+          	{
+				if (data && data.filename && data.filename != ""){
+            		$(".rowImgShow").html("<a target=\"_blank\" alt='点击弹出大图' href=\""+imgReqPath+data.filename+"\"><img src=\"" + imgReqPath +data.filename.replace("_b_d","")+"\" /></a>");
+            		$("#hfUrl").val(data.filename);
+            	}else{
+            		alert("上传失败，请稍后再试");
+            	}
+            },
+          	error:function(e){
+          		alert("上传失败，请稍后再试");
+          	}
+       });
+	};
+	var infoObj = {};
+	var loadOneModel = function(){
+		infoObj.oid=pId;
+		$.ajax({
+            url:"/PsaBackend/Arts/GetOne/"+pId,  
+            type:"GET",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+//          data:JSON.stringify(pData),
+            success:function(data){
+            	if (data && data.title){
+            		$("#txtTitle").val(data.title);
+					$("#txtPhotoaddr").val(data.photoaddr);
+					$("#txtPhototime").val(data.phototime);
+					if (data.ctype == 4)$("#selAwardtype").val(data.awardtype);
+					$("#hfUrl").val(data.url);
+					$(".rowImgShow").html("<a target=\"_blank\" alt='点击弹出大图' href=\"" + imgReqPath +data.url+"\"><img src=\""+imgReqPath+((data.url && data.url != "")?data.url.replace("_b_d",""):"")+"\" /></a>");
+					$("#txtStory").val(data.story);
+					if (data.orderindex == 1)$("#chkOrderindex").attr("checked","true");
+            	}else{
+            		alert("加载数据失败");
+            	}
+            },  
+            error:function(){
+            	alert("加载数据失败");
+            }
+        });  
+	};
+	var doBack=function(){
+		var backUrl = "pics.html?"+pType;
+		if (wType != "")backUrl+="&"+wType;
+		location = backUrl;
+	};
+	var doSave=function(){	
+		var ctypeInt = 0;
+		var wTypeInt = 0;
+		try{
+			ctypeInt = parseInt(pType);
+		}catch(e){
+			alert("类型错误");
+			return;
+		}
+		if (ctypeInt == 4){
+			try{
+				wTypeInt = parseInt($("#selAwardtype").val());
+			}catch(e){
+				alert("类型错误");
+				return;
+			}
+		}
+		infoObj.title=$("#txtTitle").val();
+		infoObj.photoaddr=$("#txtPhotoaddr").val();
+		infoObj.phototime=$("#txtPhototime").val();
+		infoObj.url = $("#hfUrl").val();
+		infoObj.story = $('#txtStory').val();
+		infoObj.orderindex = ($('#chkOrderindex').get(0).checked)?1:0;
+		infoObj.ctype = ctypeInt;
+		infoObj.awardtype=$("#selAwardtype").val();
+		infoObj.expDate = ($("#txtExpdate").val()=="")?0:new Date($("#txtExpdate").val()).getTime();
+		if (infoObj.title == ""){
+			alert("标题不能为空");
+			return ;
+		}
+		if (infoObj.url == ""){
+			alert("请上传图片");
+			return ;
+		}
+		$.ajax({
+            url:"/PsaBackend/Arts/AddNew",  
+            type:"POST",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+            data:JSON.stringify(infoObj),  
+            success:function(data){
+            	if (data && data.code && data.code == 1){
+            		alert("保存成功");
+            	}else{
+            		if (data.code && data.code == "10"){
+            			alert("您的登录状态已过期，请重新登录");
+            			location = "login.html";
+            		}else
+            			alert("提交失败");
+            		
+            	}
+            },  
+            error:function(){
+            	alert("提交失败");
+            }
+        });  
+	}
+        $(function() {
+            $(".datepicker").datepicker();
+            //通过类型决定加载字段
+			if (pType == "1"){
+				$(".rowPhotoaddr").hide();
+				$(".rowPhototime").hide();
+				$(".rowAwardtype").hide();
+			}else if(pType == "2"){
+				$(".rowAwardtype").hide();
+			}else if (pType == "4"){
+				$(".rowPhotoaddr").hide();
+				$(".rowPhototime").hide();
+				$(".rowStory").hide();
+			}
+			
+            if (pId != ""){
+				loadOneModel();
+            }        
+        });
+        </script>
+        </script>
+    </body>
+
+</html>
