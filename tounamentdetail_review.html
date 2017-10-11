@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+		<script src="js/rollBack.js"></script>
+		<script>
+			var xx = true;
+			if (!getCookie("adminname") || getCookie("adminname") == ""){
+				alert("登录状态已过期，请重新登录管理后台再预览");
+				xx = false;
+			}
+		</script>
+		<style>
+			pre{ background-color: #fff; border: 0; padding: 0; margin: 0;
+			word-wrap:break-word;word-break: normal;
+				/*white-space:nowrap; overflow:hidden; text-overflow:ellipsis;*/
+				/*不换行，超出部分隐藏且以省略号形式出现（部分浏览器支持）*/
+			}
+		</style>
+	</head>
+	<body>
+		<script src="js/head.js"></script>
+		<div class="main">
+			<div class="tounamentDetail">
+				<div class="mainTitle"></div>
+				<div class="subTitle"></div>
+				<div class="sub2"></div>
+				<div class="logoList">
+				</div>
+				<div class="sub3"></div>
+				<div class="tounamentInfo">
+					<dt>一、赛事日程：</dt>
+					<dd class="if1"></dd>
+					<dt>二、赛事组别：</dt>
+					<dd class="if2"></dd>
+					<dt>三、作品规格：</dt>
+					<dd class="if3"></dd>
+					<dt>四、相关费用：</dt>
+					<dd class="if4"></dd>
+					<dt>五、说明：</dt>
+					<dd class="if5"></dd>
+					<dt>六、联系我们：</dt>
+					<dd style="line-height: 25px;">
+						咨询电话： 0591-83333680<br/>
+						邮箱：grayimage@163.com<br/>
+						咨询QQ：入会咨询（2557443387）、参赛咨询（848426148）<br/>
+						微信公众号：<br />
+						<img src="img/QR.jpg" width="150px" height="150px" style="    margin-left: -10px;" />
+					</dd>
+				</div>
+
+			</div>
+		</div>
+		
+		<script src="js/foot.js"></script>
+		<script>
+			$(function(){
+				if (!xx)return;
+				var hh=location.search;
+				hh = hh.replace("?","");
+			$.ajax({
+	            url:"/PsaBackend/Competitions/GetOne/"+hh,  
+	            type:"GET",  
+	            dataType:"json",  
+	            contentType: "application/json; charset=utf-8",
+	            async:false,  
+//	            data:JSON.stringify(pData),  
+	            success:function(data){
+	            	if (data && data.title){
+	            		$(".mainTitle").text(data.title);
+	            		$(".subTitle").text(data.titleen);
+	            		$(".sub2").text("（PSA认证号 "+ data.validecode +"）");
+	            		$(".sub3").text("截稿日期："+ new Date(data.expdate).Format("yyyy年MM月dd日") +"  来源：" + data.source);
+	            		$(".if1").html("<pre>"+data.f1+"</pre>");
+	            		$(".if2").html("<pre>"+data.f2+"</pre>");
+	            		$(".if3").html("<pre>"+data.f3+"</pre>");
+	            		$(".if4").html("<pre>"+data.f4+"</pre>");
+	            		$(".if5").html("<pre>"+data.f5+"</pre>");
+	            		var arr = data.pics.split("|");
+	            		$(".logoList").html("");
+	            		for(var i=0;i<arr.length;i++){
+	            			if (arr[i] == "")continue;
+	            			$(".logoList").append("<img src="+imgReqPath+arr[i]+" style='margin-right:3px;' />");
+	            		}
+	            	}else{
+	            		alert("加载内容出错");
+	            	}
+	            }, 
+	            error:function(){
+	            	alert("加载出错");
+	            }
+	        });
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <link href="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/css/fileinput.min.css" rel="stylesheet">	
+	    
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	    <script src="js/ajaxfileupload.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+		<style>
+		label {font-size:15px;cursor:pointer;}
+		label i {font-size:15px;font-style:normal;display:inline-block;width:20px;height:20px;text-align:center;line-height:16px;color:#fff;vertical-align:middle;margin:-2px 2px 1px 0px;border:#2689FF 1px solid;}
+		/*input[type="checkbox"],*/
+		input[type="radio"] {display:none;}
+		input[type="radio"] + i {border-radius:10px;}
+		/*input[type="checkbox"]:checked + i,*/
+		input[type="radio"]:checked + i {background:#2689FF;}
+		/*input[type="checkbox"]:disabled + i,*/
+		input[type="radio"]:disabled + i {border-color:#ccc;}
+		/*input[type="checkbox"]:checked:disabled + i,*/
+		input[type="radio"]:checked:disabled + i {background:#ccc;}
+		</style>
+		<script>
+$(function(){
+	//页面参数
+	var newUrl = window.location.href;
+	var arr= newUrl.split("?");
+	if (arr.length == 2){
+		if (arr[1] == "101"){
+			$('#myModalOk').modal("show");
+		}else if (arr[1] == "201"){//微信绑定
+//			$('#myModalOk').modal("show");
+		}else if (arr[1] == "202"){//QQ绑定
+//			$('#myModalOk').modal("show");
+		}
+	}
+	
+	//验证
+	$('#defaultForm').bootstrapValidator({
+		message: '验证未通过',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			
+			mobileValidCode:{
+				validators: {
+					notEmpty: {
+						message: '请填写短信验证码'
+					},
+					threshold :  4 ,
+                   	remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}  
+						url: '/PsaBackend/Users/ValidSMS',//验证地址
+						message: '短信验证码错误',//提示消息
+						delay :  2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+						type: 'POST'//请求方式
+						/**自定义提交数据，默认值提交当前input value
+                          *  data: function(validator) {
+                               return {
+                                   password: $('[name="passwordNameAttributeInYourForm"]').val(),
+                                   whatever: $('[name="whateverNameAttributeInYourForm"]').val()
+                               };
+                            }
+                          */
+					}
+				}
+			},
+			mobile:{
+				validators: {
+					notEmpty: {
+						message: '手机号不能为空'
+					},
+					regexp: {
+                         regexp: /^1\d{10}$/,
+                         message: '请填写正确的手机号'
+                    }
+				}
+			}
+		}
+	}).on('form.success.bv',function(e){
+	    e.preventDefault();
+//	    $.post('sdfdsf.ashx',{},function(data){
+//	        这里写你的代码…………………………
+//	    })
+});
+			
+	//获取手机验证码
+	var countdown = 0;
+	var ttDown = null;
+	var countDownFn = function(){
+		countdown --;
+		if (ttDown){
+			clearTimeout(ttDown);
+			ttDown = null;
+		}
+		//显示数字变化
+		$("#btGetSMS").val("重新获取 "+countdown.toString());
+		if (countdown > 0){
+			ttDown = setTimeout(function(){countDownFn();},1000);
+		}else{
+			//恢复可用
+			$("#btGetSMS").attr("disabled",false);
+			$("#btGetSMS").val("获取验证码 ");
+		}
+	};
+	
+
+	$("#btGetSMS").click(function(){
+		var mobNumber = $("#mobile").val();
+		var reg = /^1[0-9]{10}/;
+		if (!reg.test(mobNumber)){
+			alert("请正确填写手机号");
+			return;
+		}
+		//置灰，不可用		  		
+		$.ajax({
+		  type: 'POST',
+		  url: "/PsaBackend/Users/GetSMS",
+		  data: {mobileVal:$("#mobile").val()},
+		  success: function(data,successful){
+		  	if (successful){
+		  		if (data.code == 1){
+		  			alert("手机短信已发出，请注意查收。");
+		  			$("#btGetSMS").attr("disabled",true); 
+			  		//倒计时
+			  		countdown = 60;
+			  		countDownFn();
+		  		}else{
+		  			alert("发送手机验证码失败，请稍后再试。");
+		  		}
+		  	}else{
+		  		alert("发送手机验证码失败，请稍后再试!");
+		  	}
+		  },
+		  dataType: 'json'
+		});
+	});
+});
+		var doMySubmit = function(){
+			//置灰，不可用		  		
+			$.ajax({
+			  type: 'POST',
+			  url: "/PsaBackend/Users/GetUserOidByMobile",
+			  data: $('#defaultForm').serialize(),
+//			  contentType: "application/json; charset=utf-8",
+			  success: function(data,successful){
+			  	if (successful){
+			  		if(data.id && data.id != ""){
+			  			
+			  			$.ajax({
+						  type: 'POST',
+						  url: "/PsaBackend/Users/BindWX",
+						  data: JSON.stringify({oid:data.id}),
+						  contentType: "application/json; charset=utf-8",
+						  success: function(data,successful){
+						  	if (successful){
+						  		switch(data.code){
+						  			case 0:
+						  				$('#myModalErr').modal("show");
+						  			break;
+						  			case 1:
+						  				$('#myModalOk').modal("show");
+						  			break;
+						  			case 2:
+						  				$('#myModalJump').modal("show");
+						  				setTimeout(function(){
+						  					window.location="/my/index.html";
+						  				},5000);
+						  			break;
+						  		}
+						  	}else{
+						  		$('#myModalErr').modal("show");
+						  	}
+						  },
+						  dataType: 'json'
+						});
+			  			
+			  		}else{
+			  			$('#myModalErr').modal("show");
+			  		}
+			  	}else{
+			  		$('#myModalErr').modal("show");
+			  	}
+			  },
+			  dataType: 'json'
+			});
+			return false;
+		};
+		</script>
+	</head>
+	<body>
+		<div class="regmain">
+			<div class="head bindpage">
+				<div class="left">
+					<span>账号绑定</span>
+				</div>
+				<div class="right">
+					<a href="userbind.html" >绑定新号</a> <a  class="active" href="###">绑定旧号</a>
+				</div>
+			</div>
+			<div style="width: 100%;height: 30px; clear: both;"></div>
+			
+			<form id="defaultForm" name="defaultForm" onsubmit="return doMySubmit()" class="form-horizontal" action="blog.html">
+			
+		    <div class="form-group"> 
+				<div class="row">
+		    	<label class="form-label col-sm-5 text-right">手机号码：</label>
+		    	<div class="col-md-5">
+		    		<input type="text" id="mobile" name="mobile" class="form-control" placeholder="请输入你的手机号码">
+		    		<p class="help-block">请输入您先前在本站注册时使用的手机号，如果未注册过，请先切换到“绑定新号”页面，注册新号并绑定</p>
+		    	</div>
+		    	</div>
+		   	</div>
+		    <div class="form-group">
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">短信验证码：</label>
+		    	<div class="col-md-3">
+		    		<input type="text" name="mobileValidCode" maxlength="4" class="form-control">
+		    		<p class="help-block">填写系统发送到您手机上的4位验证码</p>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<input type="button" id="btGetSMS" class="btn  btn-success" value="获取验证码">
+		    	</div>
+		    	</div>
+		    </div>
+		    <div style="width: 100%;height: 30px;"></div>
+		    <div class="form-group"> 
+				<div class="row  text-center">
+		    	<div class="col-md-7 col-md-offset-3">
+		    		<input type="submit" id="btSub" name="btSub" value="立即绑定" class="btn btn-primary btn-block" />
+		    	</div>
+		    	</div>
+		    </div>
+		    </form>
+		
+		</div>
+		</div>
+		<script type="text/javascript" src="js/foot.js"></script>
+		
+	<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalOk" tabindex="-1" data-toggle="modal" role="dialog1" aria-labelledby="myModalLabel1" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					绑定成功
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p>
+				为保证服务质量，我们的工作人员会对您的注册和绑定的信息进行人工审核，一般需要5个工作日，在此期间可能会与您通过电话或邮箱进行联络，请您注意接收。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalErr" tabindex="-1" data-toggle="modal" role="dialog2" aria-labelledby="myModalLabel2" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					绑定失败
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p>
+				不存在注册信息，请尝试切换到“绑定新号”页面，注册用户信息并绑定，请您稍后再试。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary btForBack">
+					回主页
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalJump" tabindex="-1" data-toggle="modal" role="dialog3" aria-labelledby="myModalLabel3" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					绑定成功
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p>
+				绑定成功，且您的注册信息早先已被审核通过，即将跳转，进入个人中心页面。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+
+	
+</div>
+	</body>
+</html>

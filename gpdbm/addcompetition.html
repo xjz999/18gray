@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>添加资讯</title>
+        <!-- Bootstrap -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="assets/styles.css" rel="stylesheet" media="screen">
+        <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+        <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <script src="../js/args.js"></script>
+        <script>
+        	if (!getCookie("adminname") || getCookie("adminname") == ""){
+        		window.location = "login.html";
+        	}
+        	var hh = location.search;
+        	
+        	if (hh && hh != ""){
+	        	var tArr=hh.split("#");//防止页面意外加了#
+	        	var pId = "";
+	        	if (tArr.length >0){
+	        		pId=tArr[0];
+	        		pId = pId.replace("?","");
+	        	}
+        	}
+        </script>
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">后台管理</a>
+                    <script src="top.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3" id="sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                         <script type="text/javascript" src="menus.js" ></script>
+                    </ul>
+                </div>
+                <!--/span-->
+                <div class="span9" id="content">
+
+                     <div class="row-fluid">
+                        <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">
+                                	图片资源管理
+                                </div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                    <form class="form-horizontal">
+                                      <fieldset>
+                                        <legend>
+                                        	认证赛事
+                                        </legend>
+                                        <div class="control-group rowTitle">
+                                          <label class="control-label" for="typeahead">标题</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtTitle" data-items="4" >
+                                            <p class="help-block">不要超过50个字，必填</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowTitleen">
+                                          <label class="control-label" for="typeahead">英文标题</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtTitleen" data-items="4" >
+                                            <p class="help-block">不要超过100个字母，必填</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group">
+                                          <label class="control-label" for="fileInput">图标上传</label>
+                                          <div class="controls">
+                                            <input class="input-file uniform_on" id="fileInput" name="file" type="file" onchange="doUpload();">
+                                          	<p class="help-block">建议圆形或正方形图片，尺寸为90*90，如果超过此限制，也会被自动压缩成90高并自适应宽度的图片。一件赛事最多可传5张</p>
+                                          </div>
+                                        </div>
+                                        <input type="hidden" id="hfUrl" value="" />
+                                        <div class="control-group">
+                    						<label class="control-label" for="fileInput"></label>
+                                          	<div class="controls rowImgShow">
+                                            	
+                                          	</div>
+                                        </div>
+                                        <div class="control-group rowValidecode">
+                                          <label class="control-label" for="typeahead">认证号</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtValidecode" data-items="4" >
+                                            <p class="help-block">不要超过70个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowSource">
+                                          <label class="control-label" for="typeahead">信息来源</label>
+                                          <div class="controls">
+                                            <input type="text" class="span6" id="txtSource" data-items="4" >
+                                            <p class="help-block">不要超过70个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowExpdate">
+                                          <label class="control-label" for="date01">截止日期</label>
+                                          <div class="controls">
+                                            <input type="text" class="input-xlarge datepicker" id="txtExpdate" value="">
+                                            <p class="help-block">投稿的最后期限</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowF1">
+                                          <label class="control-label" for="typeahead">赛事日程</label>
+                                          <div class="controls">
+                                            <textarea id="txtF1" class="input-xlarge textarea" placeholder="请输入赛事日程，控制在500字以内 ..." style="width: 600px; height: 150px"></textarea>
+                                            <p class="help-block">不要超过100个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowF2">
+                                          <label class="control-label" for="typeahead">赛事组别</label>
+                                          <div class="controls">
+                                            <textarea id="txtF2" class="input-xlarge textarea" placeholder="请输入赛事日程，控制在500字以内 ..." style="width: 600px; height: 150px"></textarea>
+                                            
+                                            <p class="help-block">不要超过300个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowF3">
+                                          <label class="control-label" for="typeahead">作品规格</label>
+                                          <div class="controls">
+                                            <textarea id="txtF3" class="input-xlarge textarea" placeholder="请输入赛事日程，控制在500字以内 ..." style="width: 600px; height: 150px"></textarea>
+                                            
+                                            <p class="help-block">不要超过100个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowF4">
+                                          <label class="control-label" for="typeahead">相关费用</label>
+                                          <div class="controls">
+                                            <textarea id="txtF4" class="input-xlarge textarea" placeholder="请输入赛事日程，控制在500字以内 ..." style="width: 600px; height: 150px"></textarea>
+                                            
+                                            <p class="help-block">不要超过100个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowF5">
+                                          <label class="control-label" for="typeahead">奖项</label>
+                                          <div class="controls">
+                                            <textarea id="txtF5" class="input-xlarge textarea" placeholder="请输入赛事日程，控制在500字以内 ..." style="width: 600px; height: 150px"></textarea>
+                                            
+                                            <p class="help-block">不要超过220个字</p>
+                                          </div>
+                                        </div>
+                                        <div class="control-group rowOrderindex">
+                                          <label class="control-label" for="optionsCheckbox">是否优先显示</label>
+                                          <div class="controls">
+                                            <label class="uniform">
+                                              <input class="" type="checkbox" id="chkOrderindex">
+                                                                                            勾选后，本条信息将优先显示
+                                            </label>
+                                          </div>
+                                        </div>
+                                        <div class="form-actions">
+                                          <button type="button" class="btn btn-primary" onclick="doSave();">保 存</button>
+                                          <button type="button" class="btn" onclick="doBack()">返回</button>
+                                        </div>
+                                      </fieldset>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /block -->
+                    </div>
+                    
+                </div>
+            </div>
+            <hr>
+            <footer>
+                <p>&copy; Vincent Gabriel 2013</p>
+            </footer>
+        </div>
+        <!--/.fluid-container-->
+
+        <!--/.fluid-container-->
+        <link href="external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="external/no-icon.min.css" rel="stylesheet">
+ <link href="vendors/datepicker.css" rel="stylesheet" media="screen">
+        <link href="http://cdn.bootcss.com/bootstrap/2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+
+        <script src="vendors/bootstrap-datepicker.js"></script>
+        <script src="../js/ajaxfileupload.js"></script>
+        <script>
+
+	jQuery(document).ready(function() {   
+//	   FormValidation.init();
+	});
+	var doUpload = function(){
+		$.ajaxFileUpload({
+            url:'/PsaBackend/Arts/fileUpload', //你处理上传文件的服务端
+            secureuri:false,
+            fileElementId:'fileInput',
+            data : {modeltype:"5"},//只生成高为90的小图，宽最多适应到120.
+            dataType: 'json',
+            success: function (data)
+          	{
+				if (data && data.filename && data.filename != ""){
+            		$(".rowImgShow").append("<img src=\"" + imgReqPath +data.filename+"\" title=\"双击移除本图\" ondblclick=\"removePic(this,'"+ data.filename +"');\" />");
+            		$("#hfUrl").val($("#hfUrl").val()+"|"+data.filename);
+            	}else{
+            		alert("上传失败，请稍后再试");
+            	}
+            },
+          	error:function(e){
+          		alert("上传失败，请稍后再试");
+          	}
+       });
+	};
+	var removePic = function(obj,curl){
+		obj.parentNode.removeChild(obj);
+		$("#hfUrl").val($("#hfUrl").val().replace("|"+curl,""));
+	};
+	var infoObj = {};
+	var loadOneModel = function(){
+		infoObj.oid=pId;
+		$.ajax({
+            url:"/PsaBackend/Competitions/GetOne/"+pId,  
+            type:"GET",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,  
+//          data:JSON.stringify(pData),
+            success:function(data){
+            	if (data && data.title){
+            		$("#txtTitle").val(data.title);
+            		$("#txtTitleen").val(data.titleen);
+            		
+					$("#hfUrl").val(data.pics);
+					var arr= data.pics.split("|");
+					for(var i=0;i<arr.length;i++){
+						if (arr[i]=="")continue;
+						var strs = "<img style=\"margin-left:2px;height:90px;min-width:90px;\" src=\""+imgReqPath+arr[i]+"\" title=\"双击移除本图\" ondblclick=\"removePic(this,'"+ arr[i] +"');\" />";
+						$(".rowImgShow").append(strs);
+					}
+					
+					$("#txtValidecode").val(data.validecode);
+					$("#txtSource").val(data.source);
+					if(data.expdate != "") $("#txtExpdate").val( (new Date(data.expdate)).Format("MM/dd/yyyy") );
+					$("#txtF1").val(data.f1);
+					$("#txtF2").val(data.f2);
+					$("#txtF3").val(data.f3);
+					$("#txtF4").val(data.f4);
+					$("#txtF5").val(data.f5);
+					if (data.ff == "1")$("#chkOrderindex").attr("checked","true") ;
+            	}else{
+            		alert("加载数据失败");
+            	}
+            },  
+            error:function(){
+            	alert("加载数据失败");
+            }
+        });  
+	};
+	var doBack=function(){
+		var backUrl = "competitions.html";
+		location = backUrl;
+	};
+	var doSave=function(){
+		infoObj.title=$("#txtTitle").val();
+		infoObj.titleen=$("#txtTitleen").val();
+		infoObj.pics=$("#hfUrl").val();
+		infoObj.validecode = $("#txtValidecode").val();
+		infoObj.source=$("#txtSource").val();
+		infoObj.expdate = $("#txtExpdate").val();
+		infoObj.f1 = $('#txtF1').val();
+		infoObj.f2 = $('#txtF2').val();
+		infoObj.f3 = $('#txtF3').val();
+		infoObj.f4 = $('#txtF4').val();
+		infoObj.f5 = $('#txtF5').val();
+		
+		infoObj.ff = ($('#chkOrderindex').get(0).checked)?"1":"0";
+		
+		if (infoObj.title == ""){
+			alert("标题不能为空");
+			return ;
+		}
+		if (infoObj.pics == ""){
+			alert("请上传图片");
+			return ;
+		}
+		$.ajax({
+            url:"/PsaBackend/Competitions/AddNew",  
+            type:"POST",  
+            dataType:"json",  
+            contentType: "application/json; charset=utf-8",
+            async:false,
+            data:JSON.stringify(infoObj),
+            success:function(data){
+            	if (data && data.code && data.code == 1){
+            		alert("保存成功");
+            	}else{
+            		if (data.code && data.code == "10"){
+            			alert("您的登录状态已过期，请重新登录");
+            			location = "login.html";
+            		}else
+            			alert("提交失败");
+            		
+            	}
+            },  
+            error:function(){
+            	alert("提交失败");
+            }
+        });  
+	}
+        $(function() {
+            $(".datepicker").datepicker();
+            if (pId && pId != ""){
+				loadOneModel();
+            }        
+        });
+        </script>
+        </script>
+    </body>
+
+</html>

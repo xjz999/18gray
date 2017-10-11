@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/args.js"></script>
+		<!-- Bootstrap core CSS -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/tooltip.js"></script>
+		<script src="js/rollBack.js"></script>
+	</head>
+	<body style="background: #303133;">
+		<script src="js/head.js"></script>
+		<div class="mainStorys">
+			<div class="carouselDiv1">
+				<!-- 轮播（Carousel）导航 -->
+				<a class="big-control1 left" href="###" onclick="moveImg(0);"
+				   data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+				<a class="big-control1 right" href="###" onclick="moveImg(1);"
+				   data-slide="next"><i class="fa fa-chevron-right"></i></a>
+				   
+				<div class="bigImg">&nbsp;</div>
+				<div class="carouselSummary"></div>
+				<!--<div class="imgWheel">
+					<div class="wheelLeft direction"><i class="fa fa-chevron-left"></i></div>
+					<div class="wheelCenter">
+						<div class="imgsInside"></div>
+					</div>
+					<div class="wheelRight direction"><i class="fa fa-chevron-right"></i></div>
+				</div>-->
+			
+			</div>
+		</div>
+		<script src="js/foot.js"></script>
+	</body>
+	<script type="text/javascript">
+		var hh = location.search;
+    	if (!hh || hh == ""){
+    		alert("参数错误");
+    	}
+		var tArr=hh.split("#");//防止页面意外加了#
+        	var uid="";
+        	var pid="";
+        	if (tArr.length >0){
+        		var xx=tArr[0];
+        		var ttArr = xx.split("&");
+        		uid=ttArr[0];
+        		pid=ttArr[1];
+        		uid=uid.replace("?f=","");
+        		pid=pid.replace("d=","");
+        	}
+        	var userlist=[{"id":1,"name":"万毅","degree":"MPSA","degree2":"影艺硕学会士","addr":""},
+{"id":2,"name":"陈欣欣","degree":"MPSA","degree2":"影艺硕学会士","addr":""},
+{"id":3,"name":"李鹏","degree":"Top3","degree2":"Who's who PTD","addr":""},
+{"id":4,"name":"沈健","degree":"","degree2":"PSA会长奖章获得者","addr":""},
+{"id":5,"name":"许晓梅","degree":"EPSA","degree2":"影艺卓越会士","addr":""},
+];
+			var userArts = [{"id":1,"userid":2,"name":"踩高跷",url:"famearts/2/1_b_d.jpg"},
+{"id":2,"userid":2,"name":"抱大腿",url:"famearts/2/2_b_d.jpg"},
+{"id":3,"userid":2,"name":"哭墙",url:"famearts/2/3_b_d.jpg"},
+{"id":4,"userid":2,"name":"牦牛抢羊赛",url:"famearts/2/4_b_d.jpg"},
+{"id":5,"userid":1,"name":"痕系列之二",url:"famearts/1/1_b_d.jpg"},
+{"id":6,"userid":1,"name":"爷孙俩",url:"famearts/1/2_b_d.jpg"},
+{"id":7,"userid":1,"name":"匆十",url:"famearts/1/3_b_d.jpg"},
+{"id":8,"userid":1,"name":"鸽子",url:"famearts/1/4_b_d.jpg"},
+{"id":9,"userid":3,"name":"高原母子和马",url:"famearts/3/1_b_d.jpg"},
+{"id":10,"userid":3,"name":"看书的少女",url:"famearts/3/2_b_d.jpg"},
+{"id":11,"userid":3,"name":"转经",url:"famearts/3/3_b_d.jpg"},
+{"id":12,"userid":3,"name":"藏区生活",url:"famearts/3/4_b_d.jpg"},
+{"id":13,"userid":4,"name":"希望之光",url:"famearts/4/1_b_d.jpg"},
+{"id":14,"userid":4,"name":"我心飞翔",url:"famearts/4/2_b_d.jpg"},
+{"id":15,"userid":4,"name":"缘",url:"famearts/4/3_b_d.jpg"},
+{"id":16,"userid":4,"name":"祈祷",url:"famearts/4/4_b_d.jpg"},
+{"id":17,"userid":5,"name":"韵",url:"famearts/5/1_b_d.jpg"},
+{"id":18,"userid":5,"name":"远古",url:"famearts/5/2_b_d.jpg"},
+{"id":19,"userid":5,"name":"金色非洲",url:"famearts/5/3_b_d.jpg"},
+{"id":10,"userid":5,"name":"着迷",url:"famearts/5/4_b_d.jpg"}
+
+];
+		var carouselText = [];
+//		imgReqPath = "/ROOT/upload/";
+		$(function(){
+			for (var i=0;i<userArts.length;i++){
+				if (userArts[i].userid.toString() != uid)continue;
+				carouselText.push(
+					{name:userArts[i].name,
+						thumb:imgReqPath+userArts[i].url.replace("_b_d",""),
+						img:imgReqPath+userArts[i].url,
+						author:userlist[parseInt(uid) - 1].name
+					}
+				);	
+			}
+			var pidInt = 0;
+			try{
+				pidInt = parseInt(pid);
+			}catch(e){}
+			showSummary(pidInt);
+		});
+		var moveImg = function(arrowInt){
+			if (arrowInt == 0){
+				rollIndex --;
+			}else{
+				rollIndex ++;
+			}
+			showSummary(rollIndex);
+		};
+		var rollIndex = 0;
+		var showSummary = function(cIndex){
+			if (cIndex < 0){
+				cIndex = 0;
+				return;
+			}
+			if (cIndex >= carouselText.length){
+				cIndex = 0;
+			}
+			rollIndex = cIndex;
+			
+			var smText = "<div class='headImgTitle'>$1&nbsp;&nbsp;$2 作品</div>";
+			if (cIndex < 0 || cIndex > carouselText.length - 1){
+				$(".carouselSummary").html(smText);
+				return;
+			}
+			$(".bigImg").hide();
+			var obj = carouselText[cIndex];
+			smText = smText.replace("$1","《"+obj.name+"》");
+			smText = smText.replace("$2",obj.author);
+			$(".carouselSummary").html(smText);
+			$(".bigImg").html("<div style='width:100%;height:100%;overflow:hidden;'><table style='width:100%;height:100%;'><tr><td width='100%' height='100%' align='center' valign='middle'><img src=\""+obj.img+"\" onload=\"adjustDirect(this);\" /></td></tr></table></div>");
+			$(".bigImg").fadeIn("slow");
+			
+		};
+		var adjustDirect=function(objimg){
+			//重置方向键高度
+			var hh = $(objimg).height();
+			$(".mainStorys .carouselDiv1 a.big-control1").css("top",(hh/2-30)+"px");
+		};
+		//切换开始事件
+		$('#myCarousel').on('slide.bs.carousel', function () {
+//			console.log($(this).data('bs.carousel'));
+			$(".carouselSummary").fadeOut(1000);
+		});
+		//切换完成后事件
+		$('#myCarousel').on('slid.bs.carousel', function () {
+			var carouselData = $(this).data('bs.carousel'); 
+            var cIndex = 0;
+            for (var i=0;i<carouselData.$items.length;i++){
+            	if($(carouselData.$items[i]).attr("class").indexOf(" active") > -1){
+            		cIndex = i;
+            		break;
+            	}
+            }
+           	showSummary(cIndex);
+           	$(".carouselSummary").fadeIn(1000);
+//          console.log(cIndex);
+		});
+		
+		$(function(){
+			$(".imgWheel .wheelLeft").click(function(){
+//				var ml = $(".imgWheel .imgsInside").css("margin-left").replace("px","");
+//				ml = parseInt(ml);
+//				ml = Math.abs(ml);
+//				var moveInt=0;
+//				debugger;
+//				if (ml >= 1020){
+//					moveInt = 1020;
+//				}else{
+//					moveInt = ml;
+//				}
+//				moveInt -= 1020;
+//				if (moveInt < 0)moveInt = 0;
+				$(".imgWheel .imgsInside").animate({"margin-left":"0px"},1000,"swing",function(){});
+			});
+			$(".imgWheel .wheelRight").click(function(){
+				var ww=$(".imgWheel .imgsInside").width();
+				var ml = $(".imgWheel .imgsInside").css("margin-left").replace("px","");
+				ml = parseInt(ml);
+				ml = Math.abs(ml);
+				var moveInt=0;
+				if (ml+1020+1020 <= ww){
+					moveInt = 1020;
+				}else{
+					moveInt = ww  - ml - 1020;
+				}
+				if (moveInt < 0)moveInt = 0;
+				moveInt = 0-moveInt - ml;
+				if (-1 *(moveInt - 1020) > ww)moveInt = 1020 - ww;
+				debugger;
+				$(".imgWheel .imgsInside").animate({"margin-left":moveInt.toString() + "px"},1000,"swing",function(){});
+			});
+		});
+	</script>
+</html>
+

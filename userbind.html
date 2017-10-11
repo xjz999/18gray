@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+	    <link href="css/pages.css" rel="stylesheet">
+	    <link href="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/css/fileinput.min.css" rel="stylesheet">	
+	    
+	    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	    <script src="js/ajaxfileupload.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+		<style>
+		label {font-size:15px;cursor:pointer;}
+		label i {font-size:15px;font-style:normal;display:inline-block;width:20px;height:20px;text-align:center;line-height:16px;color:#fff;vertical-align:middle;margin:-2px 2px 1px 0px;border:#2689FF 1px solid;}
+		/*input[type="checkbox"],*/
+		input[type="radio"] {display:none;}
+		input[type="radio"] + i {border-radius:10px;}
+		/*input[type="checkbox"]:checked + i,*/
+		input[type="radio"]:checked + i {background:#2689FF;}
+		/*input[type="checkbox"]:disabled + i,*/
+		input[type="radio"]:disabled + i {border-color:#ccc;}
+		/*input[type="checkbox"]:checked:disabled + i,*/
+		input[type="radio"]:checked:disabled + i {background:#ccc;}
+		</style>
+		<script>
+		var choseFile700=function(){$("#input-700").click();};
+		var choseFile701=function(){$("#input-701").click();};
+		var uploadCurrentIndex = 700;
+		var fileChange = function(btIndex){
+			uploadCurrentIndex = btIndex;
+			var arr = $("#regphoto").val().split(",");
+			if (btIndex == 701 && arr.length > 15){
+				alert("最多上传15张作品,本次上传无效。");
+				return;
+			}else if (btIndex == 700 && arr.length > 3){
+				alert("最多上传3张证书图片,本次上传无效。");
+					return;
+			}
+			$.ajaxFileUpload({
+	            url:'/PsaBackend/Arts/fileUpload', //你处理上传文件的服务端
+	            secureuri:false,
+	            fileElementId:'input-'+btIndex,
+	            dataType: 'json',
+	            success: function (data)
+              	{
+					if (data && data.filename && data.filename != ""){
+                		$("#regphoto").val($("#regphoto").val()+","+data.filename);
+                		$("#pics"+uploadCurrentIndex).html($("#pics"+uploadCurrentIndex).html()
+                		+ "<div class='picsDivIn' style='width: 80px;height: 80px;overflow: hidden; float: left;position: relative;'><div style='position: absolute; right:2px; top:2px;z-index: 100; background-color:gray; color:red; font-size: 20px; width:20px; height: 20px; cursor: pointer; line-height: 20px; text-align: center;' onclick='delRegImg(\"" + data.filename + "\",this)'>&times;</div><table width='100%'><tr><td width='100%' align='center' valign='middle'><img height='80px' src='upload/"+data.filename.replace("_b_d","")+"'/></td></tr></table></div>"
+                		);
+                	}else{
+                		alert("上传失败，请稍后再试");
+                	}
+                	$('#input-'+btIndex).replaceWith('<input id="input-'+btIndex+'" name="file" type="file" class="" onchange="fileChange('+btIndex+')" style="display: none;">');
+              	},
+              	error:function(e){
+              		alert("上传失败，请稍后再试");
+              		$('#input-'+btIndex).replaceWith('<input id="input-'+btIndex+'" name="file" type="file" class="" onchange="fileChange('+btIndex+')" style="display: none;">');
+              	}
+           });
+		};
+		var delRegImg = function(imgPath,_self){
+			$("#regphoto").val($("#regphoto").val().replace(","+imgPath,""));
+			_self.parentNode.parentNode.removeChild(_self.parentNode);
+		}
+		var clearPicSelected=function(){
+			$("#regphoto").val("");
+			$("#pics700").html("<div class=\"addImgNoCert\" onclick=\"choseFile700()\" style=\"width:80px; height: 80px; float: left;\">+</div>");
+			$("#pics701").html("<div class=\"addImgNoCert\" onclick=\"choseFile701()\" style=\"width:80px; height: 80px; float: left;\">+</div>");
+			
+		};
+$(function() {
+//				code 100 101
+				var newUrl = window.location.href;
+				var arr= newUrl.split("#");
+				if (arr.length == 2){
+					if (arr[1] == "code=100"){
+						$('#myModalOk').modal("show");
+//						alert("注册成功，但需要等待工作人员进行人工审核，一般需要1至2天，在此期间您可以继续浏览本站其它内容。");
+					}else if(arr[1] == "code=101"){
+						$('#myModalErr').modal("show");
+//						alert(":( 注册失败，我们已经关注此问题，请您稍后再试。");
+					}
+				}
+				$('.btForBack').on('click', function () {
+				      window.location = "/index.html";
+				});
+			//图片上传结束
+   
+	$("#servicePop").addClass("servicePopRegist");
+	$("#imgQR").addClass("imgQRRegist");
+	$("#servicePop").hide();
+	$("#imgQR").hide();
+
+	$("#certRd1").on("click", function() {
+		clearPicSelected();
+		if(this.checked) {
+			$("#picsNoCert").collapse("hide");
+			$("#picsByCert").collapse("show");
+		}
+	});
+	$("#sertRd0").on("click", function() {
+		clearPicSelected();
+		if(this.checked) {
+			$("#picsByCert").collapse("hide");
+			$("#picsNoCert").collapse("show");
+		}
+	});
+
+	//验证
+	$('#defaultForm').bootstrapValidator({
+		message: '验证未通过',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			truename: {
+				validators: {
+					notEmpty: {
+						message: '姓名不能为空'
+					},
+					stringLength: {
+						min: 2,
+						max: 15,
+						message: '姓名长度必须在2到15之间'
+					}
+				}
+			},
+			loginName: {
+				validators: {
+					notEmpty: {
+						message: '参赛英文名不能为空'
+					},
+					stringLength: {
+						min: 3,
+						max: 30,
+						message: '参赛英文名长度必须在3到30之间'
+					}
+				}
+			},
+			password: {
+				validators: {
+					notEmpty: {
+						message: '密码不能为空'
+					},
+					regexp: {
+                         regexp: /^[a-zA-Z][a-zA-Z0-9_\.]{5,17}$/,
+                         message: '密码必须以字母开头，长度在6~18之间，只能包含字符、数字和下划线'
+                    }
+				}
+			},
+			passwordEnsure: {
+				validators: {
+					notEmpty: {
+						message: '确认密码不能为空'
+					},
+                    identical: {//相同
+                         field: 'password',
+                         message: '两次密码不一致'
+                    }
+				}
+			},
+			mobileValidCode:{
+				validators: {
+					notEmpty: {
+						message: '请填写短信验证码'
+					},
+					threshold :  4 ,
+                   	remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}  
+						url: '/PsaBackend/Users/ValidSMS',//验证地址
+						message: '短信验证码错误',//提示消息
+						delay :  2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+						type: 'POST'//请求方式
+						/**自定义提交数据，默认值提交当前input value
+                          *  data: function(validator) {
+                               return {
+                                   password: $('[name="passwordNameAttributeInYourForm"]').val(),
+                                   whatever: $('[name="whateverNameAttributeInYourForm"]').val()
+                               };
+                            }
+                          */
+					}
+				}
+			},
+			mobile:{
+				validators: {
+					notEmpty: {
+						message: '手机号不能为空'
+					},
+					regexp: {
+                         regexp: /^1\d{10}$/,
+                         message: '请填写正确的手机号'
+                    },
+                    threshold :  11 ,
+                   	remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}  
+						url: '/PsaBackend/Users/ValidMobile',//验证地址
+						message: '该手机号已被使用，如果您遗忘密码，请尝试取回密码',//提示消息
+						delay :  2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+						type: 'POST',//请求方式,
+						success:function(){alert(556);},
+						error:function(){alert(555);}
+					}
+				}
+			},
+			optionsRadiosSex:{
+				validators: {
+					notEmpty: {
+						message: '请选择性别'
+					}
+				}
+			},
+			optionsRadiosAward:{
+				validators: {
+					notEmpty: {
+						message: '请选择是否有星标名衔证书'
+					}
+				}
+			},
+			email:{
+				validators: {
+					notEmpty: {
+						message: '请填写邮箱'
+					},
+					regexp: {
+                         regexp: /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/,
+                         message: '请正确填写'
+                   	},
+                   	threshold :  6 ,
+                   	remote: {//ajax验证。server result:{"valid",true or false} 向服务发送当前input name值，获得一个json数据。例表示正确：{"valid",true}  
+						url: '/PsaBackend/Users/ValidEmail',//验证地址
+						message: '邮箱已被占用，如果您遗忘密码，请尝试取回密码',//提示消息
+						delay :  2000,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+						type: 'POST'//请求方式
+					},
+				}
+			}
+		}
+	}).on('form.success.bv',function(e){
+	    e.preventDefault();
+//	    $.post('sdfdsf.ashx',{},function(data){
+//	        这里写你的代码…………………………
+//	    })
+	});
+	//星标名衔证书选择 无
+	$("#certRd1").click();
+	$("#picsByCert").collapse("show");
+	$("#picsNoCert").collapse("hide");
+			
+	//获取手机验证码
+	var countdown = 0;
+	var ttDown = null;
+	var countDownFn = function(){
+		countdown --;
+		if (ttDown){
+			clearTimeout(ttDown);
+			ttDown = null;
+		}
+		//显示数字变化
+		$("#btGetSMS").val("重新获取 "+countdown.toString());
+		if (countdown > 0){
+			ttDown = setTimeout(function(){countDownFn();},1000);
+		}else{
+			//恢复可用
+			$("#btGetSMS").attr("disabled",false);
+			$("#btGetSMS").val("获取验证码 ");
+		}
+	};
+	$("#btGetSMS").click(function(){
+		var mobNumber = $("#mobile").val();
+		var reg = /^1[0-9]{10}/;
+		if (!reg.test(mobNumber)){
+			alert("请正确填写手机号");
+			return;
+		}
+		//置灰，不可用		  		
+		$.ajax({
+		  type: 'POST',
+		  url: "/PsaBackend/Users/GetSMS",
+		  data: {mobileVal:$("#mobile").val()},
+		  success: function(data,successful){
+		  	if (successful){
+		  		if (data.code == 1){
+		  			alert("手机短信已发出，请注意查收。");
+		  			$("#btGetSMS").attr("disabled",true); 
+			  		//倒计时
+			  		countdown = 60;
+			  		countDownFn();
+		  		}else{
+		  			alert("发送手机验证码失败，请稍后再试。");
+		  		}
+		  	}else{
+		  		alert("发送手机验证码失败，请稍后再试!");
+		  	}
+		  },
+		  dataType: 'json'
+		});
+	});
+});
+		var doMySubmit = function(){
+			if ($("#certRd1").get(0).checked){
+				if ($("#regphoto").val().split(",") <= 1){
+					alert("如果您拥有荣衔会员证书，请上传之。");
+					return false;
+				}
+			}else{
+				if ($("#regphoto").val().split(",") <= 10){
+					alert("请上传至少10张您的个人作品，以方便我们进一步沟通。");
+					return false;
+				}
+			}
+			if (!$("#checkedProtocol").get(0).checked){
+				alert("请查看并同意《服务条款和隐私策略》，必须征得您同意，注册才能继续。");
+				return false;
+			}
+			
+			var userobj = {};
+			userobj.email = $("#email").val();
+			userobj.truename = $("#truename").val();
+			userobj.loginname = $("#loginName").val();
+			userobj.password = $("#password").val();
+			userobj.sex=($('input:radio[name="optionsRadiosSex"]:checked').val()=="1")?1:0;
+			userobj.mobile = $("#mobile").val();
+			userobj.regtype = ($('input:radio[name="optionsRadiosAward"]:checked').val()=="1")?1:0;
+			userobj.regphoto = $("#regphoto").val();
+			console.log(userobj);
+			//置灰，不可用		  		
+			$.ajax({
+			  type: 'POST',
+			  url: "/PsaBackend/Users/BindWX",
+			  data: JSON.stringify(userobj),
+			  contentType: "application/json; charset=utf-8",
+			  success: function(data,successful){
+			  	if (successful){
+			  		switch(data.code){
+			  			case 0:
+			  				$('#myModalErr').modal("show");
+			  			break;
+			  			case 1:
+			  				$('#myModalOk').modal("show");
+			  			break;
+			  			case 2:
+			  				$('#myModalJump').modal("show");
+			  				setTimeout(function(){
+			  					window.location="/my/index.html";
+			  				},5000);
+			  			break;
+			  		}
+			  	}else{
+			  		$('#myModalErr').modal("show");
+			  	}
+			  },
+			  dataType: 'json'
+			});
+			return false;
+		};
+		</script>
+	</head>
+	<body>
+		<div class="regmain">
+			<div class="head bindpage">
+				<div class="left">
+					<span>账号绑定</span>
+				</div>
+				<div class="right">
+					<a href="###" class="active" >绑定新号</a> <a href="userbindold.html">绑定旧号</a>
+				</div>
+			</div>
+			<div style="width: 100%;height: 30px; clear: both;"></div>
+			
+			<form id="defaultForm" name="defaultForm" onsubmit="return doMySubmit()" class="form-horizontal" action="blog.html">
+			<div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">邮箱：</label>
+		    	<div class="col-md-5">
+		    		<input type="text" name="email" id="email" class="form-control" placeholder="请输入邮箱">
+		    	</div>
+		    	</div>
+		    </div>
+			<div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">姓名：</label>
+		    	<div class="col-md-5">
+		    		<input type="text" class="form-control" name="truename" id="truename" placeholder="请填写你的真实姓名">
+		    	</div>
+		    	</div>
+		   </div>
+		   <div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">参赛英文名：</label>
+		    	<div class="col-md-5">
+		    		<input type="text" name="loginName" class="form-control" id="loginName" placeholder="请填写你的参赛英文名">
+		    	</div>
+		    	</div>
+		    </div>
+		    <div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">密码：</label>
+		    	<div class="col-md-5">
+		    		<input type="password" name="password" class="form-control" id="password" placeholder="6-16位密码，区分大小写">
+		    	</div>
+		    	</div>
+		    </div>
+		    <div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">确认密码：</label>
+		    	<div class="col-md-5">
+		    		<input type="password" name="passwordEnsure" class="form-control" placeholder="再次输入密码">
+		    	</div>
+		    	</div>
+		    </div>
+		    <div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">性别：</label>
+		    	<div class="radio text-left">
+				    <label>
+				        <input type="radio" name="optionsRadiosSex" id="sexRd1" value="1" checked><i>✓</i>男
+				    </label>
+				    &nbsp;
+				    <label>
+				        <input type="radio" name="optionsRadiosSex" id="sexRd0" value="0"><i>✓</i>女
+				    </label>
+				</div>
+		    	</div>
+		    </div>
+		    <div class="form-group"> 
+				<div class="row">
+		    	<label class="form-label col-sm-5 text-right">手机号码：</label>
+		    	<div class="col-md-5">
+		    		<input type="text" id="mobile" name="mobile" class="form-control" placeholder="请输入你的手机号码">
+		    		<p class="help-block">忘记密码可通过该手机号找回密码</p>
+		    	</div>
+		    	</div>
+		   	</div>
+		    <div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">短信验证码：</label>
+		    	<div class="col-md-3">
+		    		<input type="text" name="mobileValidCode" maxlength="4" class="form-control">
+		    		<p class="help-block">填写系统发送到您手机上的4位验证码</p>
+		    	</div>
+		    	<div class="col-md-2">
+		    		<input type="button" id="btGetSMS" class="btn  btn-success" value="获取验证码">
+		    	</div>
+		    	</div>
+		    </div>
+		    <div class="form-group checkAward"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right">是否有星标名衔证书：</label>
+		    	<div class="radio text-left">
+				    <label class="larger">
+				        <input type="radio" name="optionsRadiosAward" id="certRd1" value="1"><i>✓</i> 有
+				    </label>
+				    &nbsp;
+				    <label>
+				        <input type="radio" name="optionsRadiosAward" id="sertRd0" value="0"><i>✓</i> 无
+				    </label>
+				</div>
+				<input type="hidden" id="regphoto" name="regphoto" value="" />
+				<p class="help-block">
+					<div class="row  text-left">
+						<div id="picsByCert"  class="accordion-body collapse col-md-7 col-md-offset-3">
+							<span>
+								请添加您的星标名衔证书<br/>
+								<small>至少添加1张，最多3张，尺寸至少800*800,且清晰可辨。</small>
+							</span>
+							<input id="input-700" name="file" type="file" class=""  onchange="fileChange(700)" style="display: none;">
+							<div id="pics700">
+								<div class="addImgByCert" onclick="choseFile700()" style="width:80px; height: 80px; float: left;">+</div>
+				        	</div>
+						</div>
+						<div id="picsNoCert"  class="accordion-body collapse col-md-7 col-md-offset-3">
+							<span>
+								请添加您的摄影作品<br/>
+								<small>至少添加10张，最多不超过15张，尺寸为1920(宽)*1080(高)，我们将依此初步了解您目前的摄影水平，以便与您更好地沟通。</small>
+							</span>
+							<input id="input-701" name="file" type="file"  class="" multiple   onchange="fileChange(701)" style="display: none;">
+							<div id="pics701">
+								<div class="addImgNoCert" onclick="choseFile701()" style="width:80px; height: 80px; float: left;">+</div>
+							</div>
+						</div>
+			    	</div>
+				</p>
+		    	</div>
+		    </div>
+		    <div style="width: 100%;height: 30px;"></div>
+		    <div class="form-group"> 
+				<div class="row  text-center">
+		    	<div class="col-md-7 col-md-offset-3">
+		    		<input type="submit" id="btSub" name="btSub" value="立即绑定" class="btn btn-primary btn-block" />
+		    	</div>
+		    	</div>
+		    </div>
+		    <div class="form-group"> 
+				<div class="row  text-center">
+		    	<label class="form-label col-sm-5 text-right"></label>
+		    	<div class="col-md-5">
+		    		<label>
+		    			<input type="checkbox" name="checkedProtocol"> 我已阅读并同意相关<a href="#"  data-toggle="modal" data-target="#myModal">服务条款和隐私政策</a>
+		    		</label>
+		    	</div>
+		    	</div>
+		    </div>
+		    </form>
+		
+		</div>
+		</div>
+		<script type="text/javascript" src="js/foot.js"></script>
+		
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					“挑战名人堂”相关服务条款和隐私政策
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				
+<p>
+<label>（一）入会须知</label><br/>
+1、 “挑战名人堂”是一个小众的摄影机构，机构会员以积极参与PSA认证的国际摄影大赛，积攒积分、换取对应的星标名衔为前提，以跻身PSA名人堂为终极目标。参赛并向GMPSA发起冲击，就必须具备相当的摄影水准，故机构设定加盟者需提交星标证书或本人10幅代表作品，审核通过后，方可成为机构挑战者中的一员。<br/>
+2、“挑战名人堂”在收到注册申请资料的5个工作日完成审核工作，审核通过后，机构相关负责人将通过电子邮件或电话形式同申请人联系，详细了解申请人需求，协助选择机构A、B委托代理计划中的一个，在选定计划并签订相关协议后3个工作日内，以邮件形式发给申请者PDF格式的会员卡。
+<br/>
+3、申请加入 “挑战名人堂”者，一旦提交的作品审核通过，即获得机构认可的挑战者专业资格，将不会收取加盟者会员年费。
+<br/>
+4、“挑战名人堂”为参赛会员提供以下服务：<br/>
+A计划：服务涵盖了客户的作品评估、作品分类、作品名翻译、投稿计划、投稿、参赛费购汇并代支付、成绩查阅管理、成绩通知、统计、各类证书代接收以及后续摄影方向建议等，收取50元/组的代理投稿费；星标名衔申请另行付费。
+<br />
+B计划：服务涵盖了客户的作品名翻译、投稿、参赛费购汇并代支付、成绩查阅、成绩通知、各类证书代接收等，收取25元/组的代理投稿费；星标名衔申请另行付费。
+<br/>
+5、	“挑战名人堂”会员专区设有针对PSA认证赛事组别和专题的特别学习区，此外，机构将不定期举办只有会员参与的创作及作品分享、点评网络公开课，希翼能给予参赛会员在挑战PSA名人堂，获取星标名衔过程中以最大的助力。
+<br/>
+6、如您提交的入会报名作品未获通过，机构相关负责人一定会亲自与您联系，在充分沟通后，如您愿意，亦可缴纳388元成为机构的年费学习会员，享有除代理参赛外机构会员的其他服务。年费会员的独有福利是：每年不论进行多少次不同拍摄地的采风创作，均可每一地挑选出100幅以内您较满意的作品，由机构高阶荣衔会员通过网络公开课的形式为您进行一对一的作品专项点评。在未来的某个时点一旦您作品的数量和质量均达到参赛要求后，您立刻就可以转为“挑战名人堂”成员，并不再收取下一年度的年费。
+<br/>
+7、若您的作品通过审核成为机构参赛会员后的一个月内，仍未开始选定或执行参赛投稿计划，系统会自动屏蔽你的会员区登录ID；年费会员在会费到期日尚未续费，系统也会屏蔽您的登录ID。
+<br/>
+8、您在本机构所登记的资料，我们将严格遵守国家相关隐私保密条款，资料仅用于申请会员资格、注册专用参赛邮箱及国际赛事注册登记之用。
+</p>
+<p>
+<label>（二）声明与承诺</label> <br/>
+1、您确认，在您点击“立即注册”之前，您已充分阅读、理解并接受《挑战名人堂相关服务条款和隐私政策》的全部内容，一旦您点击完成注册，即表示您同意遵循本协议之所有约定；同意成为机构代理参赛或学习的会员。
+<br/>
+2、注册成功、成为机构会员后，如因任何原因未委托本机构代理参赛，经协商可转为付费学习会员，若在注册成功后的一个月内，既未参赛也未转为年费会员，则视同放弃本机构会员身份，本机构有权取消您之前的登录权限。
+</p>
+<p>
+<label>（三）解释权</label><br/>
+“挑战名人堂”由“福州灰度文化传播有限公司”（简称“灰度影像”）负责日常运营、会员信息收录、会员管理等，并为“挑战名人堂”提供服务，上述条款经“灰度影像”审阅通过后生效，解释权归属“灰度影像”。
+</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalOk" tabindex="-1" data-toggle="modal" role="dialog1" aria-labelledby="myModalLabel1" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					绑定成功
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p>
+				为保证服务质量，我们的工作人员会对您的注册和绑定的信息进行人工审核，一般需要5个工作日，在此期间可能会与您通过电话或邮箱进行联络，请您注意接收。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalErr" tabindex="-1" data-toggle="modal" role="dialog2" aria-labelledby="myModalLabel2" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					绑定失败
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p>
+				注册或绑定的过程失败了，我们已经关注此问题，将尽快修复，请您稍后再试。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary btForBack">
+					回主页
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+	
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModalJump" tabindex="-1" data-toggle="modal" role="dialog3" aria-labelledby="myModalLabel3" aria-hidden="true">
+	<div class="modal-dialog regLegalDialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					绑定成功
+				</h4>
+			</div>
+			<div class="modal-body legalContent">
+				<p>
+				绑定成功，且您的注册信息早先已被审核通过，即将跳转，进入个人中心页面。
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+
+	
+</div>
+	</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <title>回收站</title>
+        <!-- Bootstrap -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="assets/styles.css" rel="stylesheet" media="screen">
+        <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+        <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="../js/json3.js"></script>
+        <script src="../js/args.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script>
+        	if (!getCookie("adminname") || getCookie("adminname") == ""){
+        		window.location = "login.html";
+        	}
+        	if (!getCookie("adminlevel") || getCookie("adminlevel") != "101"){
+        		window.location = "login.html";
+        	}
+        </script>
+    </head>
+    
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">回收站</a>
+                    <script src="top.js"></script>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3" id="sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
+                         <script type="text/javascript" src="menus.js" ></script>
+                    </ul>
+                </div>
+                <!--/span-->
+                <div class="span9" id="content">
+
+                     <div class="row-fluid">
+                        <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left larger">
+                                	回收站
+                                </div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                   <div class="table-toolbar">
+                                      <div class="btn-group">
+                                        
+                                      </div>
+                                      <!--<div class="btn-group pull-right">
+                                         <button data-toggle="dropdown" class="btn dropdown-toggle">Tools <span class="caret"></span></button>
+                                         <ul class="dropdown-menu">
+                                            <li><a href="#">Print</a></li>
+                                            <li><a href="#">Save as PDF</a></li>
+                                            <li><a href="#">Export to Excel</a></li>
+                                         </ul>
+                                      </div>-->
+                                   </div>
+                                    
+                                    <table cellpadding="0" cellspacing="0" border="0" class="table table-bordered" id="tbNews">
+                                        <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>标题</th>
+                                                <th>类型</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        	
+                                        </tbody>
+                                    </table>
+                                    <div id="pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /block -->
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <footer>
+                <p>&copy; Vincent Gabriel 2013</p>
+            </footer>
+        </div>
+        <!--/.fluid-container-->
+
+        <script src="vendors/jquery-1.9.1.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="vendors/datatables/js/jquery.dataTables.min.js"></script>
+
+
+        <script src="assets/scripts.js"></script>
+        <script src="assets/DT_bootstrap.js"></script>
+        <script>
+        	var rArr = [];
+        	$(function(){
+        		loadData();
+        	});
+        	var freshData = function(){
+        		$("#tbNews tbody").html("");
+        		var strs = "";
+        		for(var i=0;i<rArr.length;i++){
+        			strs += "<tr class=\"odd gradeX\"><td>"+(i+1).toString()+"</td>";
+        			strs += "<td >"+rArr[i].title+"</td>";
+        			strs += "<td >";
+        			switch(rArr[i].type){
+        				case 0:
+        					strs += "资讯";
+        				break;
+        				case 1:
+        					strs += "图片";
+        				break;
+        				case 2:
+        					strs += "赛事";
+        				break;
+        			}
+        			strs +="</td>";
+        			strs +="<td><a href=\"#\" onclick=\"doRe('"+rArr[i].oid+"',"+rArr[i].type+");\">还原</a> <a href=\"#\" onclick=\"doDel('"+rArr[i].oid+"',"+rArr[i].type+");\">彻底删除</a></td>"
+        			strs+="</tr>";
+        		}
+        		$("#tbNews tbody").html(strs);
+        	}
+        	var doRe=function(coid,rType){
+	        	var rObj={
+	        		oid:coid,
+	        		deleted:0
+	        	};
+	        	var rurl = "/PsaBackend/";
+	        	switch(rType){
+	        		case 0:
+	        			rurl += "News";
+	        		break;
+	        		case 1:
+	        			rurl += "Arts";
+	        		break;
+	        		case 2:
+	        			rurl += "Competitions";
+	        		break;
+	        	}
+	        	rurl += "/AddNew";
+	        	$.ajax({
+		            url:rurl,  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            data:JSON.stringify(rObj),  
+		            success:function(data){
+		            	if (data){
+		            		loadData();//刷新当前页。
+		            	}else{
+		            		alert("还原失败");
+		            	}
+		            },
+		            error:function(){
+		            	alert("还原失败");
+		            }
+		        });  
+        	};
+        	var doDel=function(oid,rType){
+        		if (!confirm("删除后将无法恢复，请确认。"))return;
+        		var rurl = "/PsaBackend/";
+	        	switch(rType){
+	        		case 0:
+	        			rurl += "News";
+	        		break;
+	        		case 1:
+	        			rurl += "Arts";
+	        		break;
+	        		case 2:
+	        			rurl += "Competitions";
+	        		break;
+	        	}
+	        	rurl += "/DeleteOne/"+oid;
+	        	$.ajax({
+		            url:rurl,  
+		            type:"GET",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            success:function(data){
+		            	if (data){
+		            		loadData();//刷新当前页。
+		            	}else{
+		            		alert("删除失败");
+		            	}
+		            },
+		            error:function(){
+		            	alert("删除失败");
+		            }
+		        });  
+        		
+        	};
+        	var loadData= function(){
+        		rArr = [];
+        		var pData={
+	            	pageindex:1,
+	            	pagesize:20,
+	            	deleted:1
+		        }
+        		$.ajax({
+		            url:"/PsaBackend/News/List",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            data:JSON.stringify(pData),  
+		            success:function(data){
+		            	if (data.list && data.list.length>0){
+		            		for(var i=0;i<data.list.length;i++){
+		            			rArr.push({oid:data.list[i].oid,title:data.list[i].title,type:0});
+		            		}
+		            		freshData();
+		            	}
+		            }
+	        	});
+	        	$.ajax({
+		            url:"/PsaBackend/Arts/List",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            data:JSON.stringify(pData),  
+		            success:function(data){
+		            	if (data.list && data.list.length>0){
+		            		for(var i=0;i<data.list.length;i++){
+		            			rArr.push({oid:data.list[i].oid,title:data.list[i].title,type:1});
+		            		}
+		            		freshData();
+		            	}
+		            }
+	        	});
+	        	$.ajax({
+		            url:"/PsaBackend/Competitions/List",  
+		            type:"POST",  
+		            dataType:"json",  
+		            contentType: "application/json; charset=utf-8",
+		            async:false,  
+		            data:JSON.stringify(pData),
+		            success:function(data){
+		            	if (data.list && data.list.length>0){
+		            		for(var i=0;i<data.list.length;i++){
+		            			rArr.push({oid:data.list[i].oid,title:data.list[i].title,type:2});
+		            		}
+		            		freshData();
+		            	}
+		            }
+	        	});
+        	};
+        
+        </script>
+    </body>
+
+</html>
