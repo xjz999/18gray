@@ -196,9 +196,13 @@ div[data-role="editor-toolbar"] {
       <div class="btn-group">
         <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
           <ul class="dropdown-menu">
-          <li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
-          <li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
-          <li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>
+          <li><a data-edit="fontSize 1"><font size="4">Size 1(Max)</font></a></li>
+          <li><a data-edit="fontSize 2"><font size="4">Size 2</font></a></li>
+          <li><a data-edit="fontSize 3"><font size="4">Size 3</font></a></li>
+          <li><a data-edit="fontSize 4"><font size="4">Size 4</font></a></li>
+          <li><a data-edit="fontSize 5"><font size="4">Size 5</font></a></li>
+          <li><a data-edit="fontSize 6"><font size="4">Size 6</font></a></li>
+          <li><a data-edit="fontSize 7"><font size="4">Size 7(Min)</font></a></li>
           </ul>
       </div>
       <div class="btn-group">
@@ -347,10 +351,9 @@ div[data-role="editor-toolbar"] {
 <script src="vendors/jquery.uniform.min.js"></script>
         <script src="vendors/chosen.jquery.min.js"></script>
         <script src="vendors/bootstrap-datepicker.js"></script>
-       <script src="bootstrap-wysiwyg.js"></script>
+       <script src="bootstrap-wysiwyg.js?a=128"></script>
         <script src="../js/ajaxfileupload.js"></script>
         <script>
-
 	jQuery(document).ready(function() {   
 //	   FormValidation.init();
 	});
@@ -377,6 +380,7 @@ div[data-role="editor-toolbar"] {
 					$("#txtEyebrow").val(data.eyebrow);
 					$("#txtInterpreter").val(data.interpreter);
 					
+					loadPicDblFun();
 //					if(data.expDate != "") $("#txtExpdate").val( (new Date(data.expDate)).Format("MM/dd/yyyy") );
             	}else{
             		alert("加载数据失败");
@@ -386,6 +390,33 @@ div[data-role="editor-toolbar"] {
             	alert("加载数据失败");
             }
         });  
+	};
+	var loadPicDblFun = function(){
+		$("#editor img").each(function(){
+			$(this).on("dblclick",function(e){
+				var wh = window.prompt("请输入将要修改的宽和高，请注意只需修改数字部分即可。","宽:"+this.width+",高:"+this.height);
+				if (!wh)return;
+				wh = wh.replace("宽:","").replace("高:","").replace("，",",");
+				var arr = wh.split(",");
+				try{
+					var ww = parseInt(arr[0]);
+					var hh = parseInt(arr[1]);
+					if (ww < 10 || ww > 1500){
+						alert("您输入的数字有误，必须在10与1500之间");
+						return;
+					}
+					if (hh < 10 || hh > 1500){
+						alert("您输入的数字有误，必须在10与1500之间");
+						return;
+					}
+				}catch(err){
+					alert("您输入的数字有误，请稍后再试");
+					return;
+				}
+				$(this).css("width",arr[0]+"px");
+				$(this).css("height",arr[1]+"px");
+			});
+		}); 
 	};
 	var doBack=function(){
 		location = "news.html?"+pType;

@@ -128,6 +128,7 @@
 			var obj = carouselText[cIndex];
 			smText = smText.replace("$1","《"+obj.name+"》");
 			smText = smText.replace("$2",obj.author);
+			document.title = obj.author + "作品："+ obj.name;
 			$(".carouselSummary").html(smText);
 			$(".bigImg").html("<div style='width:100%;height:100%;overflow:hidden;'><table style='width:100%;height:100%;'><tr><td width='100%' height='100%' align='center' valign='middle'><img src=\""+obj.img+"\" onload=\"adjustDirect(this);\" /></td></tr></table></div>");
 			$(".bigImg").fadeIn("slow");

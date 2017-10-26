@@ -91,6 +91,7 @@
                                                 <th>标题</th>
                                                 <th>作者</th>
                                                 <th>时间</th>
+                                                <th>浏览</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
@@ -149,6 +150,7 @@
 	            async:false,  
 	            data:JSON.stringify(pData),  
 	            success:function(data){
+	            	debugger;
 	            	if (data.list && data.list.length>0){
 	            		var strs = "";
 	            		for(var i=0;i<data.list.length;i++){
@@ -158,8 +160,9 @@
 	            			data.list[i].author
 	            			+"</td><td class=\"center\">"+
 	            			 new Date(data.list[i].createTime).Format("yyyy-MM-dd hh:mm:ss")
+	            			+"</td><td class=\"center\">"+
+	            			data.list[i].views
 	            			+"</td><td class=\"center\">";
-	            			
 	            			if (getCookie("adminlevel") && getCookie("adminlevel") == "101")
 	            			{
 	            				if (data.list[i].checked == 1){

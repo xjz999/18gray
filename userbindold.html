@@ -27,6 +27,7 @@
 		input[type="radio"]:checked:disabled + i {background:#ccc;}
 		</style>
 		<script>
+			var bindType=0;
 $(function(){
 	//页面参数
 	var newUrl = window.location.href;
@@ -35,9 +36,11 @@ $(function(){
 		if (arr[1] == "101"){
 			$('#myModalOk').modal("show");
 		}else if (arr[1] == "201"){//微信绑定
+			bindType = 201;
 //			$('#myModalOk').modal("show");
 		}else if (arr[1] == "202"){//QQ绑定
 //			$('#myModalOk').modal("show");
+			bindType = 202;
 		}
 	}
 	
@@ -154,10 +157,23 @@ $(function(){
 			  success: function(data,successful){
 			  	if (successful){
 			  		if(data.id && data.id != ""){
-			  			
+			  			//通过bindType决定url.
+			  			if (bindType == 0){
+			  				alert("绑定过程有误，原因：错误的绑定号");
+			  				return;
+			  			}
+			  			var reqUrl = "";
+			  			switch(bindType){
+			  				case 201:
+			  					reqUrl = "/PsaBackend/Users/BindWX";
+			  				break;
+			  				case 202:
+			  					reqUrl = "/PsaBackend/Users/BindQQ";
+			  				break;
+			  			}
 			  			$.ajax({
 						  type: 'POST',
-						  url: "/PsaBackend/Users/BindWX",
+						  url: reqUrl,//"/PsaBackend/Users/BindWX",
 						  data: JSON.stringify({oid:data.id}),
 						  contentType: "application/json; charset=utf-8",
 						  success: function(data,successful){
@@ -203,7 +219,7 @@ $(function(){
 					<span>账号绑定</span>
 				</div>
 				<div class="right">
-					<a href="userbind.html" >绑定新号</a> <a  class="active" href="###">绑定旧号</a>
+					<a href="register.html" >注册账号</a> <a  class="active" href="###">绑定账号</a>
 				</div>
 			</div>
 			<div style="width: 100%;height: 30px; clear: both;"></div>

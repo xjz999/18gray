@@ -458,7 +458,7 @@
 			<div class="form-group"> 
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right">邮箱：</label>
-		    	<div class="col-md-5">
+		    	<div class="col-md-5 col-sm-5">
 		    		<input type="text" name="email" class="form-control" placeholder="请输入邮箱">
 		    	</div>
 		    	</div>
@@ -466,7 +466,7 @@
 			<div class="form-group"> 
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right">姓名：</label>
-		    	<div class="col-md-5">
+		    	<div class="col-md-5 col-sm-5">
 		    		<input type="text" class="form-control" name="truename" placeholder="请填写你的真实姓名">
 		    	</div>
 		    	</div>
@@ -474,7 +474,7 @@
 		   <div class="form-group"> 
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right">参赛英文名：</label>
-		    	<div class="col-md-5">
+		    	<div class="col-md-5 col-sm-5">
 		    		<input type="text" name="loginName" class="form-control" placeholder="请填写你的参赛英文名">
 		    	</div>
 		    	</div>
@@ -482,7 +482,7 @@
 		    <div class="form-group"> 
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right">密码：</label>
-		    	<div class="col-md-5">
+		    	<div class="col-md-5 col-sm-5">
 		    		<input type="password" name="password" class="form-control" placeholder="6-16位密码，区分大小写">
 		    	</div>
 		    	</div>
@@ -490,7 +490,7 @@
 		    <div class="form-group"> 
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right">确认密码：</label>
-		    	<div class="col-md-5">
+		    	<div class="col-md-5 col-sm-5">
 		    		<input type="password" name="passwordEnsure" class="form-control" placeholder="再次输入密码">
 		    	</div>
 		    	</div>
@@ -512,7 +512,7 @@
 		    <div class="form-group"> 
 				<div class="row">
 		    	<label class="form-label col-sm-5 text-right">手机号码：</label>
-		    	<div class="col-md-5">
+		    	<div class="col-md-5 col-sm-5">
 		    		<input type="text" id="mobile" name="mobile" class="form-control" placeholder="请输入你的手机号码">
 		    		<p class="help-block">忘记密码可通过该手机号找回密码</p>
 		    	</div>
@@ -521,11 +521,11 @@
 		    <div class="form-group"> 
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right">短信验证码：</label>
-		    	<div class="col-md-3">
+		    	<div class="col-md-3 col-sm-3">
 		    		<input type="number" name="mobileValidCode"  size="4" maxlength="4" class="form-control">
 		    		<p class="help-block">填写您手机上的4位验证码</p>
 		    	</div>
-		    	<div class="col-md-2">
+		    	<div class="col-md-2 col-sm-2">
 		    		<input type="button" id="btGetSMS" class="btn  btn-success" value="获取验证码">
 		    	</div>
 		    	</div>
@@ -546,7 +546,7 @@
 				<input type="hidden" id="regphoto" name="regphoto" value="" />
 				<p class="help-block">
 					<div class="row  text-left">
-						<div id="picsByCert"  class="accordion-body collapse col-md-7 col-md-offset-3">
+						<div id="picsByCert"  class="accordion-body collapse col-md-7  col-sm-7 col-md-offset-3 col-sm-offset-3">
 							<span>
 								请添加您的星标名衔证书<br/>
 								<small>请添加至少一张，最多三张任意组别最高星标证书，格式JPG或PNG，最大不超过5MB。</small>
@@ -556,7 +556,7 @@
 								<div class="addImgByCert" onclick="choseFile700()" style="width:80px; height: 80px; float: left;">+</div>
 				        	</div>
 						</div>
-						<div id="picsNoCert"  class="accordion-body collapse col-md-7 col-md-offset-3">
+						<div id="picsNoCert"  class="accordion-body collapse col-md-7  col-sm-7 col-md-offset-3 col-sm-offset-3">
 							<span>
 								请添加您的摄影作品<br/>
 								<small>请添加10-15幅任意组别、不限题材个人代表作品，格式为JPG或PNG，单幅作品不超过5MB，我们将依此初步了解您目前的摄影水平，以便与您更好地沟通。</small>
@@ -573,7 +573,7 @@
 		    <div style="width: 100%;height: 30px;"></div>
 		    <div class="form-group"> 
 				<div class="row  text-center">
-		    	<div class="col-md-7 col-md-offset-3">
+		    	<div class="col-md-7  col-sm-7 col-md-offset-3 col-sm-offset-3">
 		    		<input type="submit" id="btSub" name="btSub" value="立即注册" class="btn btn-primary btn-block" />
 		    	</div>
 		    	</div>
@@ -581,7 +581,7 @@
 		    <div class="form-group checkAgreement"> 
 				<div class="row  text-center">
 		    	<label class="form-label col-sm-5 text-right"></label>
-		    	<div class="col-md-5">
+		    	<div class="col-md-5  col-sm-5">
 		    		<label>
 		    			<input type="checkbox" id="checkedProtocol" name="checkedProtocol"> 我已阅读并同意相关<a href="#"  data-toggle="modal" data-target="#myModal">服务条款和隐私政策</a>
 		    		</label>

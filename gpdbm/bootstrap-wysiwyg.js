@@ -63,6 +63,21 @@
 					args = commandArr.join(' ') + (valueArg || '');
 				document.execCommand(command, 0, args);
 				updateToolbar();
+				var fontElements = document.getElementsByTagName("font");
+				if (fontElements && fontElements.length && fontElements.length > 0){
+					for (var i = 0; i < fontElements.length; i++) {
+				        switch (fontElements[i].size) {
+					        	case "1":fontElements[i].style.fontSize = "26px";break;
+					        	case "2":fontElements[i].style.fontSize = "22px";break;
+				        		case "3":fontElements[i].style.fontSize = "18px";break;
+				        		case "4":fontElements[i].style.fontSize = "16px";break;
+				        		case "5":fontElements[i].style.fontSize = "14px";break;
+				        		case "6":fontElements[i].style.fontSize = "13px";break;
+				        		case "7":fontElements[i].style.fontSize = "12px";break;
+				        }
+				        fontElements[i].removeAttribute("size");
+				    }	
+				}
 			},
 			bindHotkeys = function (hotKeys) {
 				$.each(hotKeys, function (hotkey, command) {

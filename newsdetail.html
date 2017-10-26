@@ -30,6 +30,7 @@
 			$(function(){
 				var hh=location.search;
 				hh = hh.replace("?","");
+				if (hh.length > 36)hh = hh.substr(0,36);
 			$.ajax({
 	            url:"/PsaBackend/News/GetOne/"+hh,  
 	            type:"GET",  

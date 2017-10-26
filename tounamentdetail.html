@@ -57,6 +57,7 @@
 			$(function(){
 				var hh=location.search;
 				hh = hh.replace("?","");
+				if (hh.length > 36)hh = hh.substr(0,36);
 			$.ajax({
 	            url:"/PsaBackend/Competitions/GetOne/"+hh,  
 	            type:"GET",  
@@ -67,6 +68,7 @@
 	            success:function(data){
 	            	if (data && data.title){
 	            		$(".mainTitle").text(data.title);
+	            		document.title=data.title;
 	            		$(".subTitle").text(data.titleen);
 	            		$(".sub2").text("（PSA认证号 "+ data.validecode +"）");
 	            		$(".sub3").text("截稿日期："+ new Date(data.expdate).Format("yyyy年MM月dd日") +"  来源：" + data.source);

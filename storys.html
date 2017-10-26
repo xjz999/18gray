@@ -156,7 +156,7 @@
 				xx += imgBody.replace("$1",i.toString()).replace("$2",carouselText[i].thumb);
 			}
 			$(".imgsInside").html(xx);
-			$(".imgsInside").width(carouselText.length*200 + 8);
+			$(".imgsInside").width(carouselText.length*170 + 2);
 		};
 		
 		//轮播左右方向键事件
@@ -207,24 +207,25 @@
 //				}
 //				moveInt -= 1020;
 //				if (moveInt < 0)moveInt = 0;
-				$(".imgWheel .imgsInside").animate({"margin-left":"0px"},1000,"swing",function(){});
+				$(".imgWheel .imgsInside").animate({"margin-left":"0px"},pbwidth - 20,"swing",function(){});
 			});
+			var pbwidth = 910;
 			$(".imgWheel .wheelRight").click(function(){
 				var ww=$(".imgWheel .imgsInside").width();
 				var ml = $(".imgWheel .imgsInside").css("margin-left").replace("px","");
 				ml = parseInt(ml);
 				ml = Math.abs(ml);
 				var moveInt=0;
-				if (ml+1020+1020 <= ww){
-					moveInt = 1020;
+				if (ml+2*pbwidth <= ww){
+					moveInt = pbwidth;
 				}else{
-					moveInt = ww  - ml - 1020;
+					moveInt = ww  - ml - pbwidth;
 				}
 				if (moveInt < 0)moveInt = 0;
 				moveInt = 0-moveInt - ml;
-				if (-1 *(moveInt - 1020) > ww)moveInt = 1020 - ww;
-				debugger;
-				$(".imgWheel .imgsInside").animate({"margin-left":moveInt.toString() + "px"},1000,"swing",function(){});
+				if (-1 *(moveInt - pbwidth) > ww)moveInt = pbwidth - ww;
+//				debugger;
+				$(".imgWheel .imgsInside").animate({"margin-left":moveInt.toString() + "px"},pbwidth - 20,"swing",function(){});
 			});
 		});
 	</script>
