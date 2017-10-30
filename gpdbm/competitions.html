@@ -21,6 +21,12 @@
         	if (!getCookie("adminname") || getCookie("adminname") == ""){
         		window.location = "login.html";
         	}
+        	var hh = location.search;
+			var arr = hh.split("#");
+			var pp = arr[0];
+			pp = pp.replace("?","");
+			var pageIndex = 1;
+			try{pageIndex = parseInt(pp);}catch(e){}
         </script>
     </head>
     
@@ -81,6 +87,7 @@
                                                 <th>认证编号</th>
                                                 <th>截止日期</th>
                                                 <th>发布时间</th>
+                                                <th>浏览</th>
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
@@ -119,7 +126,7 @@
             	pagesize:15,
             	deleted:0
 	        };
-	        loadData();
+	        loadData(pageIndex);
         });
         var loadData=function(newPageIndex){
         	if(newPageIndex)pData.pageindex = newPageIndex;
@@ -144,6 +151,8 @@
 	            			 new Date(data.list[i].expdate).Format("yyyy-MM-dd")
 	            			+"</td><td class=\"center\">"+
 	            			 new Date(data.list[i].createtime).Format("yyyy-MM-dd hh:mm:ss")
+	            			+"</td><td class=\"center\">"+
+	            			 data.list[i].views
 	            			+"</td><td class=\"center\">";
 //	            			if (getCookie("adminlevel") && getCookie("adminlevel") == "101")
 //	            			{
@@ -160,7 +169,7 @@
 	            	}
 	            	$("#tbNews tbody").html(strs);
 	            	currentIndex = data.pageindex;
-	            	$("#pager").html(loadPagers(data.recCount,data.pageSize,data.pageIndex));
+	            	$("#pager").html(loadPagers(data.recCount,data.pageSize,data.pageIndex,"competitions.html?",true));
 	            },  
 	        });  
             

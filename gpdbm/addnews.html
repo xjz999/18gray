@@ -46,8 +46,8 @@
  */
 
 #editor {
-	max-height: 250px;
-	height: 250px;
+	max-height: 500px;
+	height: 500px;
 	background-color: white;
 	border-collapse: separate; 
 	border: 1px solid rgb(204, 204, 204); 
@@ -392,6 +392,7 @@ div[data-role="editor-toolbar"] {
         });  
 	};
 	var loadPicDblFun = function(){
+		
 		$("#editor img").each(function(){
 			$(this).on("dblclick",function(e){
 				var wh = window.prompt("请输入将要修改的宽和高，请注意只需修改数字部分即可。","宽:"+this.width+",高:"+this.height);
@@ -415,8 +416,10 @@ div[data-role="editor-toolbar"] {
 				}
 				$(this).css("width",arr[0]+"px");
 				$(this).css("height",arr[1]+"px");
+				$(this).css("marginLeft","calc(50% - "+ ($(this).width()/2).toString() +"px)");
 			});
-		}); 
+		});
+		
 	};
 	var doBack=function(){
 		location = "news.html?"+pType;

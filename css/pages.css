@@ -15,7 +15,7 @@ body{ background: #e3e6ec; font-family:'Microsoft YaHei','微软雅黑',"microso
 #regLogin a:hover{ color:#2689ff}
 #regLogin a:last-child{border: 1px solid white;padding:6px 12px;border-radius:5px;}
 #regLogin a:last-child:hover{background:white;}
-#loginStat{display: none; height:40px; width:160px; line-height: 30px; float: right;}
+#loginStat{display: none; height:40px; width:170px; line-height: 30px; float: right;}
 #loginStat span{color:white;}
 #loginStat a{ color:white;text-decoration: none;}
 #loginStat a:hover{color:#2689FF;}

@@ -20,6 +20,7 @@
 			url : action,
 			secureurl : false,
 			fileElementId : id,
+			data : {modeltype:6},
 			dataType : 'json',
 			success : function(obj) {
 				if (obj.filename) {
@@ -67,13 +68,28 @@
 				if (fontElements && fontElements.length && fontElements.length > 0){
 					for (var i = 0; i < fontElements.length; i++) {
 				        switch (fontElements[i].size) {
-					        	case "1":fontElements[i].style.fontSize = "26px";break;
-					        	case "2":fontElements[i].style.fontSize = "22px";break;
-				        		case "3":fontElements[i].style.fontSize = "18px";break;
-				        		case "4":fontElements[i].style.fontSize = "16px";break;
-				        		case "5":fontElements[i].style.fontSize = "14px";break;
-				        		case "6":fontElements[i].style.fontSize = "13px";break;
-				        		case "7":fontElements[i].style.fontSize = "12px";break;
+					        	case "1":fontElements[i].style.fontSize = "20px";
+					        		fontElements[i].style.lineHeight = "30px";
+					        	break;
+					        	case "2":fontElements[i].style.fontSize = "18px";
+					        		fontElements[i].style.lineHeight = "29px";
+					        	break;
+				        		case "3":fontElements[i].style.fontSize = "16px";
+				        			fontElements[i].style.lineHeight = "27px";
+				        		break;
+				        		case "4":fontElements[i].style.fontSize = "15px";
+				        			fontElements[i].style.lineHeight = "26px";
+				        		break;
+				        		case "5":fontElements[i].style.fontSize = "14px";
+				        			fontElements[i].style.lineHeight = "24px";
+				        		break;
+				        		case "6":
+				        			fontElements[i].style.fontSize = "13px";
+				        			fontElements[i].style.lineHeight = "23px";
+				        		break;
+				        		case "7":fontElements[i].style.fontSize = "12px";
+				        			fontElements[i].style.lineHeight = "21px";
+				        		break;
 				        }
 				        fontElements[i].removeAttribute("size");
 				    }	
@@ -133,6 +149,13 @@
 // 							imgSrc.width='50px';
 							execCommand('insertimage', imgSrc);
 							$("#editor img").each(function(){
+								$(this).on("load",function(){
+									$(this).css("marginTop","5px");
+									$(this).css("marginBottom","5px");
+									$(this).css("marginLeft","calc(50% - "+ ($(this).width()/2).toString() +"px)");
+								});
+//								$(this).wrap("<div style='width:100%;paddingTop:5px;paddingBottom:5px; text-align:center;'><div>");
+								
 								$(this).on("dblclick",function(e){
 									var wh = window.prompt("请输入将要修改的宽和高，请注意只需修改数字部分即可。","宽:"+this.width+",高:"+this.height);
 									if (!wh)return;
@@ -155,7 +178,10 @@
 									}
 									$(this).css("width",arr[0]+"px");
 									$(this).css("height",arr[1]+"px");
+									$(this).css("marginLeft","calc(50% - "+ ($(this).width()/2).toString() +"px)");
+//									$(this).style.marginLeft = "calc(50% - "+ $(this).width() +"px)";
 								});
+								
 							}); 
 						});
 					} else {
