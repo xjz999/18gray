@@ -64,6 +64,9 @@
 	            		else
 	            			$(".newsSuite").hide();
 	            		$(".newsContent").html(data.content);
+	            		$(".newsContent").find("img").each(function(){
+	            			this.parentNode.style.textIndent = "0";
+	            		});
 	            	}else{
 	            		alert("加载内容出错");
 	            	}

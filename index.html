@@ -189,19 +189,6 @@
 	</body>
 	<script type="text/javascript">
 		var currentStyoryIndex = 0;
-//		$.ajax({
-//		  type: 'GET',
-//		  url: "http://localhost/PsaBackend/Arts/hello/8889",
-////		  data: data,
-//		  success: function(data,successful){
-//		  	if (successful){
-//		  		alert(data);
-//		  	}else{
-//		  		alert("失败");
-//		  	}
-//		  },
-//		  dataType: 'json'
-//		});
 		var doExit=function(){
 			setCookie("loginname","");
 			setCookie("name","");
@@ -404,9 +391,7 @@
 		            	}
 	            	}
 	            }, 
-	            error:function(){
-	            	
-	            }
+	            error:function(){}
 	        });
 	        
 	        //图片故事
@@ -427,8 +412,8 @@
 	            		var imgInfo = data.list[imgRadom];
 //	            		if (data.list && data.list.length>0){
             			var titleArr = imgInfo.title.split("||");
-     					var authorArr = (imgInfo.author)?imgInfo.author.split("||"):["无","None"];
-     					var addrArr = (imgInfo.photoaddr)?imgInfo.photoaddr.split("||"):["无","None"];
+ 					var authorArr = (imgInfo.author)?imgInfo.author.split("||"):["无","None"];
+ 					var addrArr = (imgInfo.photoaddr)?imgInfo.photoaddr.split("||"):["无","None"];
 	            		var strs = "";
 	            			strs +="<dt>&nbsp;《"+ 
 	            			((titleArr[0].length > 8)?(titleArr[0].substr(0,6)+"..."):titleArr[0])
@@ -441,9 +426,7 @@
 //	            		}
 	            	}
 	            }, 
-	            error:function(){
-	            	
-	            }
+	            error:function(){}
 	        });
 	        
 	        //psa认证赛事
@@ -467,9 +450,7 @@
 		            	}
 	            	}
 	            }, 
-	            error:function(){
-	            	
-	            }
+	            error:function(){}
 	        });
 	        $(".goTopButton").css("display","none");
 	        $(window).scroll(function(){
@@ -483,7 +464,6 @@
 		 	});
 		});
 		var doBackTop=function(){
-//			var sc=$(window).scrollTop();
    			$('body,html').animate({scrollTop:0},500);
 		};
 		var carouselSet = function(){
@@ -491,8 +471,6 @@
 			$(".carousel-caption").each(function(){
 				var hh = $(this).height();
 				$(this).css("bottom",(-1 * hh + 35) + "px");
-//				var cssText = $(this).attr("style") + ";bottom:"+(88 - hh) + "px !important;";
-//				$(t).css("cssText": cssText);
 			});
 			$('#myCarousel').on('slide.bs.carousel', function () {
 				$(".carousel-caption").each(function(){
@@ -511,16 +489,10 @@
 			$(".carousel-caption").unbind('mouseover').bind("mouseover",function(){
 //				var hh = $(this).height();
 				$(".carousel-caption").css("bottom","0px");
-//				$(this).animate({"bottom":"48px"});
-//				$(this).stop().css({"bottom": (68 - hh) + "px"}).animate({"bottom":"48px"},500);
-//				$(".carousel-caption div").fadeIn();
 			});
 			$(".carousel-caption").unbind('mouseout').bind("mouseout",function(){
 				var hh = $(this).height();
 				$(".carousel-caption").css("bottom",(35 - hh) + "px");
-//				$(this).animate({"bottom": (68 - hh) + "px"},500);
-//				$(this).stop().css({"bottom":"48px"}).animate({"bottom": (68 - hh) + "px"},500);//animate({"bottom": (68 - hh) + "px"});
-//				$(".carousel-caption div").fadeOut();
 			});
 			//轮播左右方向键事件
 			$(".carousel-control.left").unbind("mouseout").bind("mouseout",function(){
