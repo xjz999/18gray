@@ -49,15 +49,21 @@
         		var xx=tArr[0];
         		var ttArr = xx.split("&");
         		uid=ttArr[0];
-        		pid=ttArr[1];
         		uid=uid.replace("?f=","");
-        		pid=pid.replace("d=","");
+        		if (ttArr.length>1){
+        			pid=ttArr[1];
+        			pid=pid.replace("d=","");
+        		}else{
+        			pid = "0";
+        		}
+        		
         	}
         	var userlist=[{"id":1,"name":"万毅","degree":"MPSA","degree2":"影艺硕学会士","addr":""},
 {"id":2,"name":"陈欣欣","degree":"MPSA","degree2":"影艺硕学会士","addr":""},
 {"id":3,"name":"李鹏","degree":"Top3","degree2":"Who's who PTD","addr":""},
 {"id":4,"name":"沈健","degree":"","degree2":"PSA会长奖章获得者","addr":""},
 {"id":5,"name":"许晓梅","degree":"EPSA","degree2":"影艺卓越会士","addr":""},
+{"id":6,"name":"方平","degree":"PPSA","degree2":"影艺精通会士","addr":""}
 ];
 			var userArts = [{"id":1,"userid":2,"name":"踩高跷",url:"famearts/2/1_b_d.jpg"},
 {"id":2,"userid":2,"name":"抱大腿",url:"famearts/2/2_b_d.jpg"},
@@ -78,7 +84,11 @@
 {"id":17,"userid":5,"name":"韵",url:"famearts/5/1_b_d.jpg"},
 {"id":18,"userid":5,"name":"远古",url:"famearts/5/2_b_d.jpg"},
 {"id":19,"userid":5,"name":"金色非洲",url:"famearts/5/3_b_d.jpg"},
-{"id":10,"userid":5,"name":"着迷",url:"famearts/5/4_b_d.jpg"}
+{"id":20,"userid":5,"name":"着迷",url:"famearts/5/4_b_d.jpg"},
+{"id":21,"userid":6,"name":"凝望之二",url:"famearts/6/1_b_d.jpg"},
+{"id":22,"userid":6,"name":"青衣舞袖之二",url:"famearts/6/2_b_d.jpg"},
+{"id":23,"userid":6,"name":"车站大厅之二",url:"famearts/6/3_b_d.jpg"},
+{"id":24,"userid":6,"name":"光路",url:"famearts/6/4_b_d.jpg"}
 
 ];
 		var carouselText = [];

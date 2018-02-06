@@ -9,10 +9,9 @@ if(window.addEventListener){ //DOM2 Events
 	}
 }
 addHandler(window,"load",function(){
-//	var xx="<span class=\"goTopButton\" title=\"回顶部\" onclick=\"doBackTop();\"><i class=\"fa fa-arrow-circle-up\"></i></span>";
 	var span =document.createElement("span");
 	span.className = "goTopButton";
-	span.title="回顶部";
+	span.title="\u56de\u9876\u90e8";
 	span.innerHTML="<i class=\"fa fa-arrow-circle-up\"></i>";
 	span.onclick = function(){
 		$('body,html').animate({scrollTop:0},500);

@@ -1,5 +1,5 @@
 html,body{padding:0;margin:0; min-width: 1166px;}
-body{ background: #e3e6ec; font-family:'Microsoft YaHei','微软雅黑',"microsoft yahei";}
+body{ background: #e3e6ec; font-family:'Microsoft YaHei',"\u5fae\u8f6f\u96c5\u9ed1","微软雅黑","microsoft yahei";}
 /*阴影*/
 /*-moz-box-shadow:0px 0px 9px #333333; -webkit-box-shadow:0px 0px 9px #333333; box-shadow:0px 0px 9px #333333;*/
 #topOut{width: 100%;min-width: 1166px; background: black;}
@@ -7,11 +7,11 @@ body{ background: #e3e6ec; font-family:'Microsoft YaHei','微软雅黑',"microso
 #logo{background: url(../img/logoWhite@180.png) no-repeat; background-position: 33px 16px; width:100%;height: 68px;}
 #menu{ width: 770px;float:left; margin-top: 3px; margin-left: 20px;}
 #menu a{margin-right: 13px; margin-left: 13px; padding-bottom: 16px;
-	font-size: 16px; font-family: "微软雅黑";color: white; text-decoration: none;
+	font-size: 16px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑";color: white; text-decoration: none;
 }
 #menu a:hover{border-bottom: 4px solid #2689ff;}
 #regLogin{width:160px; float:right; padding-top: 5px;}
-#regLogin a{font-size: 15px; font-family: "微软雅黑"; color:white; margin-left: 20px; text-decoration: none;}
+#regLogin a{font-size: 15px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑"; color:white; margin-left: 20px; text-decoration: none;}
 #regLogin a:hover{ color:#2689ff}
 #regLogin a:last-child{border: 1px solid white;padding:6px 12px;border-radius:5px;}
 #regLogin a:last-child:hover{background:white;}
@@ -21,9 +21,9 @@ body{ background: #e3e6ec; font-family:'Microsoft YaHei','微软雅黑',"microso
 #loginStat a:hover{color:#2689FF;}
 
 .foot{width: 100%;min-width: 1166px; height: 150px; background: black;}
-.foot .c1{ width: 100%; text-align: center; font-size: 16px; font-family: "微软雅黑"; padding-top: 50px;}
+.foot .c1{ width: 100%; text-align: center; font-size: 16px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑"; padding-top: 50px;}
 .foot .c1 a{color:#bbb; margin-left: 10px;}
-.foot .c2{width: 100%; text-align: center; font-size: 16px; font-family: "微软雅黑"; padding-top: 10px;color:#bbb;}
+.foot .c2{width: 100%; text-align: center; font-size: 16px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑"; padding-top: 10px;color:#bbb;}
 .servicePop{width:54px; height: 108px; position: fixed; bottom: 170px; left: calc(50% + 588px);}
 .imgQR{position: fixed; bottom:170px; left: calc(50% + 286px);display: none;}
 .servicePopLogin{width:54px; height: 108px; position: fixed; bottom: 170px; left: calc(50% + 448px);}
@@ -40,14 +40,14 @@ body{ background: #e3e6ec; font-family:'Microsoft YaHei','微软雅黑',"microso
 .bindpage .left{width:300px;}
 .bindpage .right{width:400px;}
 .bindpage .right a.active{ background: #2689FF; color:white;}
-.head .left span{height:18px; border-left:2px solid black; padding-left:10px;margin-left:155px; font-size: 22px; letter-spacing: 3px; font-family: "微软雅黑";}
-.head .right{ margin-top:3px; float:right;width:230px; height: 30px; text-align: right;margin-right:30px; font-size: 15px; font-family: "微软雅黑";}
+.head .left span{height:18px; border-left:2px solid black; padding-left:10px;margin-left:155px; font-size: 22px; letter-spacing: 3px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑";}
+.head .right{ margin-top:3px; float:right;width:230px; height: 30px; text-align: right;margin-right:30px; font-size: 15px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑";}
 .head .right a{ text-decoration: none; color:#2689ff; border:#2689ff solid 1px; width:70px; height: 40px; padding:6px 14px; margin-left:10px;border-radius:5px;}
 .head .right a:hover{background: #2689ff;color:white;}
 /*修改bootstrap*/
 .col-md-3,.col-md-8,.col-md-7{padding:0;}
 .col-md-5{padding-right:0px;padding-left:0;}
-.form-label{padding-top:6px;font-family: "微软雅黑","Microsoft YaHei"; font-size: 16px; color:#666666;}
+.form-label{padding-top:6px;font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑","Microsoft YaHei"; font-size: 16px; color:#666666;}
 .form-control{ margin-left: 0px;}
 .regLegalDialog{width:900px;}
 #myModalLabel{ text-align: center;}
@@ -63,8 +63,8 @@ body{ background: #e3e6ec; font-family:'Microsoft YaHei','微软雅黑',"microso
 background-position: left bottom;
 }
 .loginMain .left{width:350px; height: 350px; float: left;}
-.loginMain .left .first{ font-family:"微软雅黑"; font-size:32px; color:white;}
-.loginMain .left .last{font-family:"微软雅黑"; font-size:22px; color:white;}
+.loginMain .left .first{ font-family:"\u5fae\u8f6f\u96c5\u9ed1","微软雅黑"; font-size:32px; color:white;}
+.loginMain .left .last{font-family:"\u5fae\u8f6f\u96c5\u9ed1","微软雅黑"; font-size:22px; color:white;}
 .loginMain .left img{margin-top:30px; width:208px;}
 .loginMain .left{margin-left:120px;}
 .loginMain .right{width:300px; height: 350px; float: left; background: white;}
@@ -122,7 +122,7 @@ background-position: left bottom;
 }
 .mainContent img{width:800px;margin:20px 40px;}
 .mainContent ul{list-style: url(../img/dot.gif);}
-.mainContent ul li{margin-top:20px;}
+.mainContent ul li{margin-top:5px;}
 
 /*名人堂会员名单*/
 .mainContent .country{color:#666666; font-size: 14px;}
@@ -199,7 +199,7 @@ line-height: 60px; position: absolute; display: block; font-size: 20px; backgrou
 
 .mainHeadLine .carousel-caption .carouselTitle{padding:10px;}
 .headlineContent{column-rule-width: 818px; margin:0 auto; background: white;}
-.headlineContent .head1{ text-align: center; font-size: 20px; font-weight: bold; font-family: "微软雅黑";padding:60px; padding-bottom: 5px;}
+.headlineContent .head1{ text-align: center; font-size: 20px; font-weight: bold; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑";padding:60px; padding-bottom: 5px;}
 .headlineContent .head1 img{ width:35%;}
 .headlineContent .head1En{text-align: center; font-size: 16px; color:#666666; padding-bottom: 30px;}
 .headlineContent ul{width:740px; margin:0 auto;padding: 0; list-style:none;}
@@ -234,10 +234,10 @@ div.imgsInside a.aThumb{width:168px; height:108px; background: #444444; margin-l
 .myRow1{width:1166px; margin: 0 auto;}
 .myRow1 .myinfo{ width: 260px;height: 270px; background: white;float: left;}
 .titleHead{margin-top:20px; width: 100%; height: 50px; border-left: 7px solid #2689ff;}
-.titleHead .titleCn{ float: left; width:120px; height:30px;padding-top:3px;  margin-left:20px; font-size: 20px; font-weight: bold; font-family: "微软雅黑";color:#333;}
-.titleHead .moreEn a{ width:60px; font-size: 13px; font-family: "微软雅黑"; color: #666; text-decoration: none; height: 20px; float:right; margin-top: 11px;}
+.titleHead .titleCn{ float: left; width:120px; height:30px;padding-top:3px;  margin-left:20px; font-size: 20px; font-weight: bold; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑";color:#333;}
+.titleHead .moreEn a{ width:60px; font-size: 13px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑"; color: #666; text-decoration: none; height: 20px; float:right; margin-top: 11px;}
 .titleHead .moreEn a:hover{color:#2689ff}
-.titleHead .titleEn{clear:both; width:100%; height:25px; margin-left:20px; margin-top: 4px; font-size: 14px; font-family: "微软雅黑";color:#666;}
+.titleHead .titleEn{clear:both; width:100%; height:25px; margin-left:20px; margin-top: 4px; font-size: 14px; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑";color:#666;}
 .myRow1 .memDynamics{ width: 483px;height: 270px; background: white;float: left; margin-left:10px}
 .myRow1 .reqReads{ width: 403px;height: 270px; background: white;float: left; margin-left:10px}
 
@@ -266,7 +266,7 @@ div.imgsInside a.aThumb{width:168px; height:108px; background: #444444; margin-l
 .mainNewsDetail .newsSummary{ padding-top:10px;padding-bottom:20px; font-size: 14px; color:#2689FF; text-align: center;}
 .mainNewsDetail .newsContent{ padding: 0 40px;text-align:justify; text-justify:inter-ideograph; font-size: 14px; line-height: 25px;}
 .mainNewsDetail .newsContent p{ margin-top:10px;}
-.mainNewsDetail .newsResource{padding:40px; color:#2689FF}
+.mainNewsDetail .newsResource{padding:40px; padding-top: 30px; font-size: 12px; color:#2689FF}
 pre {
 	font-size: 14px;
 	line-height: 25px;
@@ -316,7 +316,7 @@ white-space: -o-pre-wrap;
 .fameList ul.datalist li{width:490px; height: 450px; background: #ffffff; padding: 20px; line-height: 28px; overflow:hidden; margin-top: 0px;
 	float: left; margin: 10px;text-align: left;
 	}
-.fameList ul.datalist li a{ font-size: 14px; color:#2689ff; font-family: "微软雅黑";text-decoration: none;}
+.fameList ul.datalist li a{ font-size: 14px; color:#2689ff; font-family: "\u5fae\u8f6f\u96c5\u9ed1","微软雅黑";text-decoration: none;}
 .fameList ul.datalist li div:first-child img{width:90px;height:90px; border-radius: 45px;float:left;}
 .fameList ul.datalist li dt{float:left;font-size:15px;margin-top:12px; width:300px; margin-left: 20px;}
 .fameList ul.datalist li dd{float:left;font-size: 12px;margin-top:3px; width:300px; margin-left: 20px;}
